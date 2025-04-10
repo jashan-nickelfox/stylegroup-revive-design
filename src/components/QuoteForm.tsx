@@ -54,7 +54,7 @@ const QuoteForm = () => {
       <div className="container">
         <div className="bg-white rounded-xl shadow-xl overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-5">
-            <div className="bg-stylegroup-navy text-white p-8 lg:p-12 lg:col-span-2">
+            <div className="bg-stylegroup-green text-white p-8 lg:p-12 lg:col-span-2">
               <h2 className="font-serif text-3xl mb-6">Request a Free Quote</h2>
               <p className="mb-8 text-white/80">
                 Get started with a free, no-obligation quote for your window furnishing project. We'll help you find the perfect solution for your home or business.
@@ -63,7 +63,7 @@ const QuoteForm = () => {
               <div className="space-y-6">
                 <div className="flex items-start">
                   <div className="bg-white/10 p-3 rounded-lg mr-4">
-                    <Check className="h-5 w-5 text-stylegroup-gold" />
+                    <Check className="h-5 w-5 text-stylegroup-lightgreen" />
                   </div>
                   <div>
                     <h3 className="text-lg font-medium mb-1">Free Measure & Quote</h3>
@@ -73,7 +73,7 @@ const QuoteForm = () => {
                 
                 <div className="flex items-start">
                   <div className="bg-white/10 p-3 rounded-lg mr-4">
-                    <Check className="h-5 w-5 text-stylegroup-gold" />
+                    <Check className="h-5 w-5 text-stylegroup-lightgreen" />
                   </div>
                   <div>
                     <h3 className="text-lg font-medium mb-1">Expert Advice</h3>
@@ -83,7 +83,7 @@ const QuoteForm = () => {
                 
                 <div className="flex items-start">
                   <div className="bg-white/10 p-3 rounded-lg mr-4">
-                    <Check className="h-5 w-5 text-stylegroup-gold" />
+                    <Check className="h-5 w-5 text-stylegroup-lightgreen" />
                   </div>
                   <div>
                     <h3 className="text-lg font-medium mb-1">No Pressure</h3>
@@ -118,7 +118,7 @@ const QuoteForm = () => {
                         value={formData.name}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-navy focus:outline-none"
+                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
                         placeholder="Your name"
                       />
                     </div>
@@ -134,7 +134,7 @@ const QuoteForm = () => {
                         value={formData.phone}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-navy focus:outline-none"
+                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
                         placeholder="Your phone number"
                       />
                     </div>
@@ -150,7 +150,7 @@ const QuoteForm = () => {
                         value={formData.email}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-navy focus:outline-none"
+                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
                         placeholder="Your email address"
                       />
                     </div>
@@ -164,7 +164,7 @@ const QuoteForm = () => {
                         name="project"
                         value={formData.project}
                         onChange={handleChange}
-                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-navy focus:outline-none bg-white"
+                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none bg-white"
                       >
                         <option value="">Select project type</option>
                         <option value="blinds">Blinds</option>
@@ -186,7 +186,7 @@ const QuoteForm = () => {
                         value={formData.message}
                         onChange={handleChange}
                         rows={4}
-                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-navy focus:outline-none"
+                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
                         placeholder="Tell us about your project..."
                       ></textarea>
                     </div>
@@ -195,7 +195,7 @@ const QuoteForm = () => {
                   <div className="mt-8">
                     <Button 
                       type="submit" 
-                      className="btn-primary w-full md:w-auto"
+                      className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white w-full md:w-auto"
                       disabled={loading}
                     >
                       {loading ? (

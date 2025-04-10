@@ -70,17 +70,18 @@ const Testimonials = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-stylegroup-navy text-white">
+    <section id="testimonials" className="py-16 md:py-24 bg-stylegroup-navy text-white">
       <div className="container relative">
         <div className="absolute top-0 right-0 opacity-10">
           <Quote className="h-32 w-32" />
         </div>
         
         <div className="text-center mb-12">
-          <h2 className="section-title text-white heading-underline mx-auto">
+          <h2 className="text-3xl font-serif mb-4 relative inline-block mx-auto">
             What Our Clients Say
+            <span className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1 bg-stylegroup-gold"></span>
           </h2>
-          <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
+          <p className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">
             Read what Brisbane homeowners and businesses think about our services
           </p>
         </div>
