@@ -16,10 +16,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222 71% 27%; /* stylegroup navy blue */
+    --primary: 153 100% 17%; /* stylegroup dark green */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 35 46% 56%; /* stylegroup gold */
+    --secondary: 151 30% 42%; /* stylegroup light green */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
@@ -55,18 +55,18 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-stylegroup-navy text-white hover:bg-opacity-90 px-6 py-3 rounded-md transition-all duration-300;
+    @apply bg-stylegroup-green text-white hover:bg-opacity-90 px-6 py-3 rounded-md transition-all duration-300;
   }
   
   .btn-secondary {
-    @apply bg-stylegroup-gold text-stylegroup-navy hover:bg-opacity-90 px-6 py-3 rounded-md transition-all duration-300;
+    @apply bg-stylegroup-lightgreen text-white hover:bg-opacity-90 px-6 py-3 rounded-md transition-all duration-300;
   }
   
   .section-title {
-    @apply font-serif text-3xl md:text-4xl font-medium mb-4 text-stylegroup-navy;
+    @apply font-serif text-3xl md:text-4xl font-medium mb-4 text-stylegroup-green;
   }
   
   .heading-underline {
-    @apply after:content-[''] after:block after:w-24 after:h-1 after:bg-stylegroup-gold after:mt-2;
+    @apply after:content-[''] after:block after:w-24 after:h-1 after:bg-stylegroup-lightgreen after:mt-2;
   }
 }

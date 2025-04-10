@@ -67,10 +67,11 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Update stylegroup colors to match the actual website
+				// Update stylegroup colors to match the actual website's green and black theme
 				stylegroup: {
-					navy: '#173171',    // Darker navy blue from stylegroup.com.au
-					gold: '#C3995C',    // More bronze/gold tone from their site
+					green: '#005638',    // Dark green from stylegroup.com.au
+					lightgreen: '#4C8C71', // Lighter green accent
+					black: '#000000',    // Black from their site
 					lightgray: '#F5F5F5',
 					midgray: '#E0E0E0',
 					darkgray: '#555555',
