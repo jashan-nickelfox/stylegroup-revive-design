@@ -16,16 +16,16 @@ const Hero = () => {
         <div className="max-w-3xl animate-fade-in">
           <h1 className="text-white font-serif text-3xl sm:text-5xl lg:text-6xl font-medium mb-6">
             Premium Window Furnishings<br />
-            <span className="text-stylegroup-gold">For Every Space</span>
+            <span className="text-stylegroup-lightgreen">For Every Space</span>
           </h1>
           <p className="text-white/90 text-lg sm:text-xl mb-8 max-w-2xl">
             Elevate your home with custom window treatments designed for the Brisbane climate. Quality craftsmanship, expert installation.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button size="lg" className="btn-primary">
+            <Button size="lg" className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white">
               Request Free Quote
             </Button>
-            <Button size="lg" className="bg-white hover:bg-stylegroup-lightgray text-stylegroup-navy flex items-center gap-2">
+            <Button size="lg" className="bg-white hover:bg-stylegroup-lightgray text-stylegroup-green flex items-center gap-2">
               Discover Our Products <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
