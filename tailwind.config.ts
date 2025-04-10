@@ -67,10 +67,10 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// Add custom style group colors
+				// Update stylegroup colors to match the actual website
 				stylegroup: {
-					navy: '#1A3057',
-					gold: '#D4B254',
+					navy: '#173171',    // Darker navy blue from stylegroup.com.au
+					gold: '#C3995C',    // More bronze/gold tone from their site
 					lightgray: '#F5F5F5',
 					midgray: '#E0E0E0',
 					darkgray: '#555555',

@@ -20,7 +20,7 @@ const CallToAction = () => {
           Schedule a free consultation with our window furnishing experts today and discover the perfect solutions for your home or business.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button asChild size="lg" className="btn-secondary">
+          <Button asChild size="lg" className="bg-stylegroup-gold hover:bg-stylegroup-gold/90 text-stylegroup-navy">
             <Link to="/quote">Get Free Quote</Link>
           </Button>
           <Button asChild size="lg" className="bg-white hover:bg-stylegroup-lightgray text-stylegroup-navy">

@@ -16,10 +16,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 216 64% 22%;
+    --primary: 222 71% 27%; /* stylegroup navy blue */
     --primary-foreground: 210 40% 98%;
 
-    --secondary: 45 60% 58%;
+    --secondary: 35 46% 56%; /* stylegroup gold */
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --muted: 210 40% 96.1%;
