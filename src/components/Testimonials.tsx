@@ -64,13 +64,13 @@ const Testimonials = () => {
     return Array(5).fill(0).map((_, index) => (
       <Star 
         key={index}
-        className={`h-4 w-4 ${index < rating ? "text-stylegroup-gold fill-stylegroup-gold" : "text-gray-300"}`}
+        className={`h-4 w-4 ${index < rating ? "text-stylegroup-lightgreen fill-stylegroup-lightgreen" : "text-gray-300"}`}
       />
     ));
   };
 
   return (
-    <section id="testimonials" className="py-16 md:py-24 bg-stylegroup-navy text-white">
+    <section id="testimonials" className="py-16 md:py-24 bg-stylegroup-green/95 text-white">
       <div className="container relative">
         <div className="absolute top-0 right-0 opacity-10">
           <Quote className="h-32 w-32" />
@@ -79,7 +79,7 @@ const Testimonials = () => {
         <div className="text-center mb-12">
           <h2 className="text-3xl font-serif mb-4 relative inline-block mx-auto">
             What Our Clients Say
-            <span className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1 bg-stylegroup-gold"></span>
+            <span className="absolute bottom-[-10px] left-1/2 transform -translate-x-1/2 w-24 h-1 bg-stylegroup-lightgreen"></span>
           </h2>
           <p className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">
             Read what Brisbane homeowners and businesses think about our services
@@ -88,9 +88,9 @@ const Testimonials = () => {
         
         <div className="max-w-4xl mx-auto">
           <div className="relative">
-            <div className="flex flex-col md:flex-row items-center gap-8 p-6 bg-white/10 backdrop-blur-sm rounded-xl">
+            <div className="flex flex-col md:flex-row items-center gap-8 p-6 bg-black/20 backdrop-blur-sm rounded-xl">
               <div className="md:w-1/3">
-                <div className="rounded-full overflow-hidden border-4 border-stylegroup-gold h-48 w-48 mx-auto">
+                <div className="rounded-full overflow-hidden border-4 border-stylegroup-lightgreen h-48 w-48 mx-auto">
                   <img 
                     src={testimonials[currentIndex].image}
                     alt={testimonials[currentIndex].name}
@@ -107,21 +107,21 @@ const Testimonials = () => {
                 </blockquote>
                 <div className="font-serif text-xl mb-1">{testimonials[currentIndex].name}</div>
                 <div className="text-white/80 text-sm mb-2">{testimonials[currentIndex].location}</div>
-                <div className="text-stylegroup-gold text-sm">Project: {testimonials[currentIndex].project}</div>
+                <div className="text-stylegroup-lightgreen text-sm">Project: {testimonials[currentIndex].project}</div>
               </div>
             </div>
             
             <div className="flex justify-center mt-8 gap-4">
               <button 
                 onClick={prevTestimonial}
-                className="p-2 rounded-full border border-white text-white hover:bg-white hover:text-stylegroup-navy transition-colors"
+                className="p-2 rounded-full border border-white text-white hover:bg-stylegroup-lightgreen hover:border-stylegroup-lightgreen transition-colors"
                 aria-label="Previous testimonial"
               >
                 <ArrowLeft className="h-5 w-5" />
               </button>
               <button 
                 onClick={nextTestimonial}
-                className="p-2 rounded-full border border-white text-white hover:bg-white hover:text-stylegroup-navy transition-colors"
+                className="p-2 rounded-full border border-white text-white hover:bg-stylegroup-lightgreen hover:border-stylegroup-lightgreen transition-colors"
                 aria-label="Next testimonial"
               >
                 <ArrowRight className="h-5 w-5" />
@@ -134,7 +134,7 @@ const Testimonials = () => {
                   key={index} 
                   onClick={() => setCurrentIndex(index)}
                   className={`w-2.5 h-2.5 rounded-full mx-1 ${
-                    index === currentIndex ? 'bg-stylegroup-gold' : 'bg-white/30'
+                    index === currentIndex ? 'bg-stylegroup-lightgreen' : 'bg-white/30'
                   }`}
                   aria-label={`Go to testimonial ${index + 1}`}
                 />
