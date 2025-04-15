@@ -8,6 +8,19 @@ import Index from "./pages/Index";
 import SheerCurtains from "./pages/curtains/SheerCurtains";
 import NotFound from "./pages/NotFound";
 
+// Import new page placeholders
+import Services from "./pages/Services";
+import Products from "./pages/Products";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import Blog from "./pages/Blog";
+import ServiceAreas from "./pages/ServiceAreas";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import Sitemap from "./pages/Sitemap";
+import FAQs from "./pages/FAQs";
+import Projects from "./pages/Projects";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -18,7 +31,15 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/curtains/sheer" element={<SheerCurtains />} />
+          
+          {/* Main pages */}
+          <Route path="/products" element={<Products />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/blog" element={<Blog />} />
+          <Route path="/faqs" element={<FAQs />} />
+          <Route path="/projects" element={<Projects />} />
           
           {/* Main product category routes */}
           <Route path="/blinds" element={<NotFound />} />
@@ -27,9 +48,10 @@ const App = () => (
           <Route path="/curtains" element={<NotFound />} />
           <Route path="/motorization" element={<NotFound />} />
           <Route path="/commercial" element={<NotFound />} />
-          <Route path="/service-areas" element={<NotFound />} />
+          <Route path="/service-areas" element={<ServiceAreas />} />
           
           {/* Specific product routes */}
+          <Route path="/curtains/sheer" element={<SheerCurtains />} />
           <Route path="/blinds/roller" element={<NotFound />} />
           <Route path="/blinds/venetian" element={<NotFound />} />
           <Route path="/blinds/vertical" element={<NotFound />} />
@@ -44,14 +66,9 @@ const App = () => (
           <Route path="/curtains/s-fold" element={<NotFound />} />
           
           {/* Information pages */}
-          <Route path="/projects" element={<NotFound />} />
-          <Route path="/about" element={<NotFound />} />
-          <Route path="/contact" element={<NotFound />} />
-          <Route path="/faqs" element={<NotFound />} />
-          <Route path="/blog" element={<NotFound />} />
-          <Route path="/privacy-policy" element={<NotFound />} />
-          <Route path="/terms-of-service" element={<NotFound />} />
-          <Route path="/sitemap" element={<NotFound />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<TermsOfService />} />
+          <Route path="/sitemap" element={<Sitemap />} />
           
           {/* Catch-all route */}
           <Route path="*" element={<NotFound />} />

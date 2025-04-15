@@ -9,11 +9,18 @@ import {
   Linkedin, 
   Youtube, 
   ArrowRight,
+  Twitter,
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [email, setEmail] = useState("");
   
   const scrollToSection = (sectionId) => {
     if (window.location.pathname !== '/') {
@@ -29,6 +36,33 @@ const Footer = () => {
   const handleBookMeasure = () => {
     navigate('/contact', { state: { showBookingForm: true } });
   };
+  
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (!email) {
+      toast({
+        title: "Error",
+        description: "Please enter your email address",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      toast({
+        title: "Error",
+        description: "Please enter a valid email address",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    toast({
+      title: "Success",
+      description: "Thank you for subscribing to our newsletter!",
+    });
+    setEmail("");
+  };
 
   return (
     <footer className="bg-stylegroup-green text-white">
@@ -43,11 +77,11 @@ const Footer = () => {
               Brisbane's premier provider of quality window furnishings for residential and commercial clients.
             </p>
             <div className="space-y-3">
-              <a href="tel:0733240900" className="flex items-center text-white/80 hover:text-stylegroup-lightgreen">
+              <a href="tel:0733240900" className="flex items-center text-white/80 hover:text-stylegroup-lightgreen" aria-label="Call our office">
                 <Phone className="h-4 w-4 mr-3" />
                 <span>07 3324 0900</span>
               </a>
-              <a href="mailto:info@stylegroup.com.au" className="flex items-center text-white/80 hover:text-stylegroup-lightgreen">
+              <a href="mailto:info@stylegroup.com.au" className="flex items-center text-white/80 hover:text-stylegroup-lightgreen" aria-label="Email us">
                 <Mail className="h-4 w-4 mr-3" />
                 <span>info@stylegroup.com.au</span>
               </a>
@@ -65,6 +99,11 @@ const Footer = () => {
               <li>
                 <Link to="/about" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center">
                   <ArrowRight className="h-3 w-3 mr-2" /> About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/services" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center">
+                  <ArrowRight className="h-3 w-3 mr-2" /> Our Services
                 </Link>
               </li>
               <li>
@@ -105,6 +144,11 @@ const Footer = () => {
             <h4 className="text-lg font-medium mb-6">Our Products</h4>
             <ul className="space-y-3">
               <li>
+                <Link to="/products" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center">
+                  <ArrowRight className="h-3 w-3 mr-2" /> All Products
+                </Link>
+              </li>
+              <li>
                 <Link to="/blinds" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center">
                   <ArrowRight className="h-3 w-3 mr-2" /> Blinds
                 </Link>
@@ -142,10 +186,48 @@ const Footer = () => {
             </ul>
           </div>
           
-          {/* Opening Hours & Social Media */}
+          {/* Newsletter & Social Media */}
           <div>
-            <h4 className="text-lg font-medium mb-6">Opening Hours</h4>
-            <ul className="space-y-3 mb-6">
+            <h4 className="text-lg font-medium mb-4">Stay Updated</h4>
+            <p className="text-white/80 mb-4">Subscribe to our newsletter for the latest updates and promotions.</p>
+            
+            <form onSubmit={handleSubscribe} className="mb-6">
+              <div className="flex gap-2">
+                <Input 
+                  type="email" 
+                  placeholder="Your email" 
+                  className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus-visible:ring-stylegroup-lightgreen"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  aria-label="Email for newsletter"
+                />
+                <Button type="submit" className="bg-stylegroup-lightgreen hover:bg-stylegroup-lightgreen/90 text-white">
+                  Subscribe
+                </Button>
+              </div>
+            </form>
+            
+            <h4 className="text-lg font-medium mb-4">Follow Us</h4>
+            <div className="flex space-x-3">
+              <a href="https://facebook.com/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors" aria-label="Follow us on Facebook">
+                <Facebook className="h-5 w-5" />
+              </a>
+              <a href="https://instagram.com/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors" aria-label="Follow us on Instagram">
+                <Instagram className="h-5 w-5" />
+              </a>
+              <a href="https://twitter.com/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors" aria-label="Follow us on Twitter">
+                <Twitter className="h-5 w-5" />
+              </a>
+              <a href="https://linkedin.com/company/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors" aria-label="Follow us on LinkedIn">
+                <Linkedin className="h-5 w-5" />
+              </a>
+              <a href="https://youtube.com/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors" aria-label="Subscribe to our YouTube channel">
+                <Youtube className="h-5 w-5" />
+              </a>
+            </div>
+            
+            <h4 className="text-lg font-medium mt-6 mb-4">Opening Hours</h4>
+            <ul className="space-y-2">
               <li className="flex justify-between">
                 <span className="text-white/80">Monday - Friday:</span>
                 <span>8:30 AM - 5:00 PM</span>
@@ -159,22 +241,6 @@ const Footer = () => {
                 <span>Closed</span>
               </li>
             </ul>
-            
-            <h4 className="text-lg font-medium mb-4">Follow Us</h4>
-            <div className="flex space-x-3">
-              <a href="https://facebook.com/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors">
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a href="https://instagram.com/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors">
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a href="https://linkedin.com/company/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors">
-                <Linkedin className="h-5 w-5" />
-              </a>
-              <a href="https://youtube.com/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors">
-                <Youtube className="h-5 w-5" />
-              </a>
-            </div>
           </div>
         </div>
       </div>
@@ -184,7 +250,7 @@ const Footer = () => {
           <div className="text-sm text-white/70 mb-4 md:mb-0">
             &copy; {currentYear} Style Group. All rights reserved.
           </div>
-          <div className="flex space-x-6 text-sm text-white/70">
+          <div className="flex flex-wrap justify-center gap-4 md:gap-6 text-sm text-white/70">
             <Link to="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
             <Link to="/terms-of-service" className="hover:text-white">Terms of Service</Link>
             <Link to="/sitemap" className="hover:text-white">Sitemap</Link>
