@@ -1,5 +1,5 @@
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -41,25 +41,64 @@ const projects = [
 const FeaturedProjects = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [maxScroll, setMaxScroll] = useState(0);
+  const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
+  const [filteredProjects, setFilteredProjects] = useState(projects);
   
+  // Calculate maximum scroll position
+  useEffect(() => {
+    if (scrollRef.current) {
+      const maxScrollValue = scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
+      setMaxScroll(maxScrollValue);
+    }
+  }, [filteredProjects]);
+  
+  // Update scroll position when scrolling manually
+  const handleScroll = () => {
+    if (scrollRef.current) {
+      setScrollPosition(scrollRef.current.scrollLeft);
+    }
+  };
+  
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (scrollContainer) {
+      scrollContainer.addEventListener('scroll', handleScroll);
+      return () => scrollContainer.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+
   const scrollLeft = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: -320, behavior: 'smooth' });
-      setScrollPosition(scrollRef.current.scrollLeft - 320);
     }
   };
 
   const scrollRight = () => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({ left: 320, behavior: 'smooth' });
-      setScrollPosition(scrollRef.current.scrollLeft + 320);
     }
   };
+  
+  // Filter projects by tag
+  const filterByTag = (tag: string | null) => {
+    setSelectedFilter(tag);
+    if (tag === null) {
+      setFilteredProjects(projects);
+    } else {
+      setFilteredProjects(projects.filter(project => 
+        project.tags.some(t => t.toLowerCase() === tag.toLowerCase())
+      ));
+    }
+  };
+
+  // Extract all unique tags for filter buttons
+  const allTags = Array.from(new Set(projects.flatMap(project => project.tags)));
 
   return (
     <section className="py-16 md:py-24 bg-stylegroup-lightgray">
       <div className="container">
-        <div className="flex justify-between items-end mb-10">
+        <div className="flex justify-between items-end mb-6">
           <div>
             <h2 className="section-title heading-underline">Recent Projects</h2>
             <p className="mt-4 text-lg text-stylegroup-darkgray max-w-2xl">
@@ -69,14 +108,16 @@ const FeaturedProjects = () => {
           <div className="hidden md:flex gap-2">
             <button 
               onClick={scrollLeft}
-              className="p-2 rounded-full border border-stylegroup-navy text-stylegroup-navy hover:bg-stylegroup-navy hover:text-white transition-colors"
+              disabled={scrollPosition <= 0}
+              className={`p-2 rounded-full border border-stylegroup-navy text-stylegroup-navy hover:bg-stylegroup-navy hover:text-white transition-colors ${scrollPosition <= 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
               aria-label="Scroll left"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
             <button 
               onClick={scrollRight}
-              className="p-2 rounded-full border border-stylegroup-navy text-stylegroup-navy hover:bg-stylegroup-navy hover:text-white transition-colors"
+              disabled={scrollPosition >= maxScroll}
+              className={`p-2 rounded-full border border-stylegroup-navy text-stylegroup-navy hover:bg-stylegroup-navy hover:text-white transition-colors ${scrollPosition >= maxScroll ? 'opacity-50 cursor-not-allowed' : ''}`}
               aria-label="Scroll right"
             >
               <ArrowRight className="h-5 w-5" />
@@ -84,25 +125,53 @@ const FeaturedProjects = () => {
           </div>
         </div>
         
+        {/* Filter buttons */}
+        <div className="flex flex-wrap gap-2 mb-6 overflow-x-auto pb-4">
+          <button
+            onClick={() => filterByTag(null)}
+            className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+              selectedFilter === null 
+                ? 'bg-stylegroup-green text-white' 
+                : 'bg-white text-stylegroup-darkgray hover:bg-stylegroup-green/10'
+            }`}
+          >
+            All Projects
+          </button>
+          {allTags.map((tag, index) => (
+            <button
+              key={index}
+              onClick={() => filterByTag(tag)}
+              className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
+                selectedFilter === tag 
+                  ? 'bg-stylegroup-green text-white' 
+                  : 'bg-white text-stylegroup-darkgray hover:bg-stylegroup-green/10'
+              }`}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+        
         <div 
           className="flex gap-6 overflow-x-auto scrollbar-hide pb-6 snap-x"
           ref={scrollRef}
         >
-          {projects.map((project) => (
-            <div 
+          {filteredProjects.map((project) => (
+            <Link 
               key={project.id}
-              className="min-w-[280px] md:min-w-[400px] bg-white rounded-lg overflow-hidden shadow-md flex flex-col snap-start"
+              to={`/projects/${project.id}`}
+              className="min-w-[280px] md:min-w-[400px] bg-white rounded-lg overflow-hidden shadow-md flex flex-col snap-start hover:shadow-xl transition-all duration-300 group"
             >
               <div className="aspect-[4/3] overflow-hidden">
                 <img 
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
               <div className="p-6 flex flex-col flex-grow">
                 <div className="flex-grow">
-                  <h3 className="font-serif text-xl mb-2">{project.title}</h3>
+                  <h3 className="font-serif text-xl mb-2 group-hover:text-stylegroup-green transition-colors">{project.title}</h3>
                   <p className="text-stylegroup-darkgray text-sm mb-4">
                     {project.description}
                   </p>
@@ -120,14 +189,13 @@ const FeaturedProjects = () => {
                     ))}
                   </div>
                 </div>
-                <Link 
-                  to={`/projects/${project.id}`}
-                  className="text-stylegroup-navy hover:text-stylegroup-gold flex items-center gap-1.5 text-sm font-medium transition-colors mt-2"
+                <div 
+                  className="text-stylegroup-navy group-hover:text-stylegroup-gold flex items-center gap-1.5 text-sm font-medium transition-colors mt-2"
                 >
                   View Project <ExternalLink className="h-3.5 w-3.5" />
-                </Link>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
         

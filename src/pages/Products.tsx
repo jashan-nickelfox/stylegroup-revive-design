@@ -5,14 +5,52 @@ import BackToTop from "@/components/BackToTop";
 import FloatingContact from "@/components/FloatingContact";
 import ProductCategories from "@/components/ProductCategories";
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { useNavigate, Link } from "react-router-dom";
+import { ArrowRight, Check } from "lucide-react";
+
+// Define product categories with descriptions and features
+const productFeatures = [
+  {
+    category: "Quality Materials",
+    description: "All our products are made from premium materials selected for durability and performance in the Queensland climate.",
+    features: [
+      "UV-resistant fabrics and finishes",
+      "Moisture and humidity resistant components",
+      "Fade-resistant colors and materials",
+      "Premium hardware and mechanisms"
+    ]
+  },
+  {
+    category: "Expert Craftsmanship",
+    description: "Every product is crafted with attention to detail and precision for exceptional quality and longevity.",
+    features: [
+      "Custom-made to your exact specifications",
+      "Careful attention to detail and finish",
+      "Precise installation by trained professionals",
+      "Quality control at every stage of production"
+    ]
+  },
+  {
+    category: "Innovative Solutions",
+    description: "We incorporate the latest technologies and design innovations for superior functionality.",
+    features: [
+      "Smart home integration options",
+      "Motorized solutions for hard-to-reach windows",
+      "Energy-efficient designs for climate control",
+      "Child-safe operation mechanisms"
+    ]
+  }
+];
 
 const Products = () => {
   const navigate = useNavigate();
 
   const handleGetQuote = () => {
     navigate('/', { state: { scrollToSection: 'quote' } });
+  };
+  
+  const handleBookMeasure = () => {
+    navigate('/contact', { state: { showBookingForm: true } });
   };
 
   return (
@@ -25,12 +63,21 @@ const Products = () => {
             <p className="text-stylegroup-darkgray text-lg mb-8">
               Discover our complete range of premium window furnishing solutions, crafted specifically for the Brisbane climate and designed to enhance your home or business.
             </p>
-            <Button 
-              onClick={handleGetQuote}
-              className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white"
-            >
-              Request a Free Quote <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button 
+                onClick={handleGetQuote}
+                className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white"
+              >
+                Request a Free Quote <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+              <Button 
+                onClick={handleBookMeasure}
+                variant="outline"
+                className="border-stylegroup-green text-stylegroup-green hover:bg-stylegroup-green/10"
+              >
+                Book Free Measure
+              </Button>
+            </div>
           </div>
         </section>
 
@@ -46,19 +93,42 @@ const Products = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-medium text-stylegroup-green mb-4">Superior Quality</h3>
-                <p className="text-stylegroup-darkgray">Our products are made from the highest quality materials, designed to withstand Queensland's harsh climate while maintaining their beauty and functionality.</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-medium text-stylegroup-green mb-4">Expert Installation</h3>
-                <p className="text-stylegroup-darkgray">Our professional team ensures perfect installation every time, backed by our satisfaction guarantee and ongoing support.</p>
-              </div>
-              
-              <div className="bg-white p-6 rounded-lg shadow-md">
-                <h3 className="text-xl font-medium text-stylegroup-green mb-4">Warranty Protection</h3>
-                <p className="text-stylegroup-darkgray">All our products come with comprehensive warranties, giving you peace of mind in your investment for years to come.</p>
+              {productFeatures.map((category, index) => (
+                <div key={index} className="bg-white p-6 rounded-lg shadow-md transition-transform hover:translate-y-[-5px]">
+                  <h3 className="text-xl font-medium text-stylegroup-green mb-4">{category.category}</h3>
+                  <p className="text-stylegroup-darkgray mb-4">{category.description}</p>
+                  <ul className="space-y-2">
+                    {category.features.map((feature, featureIndex) => (
+                      <li key={featureIndex} className="flex items-start">
+                        <Check className="h-5 w-5 text-stylegroup-green shrink-0 mr-2 mt-0.5" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            
+            <div className="mt-12 text-center">
+              <p className="text-stylegroup-darkgray mb-6">
+                All products come with comprehensive warranties and professional installation. 
+                Our team is ready to help you select the perfect window furnishing solution for your home or business.
+              </p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Button 
+                  onClick={handleGetQuote}
+                  className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white"
+                >
+                  Request a Quote
+                </Button>
+                <Link to="/projects">
+                  <Button 
+                    variant="outline"
+                    className="border-stylegroup-navy text-stylegroup-navy hover:bg-stylegroup-navy/10"
+                  >
+                    View Projects Gallery
+                  </Button>
+                </Link>
               </div>
             </div>
           </div>

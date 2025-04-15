@@ -1,73 +1,50 @@
 
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React from 'react';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import BackToTop from "@/components/BackToTop";
 import FloatingContact from "@/components/FloatingContact";
+import BackToTop from "@/components/BackToTop";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Phone, Mail, MapPin, Clock, Loader2, Check } from "lucide-react";
+import { Phone, Mail, MapPin, Calendar, Clock, ArrowRight } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const Contact = () => {
   const location = useLocation();
   const { toast } = useToast();
   const [showBookingForm, setShowBookingForm] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  
-  // Check if we should show the booking form based on navigation state
+
   useEffect(() => {
-    if (location.state?.showBookingForm) {
+    // Check if we should show booking form based on location state
+    if (location.state && location.state.showBookingForm === true) {
       setShowBookingForm(true);
-      // Scroll to booking form
-      setTimeout(() => {
-        const bookingForm = document.getElementById('booking-form');
-        if (bookingForm) {
-          bookingForm.scrollIntoView({ behavior: 'smooth' });
-        }
-      }, 500);
     }
   }, [location.state]);
-  
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-  
-  const handleSubmit = (e) => {
+
+  const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      setSubmitted(true);
-      
-      toast({
-        title: "Message Sent",
-        description: "We'll be in touch with you soon!",
-      });
-      
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setFormData({
-          name: "",
-          phone: "",
-          email: "",
-          subject: "",
-          message: "",
-        });
-        setSubmitted(false);
-      }, 3000);
-    }, 1500);
+    toast({
+      title: "Message Sent",
+      description: "We'll get back to you as soon as possible!",
+    });
+  };
+
+  const handleBookingSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Booking Request Received",
+      description: "One of our team members will contact you to confirm your appointment.",
+    });
+  };
+
+  const toggleForm = () => {
+    setShowBookingForm(!showBookingForm);
   };
 
   return (
@@ -77,343 +54,247 @@ const Contact = () => {
         <section className="container py-12 mb-8">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="section-title text-center mb-4">Contact Us</h1>
-            <p className="text-stylegroup-darkgray text-lg mb-8">
-              Have a question about our products or services? Get in touch with our friendly team today.
+            <p className="text-stylegroup-darkgray text-lg mb-4">
+              Get in touch with our team for a free consultation about your window furnishing needs.
             </p>
           </div>
         </section>
-
-        <section className="py-8 bg-white">
-          <div className="container">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-2">
-                <div className="bg-stylegroup-lightgray p-8 rounded-lg h-full">
-                  {submitted ? (
-                    <div className="h-full flex flex-col items-center justify-center text-center py-12">
-                      <div className="bg-green-100 text-green-700 rounded-full p-4 mb-6">
-                        <Check className="h-10 w-10" />
-                      </div>
-                      <h3 className="text-2xl font-medium mb-3">Thank You!</h3>
-                      <p className="text-stylegroup-darkgray mb-6">
-                        Your message has been successfully sent. One of our team members will contact you shortly.
-                      </p>
-                    </div>
-                  ) : (
-                    <form onSubmit={handleSubmit}>
-                      <h2 className="text-2xl font-medium text-stylegroup-green mb-6">Send Us a Message</h2>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <label htmlFor="name" className="block text-sm font-medium mb-2">
-                            Full Name <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            value={formData.name}
-                            onChange={handleChange}
-                            required
-                            className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
-                            placeholder="Your name"
-                          />
+        
+        <section className="container mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <div>
+              <h2 className="text-2xl font-medium mb-6">Get in Touch</h2>
+              <div className="space-y-8">
+                <div className="flex gap-4">
+                  <div className="bg-stylegroup-green/10 p-3 rounded-full">
+                    <Phone className="h-6 w-6 text-stylegroup-green" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-1">Call Us</h3>
+                    <p className="text-stylegroup-darkgray mb-1">Speak directly with our team</p>
+                    <a href="tel:0733240900" className="text-stylegroup-green font-medium">
+                      07 3324 0900
+                    </a>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4">
+                  <div className="bg-stylegroup-green/10 p-3 rounded-full">
+                    <Mail className="h-6 w-6 text-stylegroup-green" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-1">Email Us</h3>
+                    <p className="text-stylegroup-darkgray mb-1">For quotes and general inquiries</p>
+                    <a href="mailto:info@stylegroup.com.au" className="text-stylegroup-green font-medium">
+                      info@stylegroup.com.au
+                    </a>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4">
+                  <div className="bg-stylegroup-green/10 p-3 rounded-full">
+                    <MapPin className="h-6 w-6 text-stylegroup-green" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-1">Visit Our Showroom</h3>
+                    <p className="text-stylegroup-darkgray mb-1">123 Main Street, Brisbane, QLD 4000</p>
+                    <a 
+                      href="https://maps.google.com/?q=123+Main+Street+Brisbane+QLD+4000" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-stylegroup-green font-medium flex items-center"
+                    >
+                      Get Directions <ArrowRight className="ml-1 h-4 w-4" />
+                    </a>
+                  </div>
+                </div>
+                
+                <div className="flex gap-4">
+                  <div className="bg-stylegroup-green/10 p-3 rounded-full">
+                    <Clock className="h-6 w-6 text-stylegroup-green" />
+                  </div>
+                  <div>
+                    <h3 className="font-medium mb-1">Business Hours</h3>
+                    <ul className="text-stylegroup-darkgray space-y-1">
+                      <li>Monday - Friday: 8:30 AM - 5:00 PM</li>
+                      <li>Saturday: 9:00 AM - 2:00 PM</li>
+                      <li>Sunday: Closed</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="mt-10">
+                <h3 className="text-xl font-medium mb-4">Follow Us</h3>
+                <div className="flex space-x-3">
+                  <a href="https://facebook.com/stylegroup" target="_blank" rel="noreferrer" className="bg-stylegroup-lightgray hover:bg-stylegroup-green hover:text-white p-2.5 rounded-full transition-colors" aria-label="Follow us on Facebook">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                  </a>
+                  <a href="https://instagram.com/stylegroup" target="_blank" rel="noreferrer" className="bg-stylegroup-lightgray hover:bg-stylegroup-green hover:text-white p-2.5 rounded-full transition-colors" aria-label="Follow us on Instagram">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                  </a>
+                  <a href="https://linkedin.com/company/stylegroup" target="_blank" rel="noreferrer" className="bg-stylegroup-lightgray hover:bg-stylegroup-green hover:text-white p-2.5 rounded-full transition-colors" aria-label="Follow us on LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                  </a>
+                </div>
+              </div>
+            </div>
+            
+            <div>
+              <div className="flex mb-6 border-b">
+                <button 
+                  className={`px-6 py-3 font-medium ${!showBookingForm ? 'text-stylegroup-green border-b-2 border-stylegroup-green' : 'text-stylegroup-darkgray'}`} 
+                  onClick={() => setShowBookingForm(false)}
+                >
+                  Send a Message
+                </button>
+                <button 
+                  className={`px-6 py-3 font-medium ${showBookingForm ? 'text-stylegroup-green border-b-2 border-stylegroup-green' : 'text-stylegroup-darkgray'}`} 
+                  onClick={() => setShowBookingForm(true)}
+                >
+                  Book a Free Measure
+                </button>
+              </div>
+              
+              {!showBookingForm ? (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Send Us a Message</CardTitle>
+                    <CardDescription>Fill out this form and we'll get back to you as soon as possible.</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={handleFormSubmit} className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="firstName">First Name</Label>
+                          <Input id="firstName" placeholder="Your first name" required />
                         </div>
-                        
-                        <div>
-                          <label htmlFor="phone" className="block text-sm font-medium mb-2">
-                            Phone Number <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="tel"
-                            id="phone"
-                            name="phone"
-                            value={formData.phone}
-                            onChange={handleChange}
-                            required
-                            className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
-                            placeholder="Your phone number"
-                          />
-                        </div>
-                        
-                        <div>
-                          <label htmlFor="email" className="block text-sm font-medium mb-2">
-                            Email <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            required
-                            className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
-                            placeholder="Your email address"
-                          />
-                        </div>
-                        
-                        <div>
-                          <label htmlFor="subject" className="block text-sm font-medium mb-2">
-                            Subject
-                          </label>
-                          <input
-                            type="text"
-                            id="subject"
-                            name="subject"
-                            value={formData.subject}
-                            onChange={handleChange}
-                            className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
-                            placeholder="What's this regarding?"
-                          />
-                        </div>
-                        
-                        <div className="md:col-span-2">
-                          <label htmlFor="message" className="block text-sm font-medium mb-2">
-                            Message <span className="text-red-500">*</span>
-                          </label>
-                          <textarea
-                            id="message"
-                            name="message"
-                            value={formData.message}
-                            onChange={handleChange}
-                            required
-                            rows={5}
-                            className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
-                            placeholder="How can we help you?"
-                          />
+                        <div className="space-y-2">
+                          <Label htmlFor="lastName">Last Name</Label>
+                          <Input id="lastName" placeholder="Your last name" required />
                         </div>
                       </div>
                       
-                      <div className="mt-8">
-                        <Button 
-                          type="submit" 
-                          className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white w-full md:w-auto"
-                          disabled={loading}
-                        >
-                          {loading ? (
-                            <>
-                              <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                              Sending...
-                            </>
-                          ) : "Send Message"}
-                        </Button>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="email">Email</Label>
+                          <Input id="email" type="email" placeholder="Your email address" required />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="phone">Phone</Label>
+                          <Input id="phone" placeholder="Your phone number" required />
+                        </div>
                       </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="subject">Subject</Label>
+                        <Input id="subject" placeholder="What is your message about?" required />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="message">Message</Label>
+                        <Textarea 
+                          id="message" 
+                          placeholder="Please provide details about your inquiry..."
+                          className="min-h-[120px]"
+                          required 
+                        />
+                      </div>
+                      
+                      <Button type="submit" className="w-full bg-stylegroup-green hover:bg-stylegroup-green/90">
+                        Send Message
+                      </Button>
                     </form>
-                  )}
-                </div>
-              </div>
-              
-              <div>
-                <div className="bg-stylegroup-green text-white p-8 rounded-lg h-full">
-                  <h2 className="text-2xl font-medium mb-6">Contact Information</h2>
-                  <div className="space-y-6">
-                    <div className="flex items-start">
-                      <Phone className="h-5 w-5 mr-4 mt-1" />
-                      <div>
-                        <h3 className="font-medium">Phone</h3>
-                        <a href="tel:0733240900" className="text-white/80 hover:text-stylegroup-lightgreen">
-                          07 3324 0900
-                        </a>
+                  </CardContent>
+                </Card>
+              ) : (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Book a Free Measure & Quote</CardTitle>
+                    <CardDescription>Schedule a time for our expert to visit your property.</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={handleBookingSubmit} className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="bookingFirstName">First Name</Label>
+                          <Input id="bookingFirstName" placeholder="Your first name" required />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="bookingLastName">Last Name</Label>
+                          <Input id="bookingLastName" placeholder="Your last name" required />
+                        </div>
                       </div>
-                    </div>
-                    
-                    <div className="flex items-start">
-                      <Mail className="h-5 w-5 mr-4 mt-1" />
-                      <div>
-                        <h3 className="font-medium">Email</h3>
-                        <a href="mailto:info@stylegroup.com.au" className="text-white/80 hover:text-stylegroup-lightgreen">
-                          info@stylegroup.com.au
-                        </a>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="bookingEmail">Email</Label>
+                          <Input id="bookingEmail" type="email" placeholder="Your email address" required />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="bookingPhone">Phone</Label>
+                          <Input id="bookingPhone" placeholder="Your phone number" required />
+                        </div>
                       </div>
-                    </div>
-                    
-                    <div className="flex items-start">
-                      <MapPin className="h-5 w-5 mr-4 mt-1" />
-                      <div>
-                        <h3 className="font-medium">Address</h3>
-                        <p className="text-white/80">
-                          123 Main St<br />
-                          Brisbane, QLD 4000
-                        </p>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="address">Property Address</Label>
+                        <Input id="address" placeholder="Where should we conduct the measure?" required />
                       </div>
-                    </div>
-                    
-                    <div className="flex items-start">
-                      <Clock className="h-5 w-5 mr-4 mt-1" />
-                      <div>
-                        <h3 className="font-medium">Opening Hours</h3>
-                        <p className="text-white/80">
-                          Monday - Friday: 8:30 AM - 5:00 PM<br />
-                          Saturday: 9:00 AM - 2:00 PM<br />
-                          Sunday: Closed
-                        </p>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="space-y-2">
+                          <Label htmlFor="preferredDate">Preferred Date</Label>
+                          <Input id="preferredDate" type="date" min={new Date().toISOString().split('T')[0]} required />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="preferredTime">Preferred Time</Label>
+                          <Select>
+                            <SelectTrigger id="preferredTime">
+                              <SelectValue placeholder="Select time" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="morning">Morning (8:30AM - 12PM)</SelectItem>
+                              <SelectItem value="afternoon">Afternoon (12PM - 5PM)</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="booking-form" className={`py-16 bg-stylegroup-lightgray ${showBookingForm ? '' : 'hidden'}`}>
-          <div className="container">
-            <div className="max-w-3xl mx-auto">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl font-medium text-stylegroup-green">Book a Free Measure & Quote</h2>
-                <p className="text-stylegroup-darkgray mt-3">
-                  Schedule a time for our expert to visit your property and provide a detailed, no-obligation quote.
-                </p>
-              </div>
-              
-              <div className="bg-white p-8 rounded-lg shadow-md">
-                <form>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label htmlFor="booking-name" className="block text-sm font-medium mb-2">
-                        Full Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="booking-name"
-                        name="booking-name"
-                        required
-                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="booking-phone" className="block text-sm font-medium mb-2">
-                        Phone Number <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="tel"
-                        id="booking-phone"
-                        name="booking-phone"
-                        required
-                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="booking-email" className="block text-sm font-medium mb-2">
-                        Email <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="email"
-                        id="booking-email"
-                        name="booking-email"
-                        required
-                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="booking-address" className="block text-sm font-medium mb-2">
-                        Address <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="booking-address"
-                        name="booking-address"
-                        required
-                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="booking-suburb" className="block text-sm font-medium mb-2">
-                        Suburb <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="booking-suburb"
-                        name="booking-suburb"
-                        required
-                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
-                      />
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="booking-postcode" className="block text-sm font-medium mb-2">
-                        Postcode <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        id="booking-postcode"
-                        name="booking-postcode"
-                        required
-                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
-                      />
-                    </div>
-                    
-                    <div className="md:col-span-2">
-                      <label htmlFor="booking-products" className="block text-sm font-medium mb-2">
-                        Products of Interest
-                      </label>
-                      <select
-                        id="booking-products"
-                        name="booking-products"
-                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
-                      >
-                        <option value="">Select product type</option>
-                        <option value="blinds">Blinds</option>
-                        <option value="shutters">Shutters</option>
-                        <option value="awnings">Awnings</option>
-                        <option value="curtains">Curtains</option>
-                        <option value="motorization">Motorization</option>
-                        <option value="commercial">Commercial Solutions</option>
-                        <option value="multiple">Multiple Products</option>
-                      </select>
-                    </div>
-                    
-                    <div className="md:col-span-2">
-                      <label htmlFor="booking-notes" className="block text-sm font-medium mb-2">
-                        Additional Notes
-                      </label>
-                      <textarea
-                        id="booking-notes"
-                        name="booking-notes"
-                        rows={4}
-                        className="w-full px-4 py-2.5 border border-stylegroup-midgray rounded-md focus:ring-2 focus:ring-stylegroup-green focus:outline-none"
-                      ></textarea>
-                    </div>
-                  </div>
-                  
-                  <div className="mt-8">
-                    <Button 
-                      type="submit" 
-                      className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white w-full md:w-auto"
-                    >
-                      Book Free Measure
-                    </Button>
-                    <p className="text-xs text-stylegroup-darkgray mt-4">
-                      By submitting this form, you agree to our privacy policy and terms of service.
-                    </p>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-        
-        <section className="py-16">
-          <div className="container">
-            <div className="text-center mb-8">
-              <h2 className="text-2xl font-medium text-stylegroup-green">Find Us</h2>
-              <p className="text-stylegroup-darkgray mt-2">
-                Visit our showroom to see our window furnishings in person
-              </p>
-            </div>
-            
-            <div className="rounded-lg overflow-hidden shadow-md">
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d113187.42833430632!2d152.9387356248925!3d-27.471779731551082!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b91579aac93d233%3A0x402a35af3deaf40!2sBrisbane%20QLD%2C%20Australia!5e0!3m2!1sen!2sau!4v1618434859244!5m2!1sen!2sau" 
-                width="100%" 
-                height="450" 
-                style={{ border: 0 }} 
-                allowFullScreen="" 
-                loading="lazy"
-                title="Style Group location"
-              ></iframe>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="productInterest">Product Interest</Label>
+                        <Select>
+                          <SelectTrigger id="productInterest">
+                            <SelectValue placeholder="Select product" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="blinds">Blinds</SelectItem>
+                            <SelectItem value="shutters">Shutters</SelectItem>
+                            <SelectItem value="awnings">Awnings</SelectItem>
+                            <SelectItem value="curtains">Curtains</SelectItem>
+                            <SelectItem value="motorization">Motorization</SelectItem>
+                            <SelectItem value="commercial">Commercial</SelectItem>
+                            <SelectItem value="multiple">Multiple Products</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <Label htmlFor="notes">Additional Notes</Label>
+                        <Textarea 
+                          id="notes" 
+                          placeholder="Tell us more about your requirements..."
+                          className="min-h-[80px]" 
+                        />
+                      </div>
+                      
+                      <Button type="submit" className="w-full bg-stylegroup-green hover:bg-stylegroup-green/90">
+                        Book Appointment
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+              )}
             </div>
           </div>
         </section>
