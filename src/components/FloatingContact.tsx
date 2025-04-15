@@ -16,6 +16,12 @@ const FloatingContact = () => {
       navigate('/', { state: { scrollToSection: 'quote' } });
     }
   };
+  
+  const handlePhoneClick = (e) => {
+    // Let the default behavior happen (call the number)
+    // but close the panel
+    setIsOpen(false);
+  };
 
   return (
     <div className="fixed right-6 bottom-24 z-40">
@@ -28,6 +34,7 @@ const FloatingContact = () => {
             <a 
               href="tel:0733240900" 
               className="flex items-center text-stylegroup-darkgray hover:text-stylegroup-green"
+              onClick={handlePhoneClick}
             >
               <Phone className="h-4 w-4 mr-3" />
               <span>07 3324 0900</span>

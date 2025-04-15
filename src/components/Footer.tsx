@@ -26,6 +26,10 @@ const Footer = () => {
     }
   };
 
+  const handleBookMeasure = () => {
+    navigate('/contact', { state: { showBookingForm: true } });
+  };
+
   return (
     <footer className="bg-stylegroup-green text-white">
       <div className="container py-16">
@@ -47,10 +51,10 @@ const Footer = () => {
                 <Mail className="h-4 w-4 mr-3" />
                 <span>info@stylegroup.com.au</span>
               </a>
-              <div onClick={() => navigate('/contact')} className="flex items-center text-white/80 hover:text-stylegroup-lightgreen cursor-pointer">
+              <Link to="/contact" className="flex items-center text-white/80 hover:text-stylegroup-lightgreen cursor-pointer">
                 <MapPin className="h-4 w-4 mr-3" />
                 <span>123 Main St, Brisbane QLD</span>
-              </div>
+              </Link>
             </div>
           </div>
           
@@ -65,7 +69,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link to="/projects" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center">
-                  <ArrowRight className="h-3 w-3 mr-2" /> Our Projects
+                  <ArrowRight className="h-3 w-3 mr-2" /> Our Gallery
                 </Link>
               </li>
               <li>
@@ -86,6 +90,11 @@ const Footer = () => {
               <li>
                 <div onClick={() => scrollToSection('quote')} className="text-white/80 hover:text-stylegroup-lightgreen flex items-center cursor-pointer">
                   <ArrowRight className="h-3 w-3 mr-2" /> Get a Quote
+                </div>
+              </li>
+              <li>
+                <div onClick={handleBookMeasure} className="text-white/80 hover:text-stylegroup-lightgreen flex items-center cursor-pointer">
+                  <ArrowRight className="h-3 w-3 mr-2" /> Book Free Measure
                 </div>
               </li>
             </ul>
@@ -125,6 +134,11 @@ const Footer = () => {
                   <ArrowRight className="h-3 w-3 mr-2" /> Commercial Solutions
                 </Link>
               </li>
+              <li>
+                <Link to="/service-areas" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center">
+                  <ArrowRight className="h-3 w-3 mr-2" /> Service Areas
+                </Link>
+              </li>
             </ul>
           </div>
           
@@ -148,16 +162,16 @@ const Footer = () => {
             
             <h4 className="text-lg font-medium mb-4">Follow Us</h4>
             <div className="flex space-x-3">
-              <a href="https://facebook.com" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors">
+              <a href="https://facebook.com/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors">
+              <a href="https://instagram.com/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors">
+              <a href="https://linkedin.com/company/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors">
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a href="https://youtube.com" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors">
+              <a href="https://youtube.com/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors">
                 <Youtube className="h-5 w-5" />
               </a>
             </div>
