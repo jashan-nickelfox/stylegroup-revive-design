@@ -1,5 +1,5 @@
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
 const categories = [
@@ -34,6 +34,12 @@ const categories = [
 ];
 
 const ProductCategories = () => {
+  const navigate = useNavigate();
+  
+  const handleCategoryClick = (link) => {
+    navigate(link);
+  };
+
   return (
     <section className="py-16 md:py-24 bg-white">
       <div className="container">
@@ -48,7 +54,8 @@ const ProductCategories = () => {
           {categories.map((category) => (
             <div 
               key={category.id} 
-              className="group relative rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300"
+              className="group relative rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
+              onClick={() => handleCategoryClick(category.link)}
             >
               <div className="aspect-square overflow-hidden">
                 <img 
@@ -60,12 +67,11 @@ const ProductCategories = () => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-6">
                 <h3 className="text-white font-serif text-2xl mb-2">{category.title}</h3>
                 <p className="text-white/80 mb-4 text-sm">{category.description}</p>
-                <Link 
-                  to={category.link}
-                  className="text-stylegroup-gold hover:text-white flex items-center gap-1.5 text-sm font-medium transition-colors"
+                <div 
+                  className="text-stylegroup-lightgreen hover:text-white flex items-center gap-1.5 text-sm font-medium transition-colors"
                 >
                   Explore {category.title} <ArrowRight className="h-4 w-4" />
-                </Link>
+                </div>
               </div>
             </div>
           ))}

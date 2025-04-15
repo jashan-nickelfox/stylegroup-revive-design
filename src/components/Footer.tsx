@@ -1,5 +1,5 @@
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { 
   Phone, 
   Mail, 
@@ -9,11 +9,22 @@ import {
   Linkedin, 
   Youtube, 
   ArrowRight,
-  ExternalLink
 } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const navigate = useNavigate();
+  
+  const scrollToSection = (sectionId) => {
+    if (window.location.pathname !== '/') {
+      navigate('/', { state: { scrollToSection: sectionId } });
+    } else {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
 
   return (
     <footer className="bg-stylegroup-green text-white">
@@ -36,10 +47,10 @@ const Footer = () => {
                 <Mail className="h-4 w-4 mr-3" />
                 <span>info@stylegroup.com.au</span>
               </a>
-              <a href="https://maps.google.com" target="_blank" rel="noreferrer" className="flex items-center text-white/80 hover:text-stylegroup-lightgreen">
+              <div onClick={() => navigate('/contact')} className="flex items-center text-white/80 hover:text-stylegroup-lightgreen cursor-pointer">
                 <MapPin className="h-4 w-4 mr-3" />
                 <span>123 Main St, Brisbane QLD</span>
-              </a>
+              </div>
             </div>
           </div>
           
@@ -73,9 +84,9 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/quote" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center">
+                <div onClick={() => scrollToSection('quote')} className="text-white/80 hover:text-stylegroup-lightgreen flex items-center cursor-pointer">
                   <ArrowRight className="h-3 w-3 mr-2" /> Get a Quote
-                </Link>
+                </div>
               </li>
             </ul>
           </div>

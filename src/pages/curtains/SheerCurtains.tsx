@@ -1,4 +1,4 @@
-
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
@@ -7,6 +7,12 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
 const SheerCurtains = () => {
+  const navigate = useNavigate();
+  
+  const handleConsultationClick = () => {
+    navigate('/', { state: { scrollToSection: 'quote' } });
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -84,7 +90,11 @@ const SheerCurtains = () => {
               </div>
               
               <div className="mt-10 mb-8 text-center">
-                <Button size="lg" className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white">
+                <Button 
+                  size="lg" 
+                  className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white"
+                  onClick={handleConsultationClick}
+                >
                   Book a Free Consultation
                 </Button>
               </div>

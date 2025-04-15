@@ -1,12 +1,12 @@
-
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, Phone, Mail, MapPin } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const navigate = useNavigate();
   
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -23,6 +23,27 @@ const Header = () => {
     };
   }, []);
 
+  const scrollToSection = (sectionId) => {
+    setMobileMenuOpen(false);
+    
+    if (window.location.pathname !== '/') {
+      navigate('/', { state: { scrollToSection: sectionId } });
+    } else {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  const handleGetQuote = () => {
+    scrollToSection('quote');
+  };
+
+  const handleBookMeasure = () => {
+    scrollToSection('quote');
+  };
+
   return (
     <header className={`w-full transition-all duration-300 ${scrolled ? 'bg-white shadow-md' : 'bg-transparent'} fixed top-0 left-0 right-0 z-50`}>
       <div className="bg-stylegroup-green text-white py-1.5">
@@ -36,13 +57,13 @@ const Header = () => {
               <Mail className="h-3.5 w-3.5 mr-1.5" />
               <span>info@stylegroup.com.au</span>
             </a>
-            <a href="/contact" className="hidden md:flex items-center hover:text-stylegroup-lightgreen">
+            <a onClick={() => navigate('/contact')} className="hidden md:flex items-center hover:text-stylegroup-lightgreen cursor-pointer">
               <MapPin className="h-3.5 w-3.5 mr-1.5" />
               <span>Brisbane, QLD</span>
             </a>
           </div>
           <div>
-            <Button variant="link" className="text-white text-sm hover:text-stylegroup-lightgreen p-0">
+            <Button variant="link" className="text-white text-sm hover:text-stylegroup-lightgreen p-0" onClick={handleBookMeasure}>
               Book Free Measure
             </Button>
           </div>
@@ -121,7 +142,7 @@ const Header = () => {
         </nav>
         
         <div className="hidden lg:block">
-          <Button className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white">Get Free Quote</Button>
+          <Button className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white" onClick={handleGetQuote}>Get Free Quote</Button>
         </div>
         
         {/* Mobile menu button */}
@@ -203,7 +224,12 @@ const Header = () => {
                 </li>
               </ul>
               <div className="mt-6">
-                <Button className="w-full bg-stylegroup-green hover:bg-stylegroup-green/90 text-white">Get Free Quote</Button>
+                <Button 
+                  className="w-full bg-stylegroup-green hover:bg-stylegroup-green/90 text-white"
+                  onClick={handleGetQuote}
+                >
+                  Get Free Quote
+                </Button>
               </div>
             </nav>
           </div>

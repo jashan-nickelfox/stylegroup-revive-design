@@ -1,9 +1,18 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const navigate = useNavigate();
+
+  const scrollToQuote = () => {
+    const quoteSection = document.getElementById('quote');
+    if (quoteSection) {
+      quoteSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="relative h-screen min-h-[600px] w-full bg-gradient-to-r from-black/60 to-black/40 overflow-hidden">
       <div className="absolute inset-0 -z-10">
@@ -23,13 +32,11 @@ const Hero = () => {
             Elevate your home with custom window treatments designed for the Brisbane climate. Quality craftsmanship, expert installation.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button asChild size="lg" className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white">
-              <Link to="/quote">Request Free Quote</Link>
+            <Button onClick={scrollToQuote} size="lg" className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white">
+              Request Free Quote
             </Button>
-            <Button asChild size="lg" className="bg-white hover:bg-stylegroup-lightgray text-stylegroup-green flex items-center gap-2">
-              <Link to="/products" className="flex items-center gap-2">
-                Discover Our Products <ArrowRight className="h-4 w-4" />
-              </Link>
+            <Button onClick={() => navigate('/products')} size="lg" className="bg-white hover:bg-stylegroup-lightgray text-stylegroup-green flex items-center gap-2">
+              Discover Our Products <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
         </div>

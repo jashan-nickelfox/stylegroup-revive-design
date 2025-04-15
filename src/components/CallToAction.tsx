@@ -1,9 +1,24 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const CallToAction = () => {
+  const navigate = useNavigate();
+  
+  const scrollToQuote = () => {
+    const quoteSection = document.getElementById('quote');
+    if (quoteSection) {
+      quoteSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/', { state: { scrollToSection: 'quote' } });
+    }
+  };
+  
+  const handleContactClick = () => {
+    navigate('/contact');
+  };
+
   return (
     <section className="py-16 bg-stylegroup-green text-white relative overflow-hidden">
       <div className="absolute inset-0 -z-10 opacity-10">
@@ -20,13 +35,21 @@ const CallToAction = () => {
           Schedule a free consultation with our window furnishing experts today and discover the perfect solutions for your home or business.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button asChild size="lg" className="bg-stylegroup-lightgreen hover:bg-stylegroup-lightgreen/90 text-white">
-            <Link to="/quote">Get Free Quote</Link>
+          <Button 
+            onClick={scrollToQuote} 
+            size="lg" 
+            className="bg-stylegroup-lightgreen hover:bg-stylegroup-lightgreen/90 text-white"
+          >
+            Get Free Quote
           </Button>
-          <Button asChild size="lg" className="bg-white hover:bg-stylegroup-lightgray text-stylegroup-green">
-            <Link to="/contact" className="flex items-center gap-2">
+          <Button 
+            onClick={handleContactClick} 
+            size="lg" 
+            className="bg-white hover:bg-stylegroup-lightgray text-stylegroup-green"
+          >
+            <span className="flex items-center gap-2">
               Contact Us <ArrowRight className="h-4 w-4" />
-            </Link>
+            </span>
           </Button>
         </div>
       </div>
