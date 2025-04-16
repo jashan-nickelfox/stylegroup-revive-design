@@ -8,7 +8,19 @@ import Index from "./pages/Index";
 import SheerCurtains from "./pages/curtains/SheerCurtains";
 import NotFound from "./pages/NotFound";
 
-// Import new page placeholders
+// Import product pages
+import Blinds from "./pages/products/Blinds";
+import Curtains from "./pages/products/Curtains";
+import Shutters from "./pages/products/Shutters";
+import Awnings from "./pages/products/Awnings";
+import Motorization from "./pages/products/Motorization";
+import Commercial from "./pages/products/Commercial";
+
+// Import project pages
+import ProjectsList from "./pages/ProjectsList";
+import ProjectDetail from "./components/ProjectDetail";
+
+// Import other page placeholders
 import Services from "./pages/Services";
 import Products from "./pages/Products";
 import About from "./pages/About";
@@ -19,7 +31,6 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import Sitemap from "./pages/Sitemap";
 import FAQs from "./pages/FAQs";
-import Projects from "./pages/Projects";
 
 const queryClient = new QueryClient();
 
@@ -39,18 +50,19 @@ const App = () => (
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/faqs" element={<FAQs />} />
-          <Route path="/projects" element={<Projects />} />
+          <Route path="/projects" element={<ProjectsList />} />
+          <Route path="/projects/:id" element={<ProjectDetail />} />
           
           {/* Main product category routes */}
-          <Route path="/blinds" element={<NotFound />} />
-          <Route path="/shutters" element={<NotFound />} />
-          <Route path="/awnings" element={<NotFound />} />
-          <Route path="/curtains" element={<NotFound />} />
-          <Route path="/motorization" element={<NotFound />} />
-          <Route path="/commercial" element={<NotFound />} />
+          <Route path="/blinds" element={<Blinds />} />
+          <Route path="/shutters" element={<Shutters />} />
+          <Route path="/awnings" element={<Awnings />} />
+          <Route path="/curtains" element={<Curtains />} />
+          <Route path="/motorization" element={<Motorization />} />
+          <Route path="/commercial" element={<Commercial />} />
           <Route path="/service-areas" element={<ServiceAreas />} />
           
-          {/* Specific product routes */}
+          {/* Specific product routes - temporarily using NotFound until specific pages are created */}
           <Route path="/curtains/sheer" element={<SheerCurtains />} />
           <Route path="/blinds/roller" element={<NotFound />} />
           <Route path="/blinds/venetian" element={<NotFound />} />
