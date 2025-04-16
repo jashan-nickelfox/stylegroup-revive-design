@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import FloatingContact from "@/components/FloatingContact";
 import ProductCategories from "@/components/ProductCategories";
+import ProductContent from "@/components/ProductContent";
 import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
@@ -78,6 +79,22 @@ const Products = () => {
                 Book Free Measure
               </Button>
             </div>
+          </div>
+        </section>
+
+        <section className="container py-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+            <ProductContent productType="blinds" />
+            <ProductContent productType="curtains" />
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+            <ProductContent productType="shutters" />
+            <ProductContent productType="awnings" />
+          </div>
+          
+          <div className="max-w-2xl mx-auto mb-16">
+            <ProductContent productType="motorization" className="text-center" />
           </div>
         </section>
 

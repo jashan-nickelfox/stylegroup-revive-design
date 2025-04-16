@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -11,6 +10,8 @@ const projects = [
     location: "New Farm, Brisbane",
     image: "https://images.unsplash.com/photo-1560185007-5f0bb1866cab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
     tags: ["Residential", "Roller Blinds", "Sheer Curtains"],
+    overview: "Complete window furnishing solution for a luxury apartment with floor-to-ceiling windows offering panoramic river views.",
+    scope: "Supply and installation of motorized roller blinds and S-fold sheer curtains throughout the entire apartment.",
   },
   {
     id: 2,
@@ -19,6 +20,8 @@ const projects = [
     location: "Brisbane CBD",
     image: "https://images.unsplash.com/photo-1497366216548-37526070297c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80",
     tags: ["Commercial", "Motorized Blinds", "Smart Home"],
+    overview: "Smart office solution featuring automated window treatments that respond to light and temperature conditions.",
+    scope: "Installation of Somfy-powered motorized blinds with smartphone control across three floors of office space.",
   },
   {
     id: 3,
@@ -27,6 +30,8 @@ const projects = [
     location: "Redcliffe, Brisbane",
     image: "https://images.unsplash.com/photo-1600607687644-c7171b42498f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
     tags: ["Residential", "Plantation Shutters", "Awnings"],
+    overview: "Complete interior and exterior window treatment solution for a luxury beachfront property exposed to harsh coastal elements.",
+    scope: "Custom PVC plantation shutters for all interior windows and folding arm awnings for outdoor entertainment areas.",
   },
   {
     id: 4,
@@ -35,6 +40,8 @@ const projects = [
     location: "Chermside, Brisbane",
     image: "https://images.unsplash.com/photo-1456428199391-a3b1cb5e93ab?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2036&q=80",
     tags: ["Commercial", "Vertical Blinds", "Privacy Solutions"],
+    overview: "Specialized privacy and light control solution for a busy medical center with specific hygiene and confidentiality requirements.",
+    scope: "Anti-bacterial vertical blinds for examination rooms and frosted film privacy solutions for reception and waiting areas.",
   },
 ];
 
@@ -45,7 +52,6 @@ const FeaturedProjects = () => {
   const [selectedFilter, setSelectedFilter] = useState<string | null>(null);
   const [filteredProjects, setFilteredProjects] = useState(projects);
   
-  // Calculate maximum scroll position
   useEffect(() => {
     if (scrollRef.current) {
       const maxScrollValue = scrollRef.current.scrollWidth - scrollRef.current.clientWidth;
@@ -53,7 +59,6 @@ const FeaturedProjects = () => {
     }
   }, [filteredProjects]);
   
-  // Update scroll position when scrolling manually
   const handleScroll = () => {
     if (scrollRef.current) {
       setScrollPosition(scrollRef.current.scrollLeft);
@@ -80,7 +85,6 @@ const FeaturedProjects = () => {
     }
   };
   
-  // Filter projects by tag
   const filterByTag = (tag: string | null) => {
     setSelectedFilter(tag);
     if (tag === null) {
@@ -92,7 +96,6 @@ const FeaturedProjects = () => {
     }
   };
 
-  // Extract all unique tags for filter buttons
   const allTags = Array.from(new Set(projects.flatMap(project => project.tags)));
 
   return (
@@ -125,7 +128,6 @@ const FeaturedProjects = () => {
           </div>
         </div>
         
-        {/* Filter buttons */}
         <div className="flex flex-wrap gap-2 mb-6 overflow-x-auto pb-4">
           <button
             onClick={() => filterByTag(null)}
@@ -175,8 +177,11 @@ const FeaturedProjects = () => {
                   <p className="text-stylegroup-darkgray text-sm mb-4">
                     {project.description}
                   </p>
-                  <p className="text-stylegroup-darkgray text-sm mb-4">
+                  <p className="text-stylegroup-darkgray text-sm mb-2">
                     <strong>Location:</strong> {project.location}
+                  </p>
+                  <p className="text-stylegroup-darkgray text-sm mb-4">
+                    <strong>Scope:</strong> {project.scope}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.tags.map((tag, index) => (
@@ -189,10 +194,13 @@ const FeaturedProjects = () => {
                     ))}
                   </div>
                 </div>
-                <div 
-                  className="text-stylegroup-navy group-hover:text-stylegroup-gold flex items-center gap-1.5 text-sm font-medium transition-colors mt-2"
-                >
-                  View Project <ExternalLink className="h-3.5 w-3.5" />
+                <div className="mt-4 pt-4 border-t border-stylegroup-lightgray">
+                  <p className="text-sm text-stylegroup-darkgray mb-3">{project.overview}</p>
+                  <div 
+                    className="text-stylegroup-navy group-hover:text-stylegroup-gold flex items-center gap-1.5 text-sm font-medium transition-colors"
+                  >
+                    View Project <ExternalLink className="h-3.5 w-3.5" />
+                  </div>
                 </div>
               </div>
             </Link>

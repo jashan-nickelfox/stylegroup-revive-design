@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, Phone, Mail, MapPin } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -87,12 +86,13 @@ const Header = () => {
       
       <div className={`container py-4 flex justify-between items-center`}>
         <Link to="/" className="flex items-center" aria-label="Style Group - Home">
-          <span className="text-2xl font-bold text-stylegroup-green">
-            Style<span className="text-stylegroup-lightgreen">Group</span>
-          </span>
+          <img 
+            src="https://www.stylegroup.com.au/wp-content/uploads/2015/06/Style-Group-Logo1-300x82.jpg" 
+            alt="Style Group" 
+            className="h-10 md:h-12 w-auto"
+          />
         </Link>
         
-        {/* Desktop Navigation */}
         <nav className="hidden lg:block">
           <NavigationMenu>
             <NavigationMenuList>
@@ -185,7 +185,6 @@ const Header = () => {
           </Button>
         </div>
         
-        {/* Mobile menu button */}
         <button 
           className="lg:hidden p-2 rounded-md text-stylegroup-green" 
           onClick={toggleMobileMenu}
@@ -195,7 +194,6 @@ const Header = () => {
         </button>
       </div>
       
-      {/* Mobile Navigation */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-white shadow-lg absolute top-full left-0 right-0 z-40 overflow-hidden">
           <div className="container py-4">
@@ -257,7 +255,6 @@ const Header = () => {
   );
 };
 
-// Helper component for product navigation links
 const ProductLink = ({ to, title, children }) => {
   return (
     <li>
