@@ -15,7 +15,6 @@ import Shutters from "./pages/products/Shutters";
 import Awnings from "./pages/products/Awnings";
 import Motorization from "./pages/products/Motorization";
 import Commercial from "./pages/products/Commercial";
-import Products from "./pages/Products";
 
 // Import project pages
 import ProjectsList from "./pages/ProjectsList";
@@ -23,6 +22,7 @@ import ProjectDetail from "./components/ProjectDetail";
 
 // Import other page placeholders
 import Services from "./pages/Services";
+import Products from "./pages/Products";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Blog from "./pages/Blog";
@@ -61,54 +61,21 @@ const App = () => (
           <Route path="/motorization" element={<Motorization />} />
           <Route path="/commercial" element={<Commercial />} />
           <Route path="/service-areas" element={<ServiceAreas />} />
-          <Route path="/flooring" element={<NotFound />} />
-          <Route path="/aluminium-screens" element={<NotFound />} />
-          <Route path="/security-barriers" element={<NotFound />} />
           
-          {/* Blinds subcategories */}
-          <Route path="/blinds/roller" element={<NotFound />} />
-          <Route path="/blinds/honeycomb" element={<NotFound />} />
-          <Route path="/blinds/panel-glide" element={<NotFound />} />
-          <Route path="/blinds/vertical" element={<NotFound />} />
-          <Route path="/blinds/venetian" element={<NotFound />} />
-          <Route path="/blinds/roman" element={<NotFound />} />
-          <Route path="/blinds/sheer-vision" element={<NotFound />} />
-          <Route path="/blinds/gallery" element={<NotFound />} />
-          
-          {/* Shutters subcategories */}
-          <Route path="/shutters/composite" element={<NotFound />} />
-          <Route path="/shutters/synthetic" element={<NotFound />} />
-          <Route path="/shutters/plantation" element={<NotFound />} />
-          <Route path="/shutters/aluminium" element={<NotFound />} />
-          <Route path="/shutters/gallery" element={<NotFound />} />
-          
-          {/* Awnings subcategories */}
-          <Route path="/awnings/roller-style" element={<NotFound />} />
-          <Route path="/awnings/folding-arm" element={<NotFound />} />
-          <Route path="/awnings/ziptrak" element={<NotFound />} />
-          <Route path="/awnings/gallery" element={<NotFound />} />
-          
-          {/* Curtains subcategories */}
+          {/* Specific product routes - temporarily using NotFound until specific pages are created */}
           <Route path="/curtains/sheer" element={<SheerCurtains />} />
+          <Route path="/blinds/roller" element={<NotFound />} />
+          <Route path="/blinds/venetian" element={<NotFound />} />
+          <Route path="/blinds/vertical" element={<NotFound />} />
+          <Route path="/blinds/roman" element={<NotFound />} />
+          <Route path="/shutters/plantation" element={<NotFound />} />
+          <Route path="/shutters/timber" element={<NotFound />} />
+          <Route path="/shutters/exterior" element={<NotFound />} />
+          <Route path="/awnings/folding-arm" element={<NotFound />} />
+          <Route path="/awnings/straight-drop" element={<NotFound />} />
+          <Route path="/awnings/pivot-arm" element={<NotFound />} />
           <Route path="/curtains/blockout" element={<NotFound />} />
           <Route path="/curtains/s-fold" element={<NotFound />} />
-          
-          {/* Flooring subcategories */}
-          <Route path="/flooring/hybrid" element={<NotFound />} />
-          <Route path="/flooring/bamboo" element={<NotFound />} />
-          <Route path="/flooring/laminate" element={<NotFound />} />
-          <Route path="/flooring/timber" element={<NotFound />} />
-          <Route path="/flooring/gallery" element={<NotFound />} />
-          <Route path="/flooring/care" element={<NotFound />} />
-          
-          {/* Aluminium Screens subcategories */}
-          <Route path="/aluminium-screens/gallery" element={<NotFound />} />
-          <Route path="/aluminium-screens/shutters" element={<NotFound />} />
-          
-          {/* Security Barriers subcategories */}
-          <Route path="/security-barriers/crimsafe" element={<NotFound />} />
-          <Route path="/security-barriers/pleated-screens" element={<NotFound />} />
-          <Route path="/security-barriers/retractable-flyscreens" element={<NotFound />} />
           
           {/* Information pages */}
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />

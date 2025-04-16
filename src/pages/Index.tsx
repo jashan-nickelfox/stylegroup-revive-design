@@ -11,7 +11,8 @@ import QuoteForm from "@/components/QuoteForm";
 import ServicesMap from "@/components/ServicesMap";
 import CallToAction from "@/components/CallToAction";
 import Footer from "@/components/Footer";
-import FloatingButtons from "@/components/FloatingButtons";
+import BackToTop from "@/components/BackToTop";
+import FloatingContact from "@/components/FloatingContact";
 
 const Index = () => {
   const location = useLocation();
@@ -44,7 +45,8 @@ const Index = () => {
         <CallToAction />
       </main>
       <Footer />
-      <FloatingButtons />
+      <BackToTop />
+      <FloatingContact />
     </div>
   );
 };

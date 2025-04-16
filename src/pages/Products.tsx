@@ -1,7 +1,8 @@
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import FloatingButtons from "@/components/FloatingButtons";
+import BackToTop from "@/components/BackToTop";
+import FloatingContact from "@/components/FloatingContact";
 import ProductCategories from "@/components/ProductCategories";
 import ProductContent from "@/components/ProductContent";
 import { Button } from "@/components/ui/button";
@@ -92,13 +93,8 @@ const Products = () => {
             <ProductContent productType="awnings" />
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-            <ProductContent productType="flooring" />
-            <ProductContent productType="aluminium-screens" />
-          </div>
-          
           <div className="max-w-2xl mx-auto mb-16">
-            <ProductContent productType="security-barriers" className="text-center" />
+            <ProductContent productType="motorization" className="text-center" />
           </div>
         </section>
 
@@ -156,7 +152,8 @@ const Products = () => {
         </section>
       </main>
       <Footer />
-      <FloatingButtons />
+      <BackToTop />
+      <FloatingContact />
     </div>
   );
 };
