@@ -6,51 +6,84 @@ import { Button } from "@/components/ui/button";
 const categories = [
   {
     id: 1,
+    title: "Flooring",
+    description: "Quality flooring solutions for your home or business",
+    image: "https://images.unsplash.com/photo-1622126807280-9b5b32b28e77?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1674&q=80",
+    link: "/flooring",
+    subcategories: [
+      { name: "Hybrid Flooring", link: "/flooring/hybrid" },
+      { name: "Bamboo Flooring", link: "/flooring/bamboo" },
+      { name: "Laminate Flooring", link: "/flooring/laminate" },
+      { name: "Timber Selections", link: "/flooring/timber" },
+      { name: "Flooring Gallery", link: "/flooring/gallery" },
+      { name: "Floor Care", link: "/flooring/care" },
+    ]
+  },
+  {
+    id: 2,
     title: "Blinds",
     description: "Control light and privacy with our range of stylish blinds",
     image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
     link: "/blinds",
     subcategories: [
       { name: "Roller Blinds", link: "/blinds/roller" },
-      { name: "Venetian Blinds", link: "/blinds/venetian" },
+      { name: "Honeycomb Blinds", link: "/blinds/honeycomb" },
+      { name: "Panel Glide Blinds", link: "/blinds/panel-glide" },
       { name: "Vertical Blinds", link: "/blinds/vertical" },
+      { name: "Venetian Blinds", link: "/blinds/venetian" },
       { name: "Roman Blinds", link: "/blinds/roman" },
+      { name: "Sheer Vision Blinds", link: "/blinds/sheer-vision" },
+      { name: "Blinds Gallery", link: "/blinds/gallery" },
     ]
   },
   {
-    id: 2,
+    id: 3,
     title: "Shutters",
     description: "Add sophistication with custom-designed shutters",
     image: "https://images.unsplash.com/photo-1484287045238-4a106943f160?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80",
     link: "/shutters",
     subcategories: [
-      { name: "Plantation Shutters", link: "/shutters/plantation" },
-      { name: "Timber Shutters", link: "/shutters/timber" },
-      { name: "Exterior Shutters", link: "/shutters/exterior" },
+      { name: "Composite Shutters", link: "/shutters/composite" },
+      { name: "Synthetic Shutters", link: "/shutters/synthetic" },
+      { name: "Plantation Timber Shutters", link: "/shutters/plantation" },
+      { name: "Aluminium Shutters", link: "/shutters/aluminium" },
+      { name: "Shutters Gallery", link: "/shutters/gallery" },
     ]
   },
   {
-    id: 3,
+    id: 4,
     title: "Awnings",
     description: "Extend your outdoor living with quality awnings",
     image: "https://images.unsplash.com/photo-1628624747186-a941c476b7ef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
     link: "/awnings",
     subcategories: [
+      { name: "Roller-style Awnings", link: "/awnings/roller-style" },
       { name: "Folding Arm Awnings", link: "/awnings/folding-arm" },
-      { name: "Straight Drop Awnings", link: "/awnings/straight-drop" },
-      { name: "Pivot Arm Awnings", link: "/awnings/pivot-arm" },
+      { name: "Ziptrak® Awnings", link: "/awnings/ziptrak" },
+      { name: "Awnings Gallery", link: "/awnings/gallery" },
     ]
   },
   {
-    id: 4,
-    title: "Curtains",
-    description: "Create warmth and elegance with premium curtains",
-    image: "https://images.unsplash.com/photo-1560448205-4d9b3e6bb6db?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-    link: "/curtains",
+    id: 5,
+    title: "Aluminium Screens",
+    description: "Enhance protection and privacy with aluminium screens",
+    image: "https://images.unsplash.com/photo-1575323878242-c32f0578a3fa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1674&q=80",
+    link: "/aluminium-screens",
     subcategories: [
-      { name: "Sheer Curtains", link: "/curtains/sheer" },
-      { name: "Blockout Curtains", link: "/curtains/blockout" },
-      { name: "S-Fold Curtains", link: "/curtains/s-fold" },
+      { name: "Aluminium Shutters & Screens Gallery", link: "/aluminium-screens/gallery" },
+      { name: "Aluminium Shutters", link: "/aluminium-screens/shutters" },
+    ]
+  },
+  {
+    id: 6,
+    title: "Security Barriers",
+    description: "Protect your home with reliable security solutions",
+    image: "https://images.unsplash.com/photo-1600450887237-700c12c6d46b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1674&q=80",
+    link: "/security-barriers",
+    subcategories: [
+      { name: "Crimsafe", link: "/security-barriers/crimsafe" },
+      { name: "Pleated Screens", link: "/security-barriers/pleated-screens" },
+      { name: "Retractable Flyscreens", link: "/security-barriers/retractable-flyscreens" },
     ]
   },
 ];
@@ -68,11 +101,11 @@ const ProductCategories = () => {
         <div className="text-center mb-12">
           <h2 className="section-title text-center heading-underline mx-auto">Our Products</h2>
           <p className="mt-4 text-lg text-stylegroup-darkgray max-w-2xl mx-auto">
-            Explore our wide selection of premium window furnishings designed for the Brisbane climate
+            Explore our wide selection of premium products designed for the Brisbane climate
           </p>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((category) => (
             <div 
               key={category.id} 

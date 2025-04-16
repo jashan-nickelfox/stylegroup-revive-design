@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, Phone, Mail, MapPin } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -99,8 +100,8 @@ const Header = () => {
               <NavigationMenuItem>
                 <NavigationMenuTrigger className="bg-transparent hover:bg-transparent hover:text-stylegroup-green">Products</NavigationMenuTrigger>
                 <NavigationMenuContent>
-                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                    <li className="row-span-3">
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[800px] lg:grid-cols-3">
+                    <li className="row-span-2">
                       <NavigationMenuLink asChild>
                         <Link
                           to="/products"
@@ -110,29 +111,81 @@ const Header = () => {
                             All Products
                           </div>
                           <p className="text-sm leading-tight text-white/90">
-                            Browse our complete collection of premium window furnishings
+                            Browse our complete collection of premium products
                           </p>
                         </Link>
                       </NavigationMenuLink>
                     </li>
-                    <ProductLink to="/blinds" title="Blinds">
-                      Control light and privacy with our quality blinds
-                    </ProductLink>
-                    <ProductLink to="/shutters" title="Shutters">
-                      Add sophistication with custom-designed shutters
-                    </ProductLink>
-                    <ProductLink to="/awnings" title="Awnings">
-                      Extend your outdoor living with quality awnings
-                    </ProductLink>
-                    <ProductLink to="/curtains" title="Curtains">
-                      Create warmth and elegance with premium curtains
-                    </ProductLink>
-                    <ProductLink to="/motorization" title="Motorization">
-                      Smart home solutions for window furnishings
-                    </ProductLink>
-                    <ProductLink to="/commercial" title="Commercial">
-                      Custom solutions for business and commercial spaces
-                    </ProductLink>
+                    
+                    {/* Flooring */}
+                    <li>
+                      <h3 className="font-medium mb-2 text-stylegroup-green">🧱 Flooring</h3>
+                      <ul className="space-y-1.5">
+                        <ProductNavLink to="/flooring/hybrid">Hybrid Flooring</ProductNavLink>
+                        <ProductNavLink to="/flooring/bamboo">Bamboo Flooring</ProductNavLink>
+                        <ProductNavLink to="/flooring/laminate">Laminate Flooring</ProductNavLink>
+                        <ProductNavLink to="/flooring/timber">Timber Selections</ProductNavLink>
+                        <ProductNavLink to="/flooring/gallery">Flooring Gallery</ProductNavLink>
+                        <ProductNavLink to="/flooring/care">Floor Care</ProductNavLink>
+                      </ul>
+                    </li>
+                    
+                    {/* Blinds */}
+                    <li>
+                      <h3 className="font-medium mb-2 text-stylegroup-green">🪟 Blinds</h3>
+                      <ul className="space-y-1.5">
+                        <ProductNavLink to="/blinds/roller">Roller Blinds</ProductNavLink>
+                        <ProductNavLink to="/blinds/honeycomb">Honeycomb Blinds</ProductNavLink>
+                        <ProductNavLink to="/blinds/panel-glide">Panel Glide Blinds</ProductNavLink>
+                        <ProductNavLink to="/blinds/vertical">Vertical Blinds</ProductNavLink>
+                        <ProductNavLink to="/blinds/venetian">Venetian Blinds</ProductNavLink>
+                        <ProductNavLink to="/blinds/roman">Roman Blinds</ProductNavLink>
+                        <ProductNavLink to="/blinds/sheer-vision">Sheer Vision Blinds</ProductNavLink>
+                        <ProductNavLink to="/blinds/gallery">Blinds Gallery</ProductNavLink>
+                      </ul>
+                    </li>
+                    
+                    {/* Shutters */}
+                    <li>
+                      <h3 className="font-medium mb-2 text-stylegroup-green">🚪 Shutters</h3>
+                      <ul className="space-y-1.5">
+                        <ProductNavLink to="/shutters/composite">Composite Shutters</ProductNavLink>
+                        <ProductNavLink to="/shutters/synthetic">Synthetic Shutters</ProductNavLink>
+                        <ProductNavLink to="/shutters/plantation">Plantation Timber Shutters</ProductNavLink>
+                        <ProductNavLink to="/shutters/aluminium">Aluminium Shutters</ProductNavLink>
+                        <ProductNavLink to="/shutters/gallery">Shutters Gallery</ProductNavLink>
+                      </ul>
+                    </li>
+                    
+                    {/* Awnings */}
+                    <li>
+                      <h3 className="font-medium mb-2 text-stylegroup-green">🌞 Awnings</h3>
+                      <ul className="space-y-1.5">
+                        <ProductNavLink to="/awnings/roller-style">Roller-style Awnings</ProductNavLink>
+                        <ProductNavLink to="/awnings/folding-arm">Folding Arm Awnings</ProductNavLink>
+                        <ProductNavLink to="/awnings/ziptrak">Ziptrak® Awnings</ProductNavLink>
+                        <ProductNavLink to="/awnings/gallery">Awnings Gallery</ProductNavLink>
+                      </ul>
+                    </li>
+                    
+                    {/* Aluminium Screens */}
+                    <li>
+                      <h3 className="font-medium mb-2 text-stylegroup-green">🛡️ Aluminium Screens</h3>
+                      <ul className="space-y-1.5">
+                        <ProductNavLink to="/aluminium-screens/gallery">Aluminium Shutters & Screens Gallery</ProductNavLink>
+                        <ProductNavLink to="/aluminium-screens/shutters">Aluminium Shutters</ProductNavLink>
+                      </ul>
+                    </li>
+                    
+                    {/* Security Barriers */}
+                    <li>
+                      <h3 className="font-medium mb-2 text-stylegroup-green">🔐 Security Barriers</h3>
+                      <ul className="space-y-1.5">
+                        <ProductNavLink to="/security-barriers/crimsafe">Crimsafe</ProductNavLink>
+                        <ProductNavLink to="/security-barriers/pleated-screens">Pleated Screens</ProductNavLink>
+                        <ProductNavLink to="/security-barriers/retractable-flyscreens">Retractable Flyscreens</ProductNavLink>
+                      </ul>
+                    </li>
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
@@ -205,15 +258,75 @@ const Header = () => {
                       Products
                       <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
                     </summary>
-                    <ul className="mt-2 ml-4 space-y-2">
-                      <li><Link to="/products" className="block py-1">All Products</Link></li>
-                      <li><Link to="/blinds" className="block py-1">Blinds</Link></li>
-                      <li><Link to="/shutters" className="block py-1">Shutters</Link></li>
-                      <li><Link to="/awnings" className="block py-1">Awnings</Link></li>
-                      <li><Link to="/curtains" className="block py-1">Curtains</Link></li>
-                      <li><Link to="/motorization" className="block py-1">Motorization</Link></li>
-                      <li><Link to="/commercial" className="block py-1">Commercial</Link></li>
-                    </ul>
+                    <div className="mt-2 ml-4 space-y-3">
+                      <div>
+                        <h4 className="font-medium text-stylegroup-green mb-1">🧱 Flooring</h4>
+                        <ul className="ml-3 space-y-1">
+                          <li><Link to="/flooring/hybrid" className="block py-1 text-sm">Hybrid Flooring</Link></li>
+                          <li><Link to="/flooring/bamboo" className="block py-1 text-sm">Bamboo Flooring</Link></li>
+                          <li><Link to="/flooring/laminate" className="block py-1 text-sm">Laminate Flooring</Link></li>
+                          <li><Link to="/flooring/timber" className="block py-1 text-sm">Timber Selections</Link></li>
+                          <li><Link to="/flooring/gallery" className="block py-1 text-sm">Flooring Gallery</Link></li>
+                          <li><Link to="/flooring/care" className="block py-1 text-sm">Floor Care</Link></li>
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-medium text-stylegroup-green mb-1">🪟 Blinds</h4>
+                        <ul className="ml-3 space-y-1">
+                          <li><Link to="/blinds/roller" className="block py-1 text-sm">Roller Blinds</Link></li>
+                          <li><Link to="/blinds/honeycomb" className="block py-1 text-sm">Honeycomb Blinds</Link></li>
+                          <li><Link to="/blinds/panel-glide" className="block py-1 text-sm">Panel Glide Blinds</Link></li>
+                          <li><Link to="/blinds/vertical" className="block py-1 text-sm">Vertical Blinds</Link></li>
+                          <li><Link to="/blinds/venetian" className="block py-1 text-sm">Venetian Blinds</Link></li>
+                          <li><Link to="/blinds/roman" className="block py-1 text-sm">Roman Blinds</Link></li>
+                          <li><Link to="/blinds/sheer-vision" className="block py-1 text-sm">Sheer Vision Blinds</Link></li>
+                          <li><Link to="/blinds/gallery" className="block py-1 text-sm">Blinds Gallery</Link></li>
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-medium text-stylegroup-green mb-1">🚪 Shutters</h4>
+                        <ul className="ml-3 space-y-1">
+                          <li><Link to="/shutters/composite" className="block py-1 text-sm">Composite Shutters</Link></li>
+                          <li><Link to="/shutters/synthetic" className="block py-1 text-sm">Synthetic Shutters</Link></li>
+                          <li><Link to="/shutters/plantation" className="block py-1 text-sm">Plantation Timber Shutters</Link></li>
+                          <li><Link to="/shutters/aluminium" className="block py-1 text-sm">Aluminium Shutters</Link></li>
+                          <li><Link to="/shutters/gallery" className="block py-1 text-sm">Shutters Gallery</Link></li>
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-medium text-stylegroup-green mb-1">🌞 Awnings</h4>
+                        <ul className="ml-3 space-y-1">
+                          <li><Link to="/awnings/roller-style" className="block py-1 text-sm">Roller-style Awnings</Link></li>
+                          <li><Link to="/awnings/folding-arm" className="block py-1 text-sm">Folding Arm Awnings</Link></li>
+                          <li><Link to="/awnings/ziptrak" className="block py-1 text-sm">Ziptrak® Awnings</Link></li>
+                          <li><Link to="/awnings/gallery" className="block py-1 text-sm">Awnings Gallery</Link></li>
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-medium text-stylegroup-green mb-1">🛡️ Aluminium Screens</h4>
+                        <ul className="ml-3 space-y-1">
+                          <li><Link to="/aluminium-screens/gallery" className="block py-1 text-sm">Aluminium Shutters & Screens Gallery</Link></li>
+                          <li><Link to="/aluminium-screens/shutters" className="block py-1 text-sm">Aluminium Shutters</Link></li>
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-medium text-stylegroup-green mb-1">🔐 Security Barriers</h4>
+                        <ul className="ml-3 space-y-1">
+                          <li><Link to="/security-barriers/crimsafe" className="block py-1 text-sm">Crimsafe</Link></li>
+                          <li><Link to="/security-barriers/pleated-screens" className="block py-1 text-sm">Pleated Screens</Link></li>
+                          <li><Link to="/security-barriers/retractable-flyscreens" className="block py-1 text-sm">Retractable Flyscreens</Link></li>
+                        </ul>
+                      </div>
+                      
+                      <div>
+                        <Link to="/products" className="block font-medium text-stylegroup-navy py-1">View All Products</Link>
+                      </div>
+                    </div>
                   </details>
                 </li>
                 <li className="border-b border-stylegroup-lightgray pb-2">
@@ -255,6 +368,20 @@ const Header = () => {
   );
 };
 
+const ProductNavLink = ({ to, children }) => {
+  return (
+    <li>
+      <Link
+        to={to}
+        className="block text-sm py-1.5 text-stylegroup-darkgray hover:text-stylegroup-green transition-colors"
+      >
+        {children}
+      </Link>
+    </li>
+  );
+};
+
+// This is a modified version of the ProductLink component to fit the new navigation design
 const ProductLink = ({ to, title, children }) => {
   return (
     <li>
