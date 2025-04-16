@@ -54,7 +54,7 @@ const Header = () => {
   };
 
   return (
-    <header className={`w-full transition-all duration-300 ${scrolled ? 'bg-white shadow-md' : 'bg-transparent'} fixed top-0 left-0 right-0 z-0`}>
+    <header className={`w-full transition-all duration-300 ${scrolled ? 'bg-white shadow-md' : 'bg-transparent'} fixed top-0 left-0 right-0 z-50`}>
       <div className="bg-stylegroup-green text-white py-1.5">
         <div className="container flex justify-between items-center">
           <div className="flex items-center space-x-6 text-sm">
