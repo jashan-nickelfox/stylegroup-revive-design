@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Check, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const QuoteForm = () => {
   const { toast } = useToast();
@@ -21,13 +22,24 @@ const QuoteForm = () => {
     setFormData({ ...formData, [name]: value });
   };
   
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      // Store data in Supabase
+      const { error } = await supabase.from('quote_requests').insert({
+        full_name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        product_interest: formData.project,
+        message: formData.message
+      });
+      
+      if (error) {
+        throw error;
+      }
+      
       setSubmitted(true);
       
       toast({
@@ -46,7 +58,16 @@ const QuoteForm = () => {
         });
         setSubmitted(false);
       }, 3000);
-    }, 1500);
+    } catch (error: any) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Submission Error",
+        description: error.message || "There was a problem submitting your request. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
