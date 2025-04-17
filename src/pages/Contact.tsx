@@ -65,9 +65,9 @@ const Contact = () => {
             <div>
               <h2 className="text-2xl font-medium mb-6">Get in Touch</h2>
               <div className="space-y-8">
-                <div className="flex gap-4">
-                  <div className="bg-stylegroup-green/10 p-3 rounded-full">
-                    <Phone className="h-6 w-6 text-stylegroup-green" />
+                <div className="flex items-center gap-4">
+                  <div className="bg-stylegroup-green/10 h-10 w-10 rounded-full flex items-center justify-center ">
+                    <Phone className="h-5 w-6 text-stylegroup-green" />
                   </div>
                   <div>
                     <h3 className="font-medium mb-1">Call Us</h3>
@@ -78,9 +78,9 @@ const Contact = () => {
                   </div>
                 </div>
                 
-                <div className="flex gap-4">
-                  <div className="bg-stylegroup-green/10 p-3 rounded-full">
-                    <Mail className="h-6 w-6 text-stylegroup-green" />
+                <div className="flex items-center gap-4">
+                  <div className="bg-stylegroup-green/10 h-10 w-10 rounded-full flex items-center justify-center">
+                    <Mail className="h-5 w-6 text-stylegroup-green" />
                   </div>
                   <div>
                     <h3 className="font-medium mb-1">Email Us</h3>
@@ -91,9 +91,9 @@ const Contact = () => {
                   </div>
                 </div>
                 
-                <div className="flex gap-4">
-                  <div className="bg-stylegroup-green/10 p-3 rounded-full">
-                    <MapPin className="h-6 w-6 text-stylegroup-green" />
+                <div className="flex items-center gap-4">
+                  <div className="bg-stylegroup-green/10 h-10 w-10 rounded-full flex items-center justify-center">
+                    <MapPin className="h-5 w-6 text-stylegroup-green" />
                   </div>
                   <div>
                     <h3 className="font-medium mb-1">Visit Our Showroom</h3>
@@ -109,9 +109,9 @@ const Contact = () => {
                   </div>
                 </div>
                 
-                <div className="flex gap-4">
-                  <div className="bg-stylegroup-green/10 p-3 rounded-full">
-                    <Clock className="h-6 w-6 text-stylegroup-green" />
+                <div className="flex items-center gap-4">
+                  <div className="bg-stylegroup-green/10 h-10 w-10 rounded-full flex items-center justify-center">
+                    <Clock className="h-5 w-6 text-stylegroup-green" />
                   </div>
                   <div>
                     <h3 className="font-medium mb-1">Business Hours</h3>
