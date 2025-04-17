@@ -90,7 +90,7 @@ const NewsletterSignup = () => {
               <Input
                 type="email"
                 placeholder="Enter your email address"
-                className="bg-white border-0 focus:ring-2 focus:ring-offset-2 focus:ring-offset-stylegroup-green"
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus-visible:ring-stylegroup-lightgreen"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required

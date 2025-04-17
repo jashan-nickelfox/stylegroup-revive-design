@@ -188,7 +188,7 @@ const Footer = () => {
           
           {/* Newsletter & Social Media */}
           <div>
-            <h4 className="text-lg font-medium mb-4">Stay Updated</h4>
+            {/* <h4 className="text-lg font-medium mb-4">Stay Updated</h4>
             <p className="text-white/80 mb-4">Subscribe to our newsletter for the latest updates and promotions.</p>
             
             <form onSubmit={handleSubscribe} className="mb-6">
@@ -205,24 +205,21 @@ const Footer = () => {
                   Subscribe
                 </Button>
               </div>
-            </form>
+            </form> */}
             
             <h4 className="text-lg font-medium mb-4">Follow Us</h4>
             <div className="flex space-x-3">
-              <a href="https://facebook.com/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors" aria-label="Follow us on Facebook">
+              <a href="https://www.facebook.com/StyleGroupQld" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors" aria-label="Follow us on Facebook">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="https://instagram.com/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors" aria-label="Follow us on Instagram">
+              <a href="https://www.instagram.com/StyleGroupQld/" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors" aria-label="Follow us on Instagram">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="https://twitter.com/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors" aria-label="Follow us on Twitter">
+              <a href="https://twitter.com/StylePlantation" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors" aria-label="Follow us on Twitter">
                 <Twitter className="h-5 w-5" />
               </a>
               <a href="https://linkedin.com/company/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors" aria-label="Follow us on LinkedIn">
                 <Linkedin className="h-5 w-5" />
-              </a>
-              <a href="https://youtube.com/stylegroup" target="_blank" rel="noreferrer" className="bg-white/10 hover:bg-stylegroup-lightgreen p-2.5 rounded-full transition-colors" aria-label="Subscribe to our YouTube channel">
-                <Youtube className="h-5 w-5" />
               </a>
             </div>
             

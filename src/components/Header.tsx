@@ -58,14 +58,14 @@ const Header = () => {
     <header className={`w-full transition-all duration-300 ${scrolled ? 'bg-white shadow-md' : 'bg-transparent'} fixed top-0 left-0 right-0 z-50`}>
       <div className="bg-stylegroup-green text-white py-1.5">
         <div className="container flex justify-between items-center">
-          <div className="flex items-center space-x-6 text-sm">
+          <div className="flex items-center space-x-6 text-base">
             <a href="tel:0733240900" className="flex items-center hover:text-stylegroup-lightgreen" aria-label="Call our office">
               <Phone className="h-3.5 w-3.5 mr-1.5" />
-              <span>07 3324 0900</span>
+              <span>(07) 3712 0200</span>
             </a>
             <a href="mailto:info@stylegroup.com.au" className="hidden md:flex items-center hover:text-stylegroup-lightgreen" aria-label="Email us">
               <Mail className="h-3.5 w-3.5 mr-1.5" />
-              <span>info@stylegroup.com.au</span>
+              <span>brisbane@stylegroup.com.au</span>
             </a>
             <Link to="/contact" className="hidden md:flex items-center hover:text-stylegroup-lightgreen cursor-pointer">
               <MapPin className="h-3.5 w-3.5 mr-1.5" />
@@ -75,7 +75,7 @@ const Header = () => {
           <div>
             <Button 
               variant="link" 
-              className="text-white text-sm hover:text-stylegroup-lightgreen p-0" 
+              className="text-white text-base hover:text-stylegroup-lightgreen p-0" 
               onClick={handleBookMeasure}
               aria-label="Book a free measure and quote"
             >
@@ -86,11 +86,11 @@ const Header = () => {
       </div>
       
       <div className={`container py-4 flex justify-between items-center`}>
-        <Link to="/" className="flex items-center" aria-label="Style Group - Home">
+        <Link to="/" className="flex items-center h-full" aria-label="Style Group - Home">
           <img 
             src={logo}
             alt="Style Group" 
-            className="h-10 md:h-12 w-auto"
+            className="h-10 md:h-14 w-auto"
           />
         </Link>
         
@@ -98,7 +98,7 @@ const Header = () => {
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-transparent hover:bg-transparent hover:text-stylegroup-green">Products</NavigationMenuTrigger>
+                <NavigationMenuTrigger className="bg-transparent hover:bg-transparent text-base hover:text-stylegroup-green">Products</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
                     <li className="row-span-3">
@@ -110,7 +110,7 @@ const Header = () => {
                           <div className="mb-2 mt-4 text-lg font-medium text-white">
                             All Products
                           </div>
-                          <p className="text-sm leading-tight text-white/90">
+                          <p className="text-base leading-tight text-white/90">
                             Browse our complete collection of premium window furnishings
                           </p>
                         </Link>
@@ -139,35 +139,35 @@ const Header = () => {
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link to="/services" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:text-stylegroup-green">
+                  <Link to="/services" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-base font-medium transition-colors hover:text-stylegroup-green">
                     Services
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link to="/projects" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:text-stylegroup-green">
+                  <Link to="/projects" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-base font-medium transition-colors hover:text-stylegroup-green">
                     Gallery
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link to="/about" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:text-stylegroup-green">
+                  <Link to="/about" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-base font-medium transition-colors hover:text-stylegroup-green">
                     About
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link to="/blog" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:text-stylegroup-green">
+                  <Link to="/blog" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-base font-medium transition-colors hover:text-stylegroup-green">
                     Blog
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
-                  <Link to="/contact" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:text-stylegroup-green">
+                  <Link to="/contact" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-transparent px-4 py-2 text-base font-medium transition-colors hover:text-stylegroup-green">
                     Contact
                   </Link>
                 </NavigationMenuLink>
@@ -264,8 +264,8 @@ const ProductLink = ({ to, title, children }) => {
           to={to}
           className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-stylegroup-lightgray/30 hover:text-stylegroup-green"
         >
-          <div className="text-sm font-medium">{title}</div>
-          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+          <div className="text-base font-medium">{title}</div>
+          <p className="line-clamp-2 text-base leading-snug text-muted-foreground">
             {children}
           </p>
         </Link>
