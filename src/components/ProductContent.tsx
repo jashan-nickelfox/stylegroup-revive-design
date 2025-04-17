@@ -42,7 +42,7 @@ const productContents = {
       "Superior insulation properties for energy efficiency",
       "Custom-made to fit any window size or shape"
     ],
-    image: "https://images.unsplash.com/photo-1600607688960-3b18f6adf79d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    image: "https://www.stylegroup.com.au/wp-content/uploads/2015/06/heritance_truview_living_3-536x1030.jpg",
     link: "/shutters"
   },
   awnings: {

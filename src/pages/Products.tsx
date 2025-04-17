@@ -98,8 +98,6 @@ const Products = () => {
           </div>
         </section>
 
-        <ProductCategories />
-
         <section className="py-16 bg-stylegroup-lightgray">
           <div className="container">
             <div className="text-center mb-12">

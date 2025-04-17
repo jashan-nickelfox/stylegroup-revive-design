@@ -11,6 +11,7 @@ import {
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
+import logo from '../assets/Style-Group-Logo1-300x82-removebg-preview.png';
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -87,7 +88,7 @@ const Header = () => {
       <div className={`container py-4 flex justify-between items-center`}>
         <Link to="/" className="flex items-center" aria-label="Style Group - Home">
           <img 
-            src="https://www.stylegroup.com.au/wp-content/uploads/2015/06/Style-Group-Logo1-300x82.jpg" 
+            src={logo}
             alt="Style Group" 
             className="h-10 md:h-12 w-auto"
           />
