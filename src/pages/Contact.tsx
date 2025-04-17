@@ -1,24 +1,77 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingContact from "@/components/FloatingContact";
 import BackToTop from "@/components/BackToTop";
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Phone, Mail, MapPin, Calendar, Clock, ArrowRight } from "lucide-react";
+import { Phone, Mail, MapPin, Calendar, Clock, ArrowRight, Loader2, Check } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
+
+// Form validation schemas
+const contactFormSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Please enter a valid email"),
+  phone: z.string().optional(),
+  subject: z.string().min(1, "Subject is required"),
+  message: z.string().min(10, "Message must be at least 10 characters")
+});
+
+const bookingFormSchema = z.object({
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Please enter a valid email"),
+  phone: z.string().min(1, "Phone number is required"),
+  address: z.string().min(1, "Address is required"),
+  preferredDate: z.string().refine(val => new Date(val) >= new Date(new Date().setHours(0,0,0,0)), {
+    message: "Date must be today or in the future"
+  }),
+  preferredTime: z.string().min(1, "Please select a time"),
+  productInterest: z.string().optional(),
+  notes: z.string().optional()
+});
 
 const Contact = () => {
   const location = useLocation();
   const { toast } = useToast();
   const [showBookingForm, setShowBookingForm] = useState(false);
+
+  // Contact form state
+  const [contactForm, setContactForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: ""
+  });
+  const [contactLoading, setContactLoading] = useState(false);
+  const [contactErrors, setContactErrors] = useState<Record<string, string>>({});
+
+  // Booking form state
+  const [bookingForm, setBookingForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    address: "",
+    preferredDate: "",
+    preferredTime: "",
+    productInterest: "",
+    notes: ""
+  });
+  const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingErrors, setBookingErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
     // Check if we should show booking form based on location state
@@ -27,24 +80,182 @@ const Contact = () => {
     }
   }, [location.state]);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Message Sent",
-      description: "We'll get back to you as soon as possible!",
-    });
+  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setContactForm(prev => ({ ...prev, [name]: value }));
+    // Clear the error for this field when the user starts typing
+    if (contactErrors[name]) {
+      setContactErrors(prev => ({ ...prev, [name]: "" }));
+    }
   };
 
-  const handleBookingSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast({
-      title: "Booking Request Received",
-      description: "One of our team members will contact you to confirm your appointment.",
-    });
+  const handleBookingChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setBookingForm(prev => ({ ...prev, [name]: value }));
+    // Clear the error for this field when the user starts typing
+    if (bookingErrors[name]) {
+      setBookingErrors(prev => ({ ...prev, [name]: "" }));
+    }
   };
 
-  const toggleForm = () => {
-    setShowBookingForm(!showBookingForm);
+  const handleSelectChange = (value: string, name: string) => {
+    setBookingForm(prev => ({ ...prev, [name]: value }));
+    // Clear the error for this field when the user changes selection
+    if (bookingErrors[name]) {
+      setBookingErrors(prev => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const validateContactForm = () => {
+    try {
+      contactFormSchema.parse(contactForm);
+      setContactErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const errors: Record<string, string> = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            errors[err.path[0].toString()] = err.message;
+          }
+        });
+        setContactErrors(errors);
+      }
+      return false;
+    }
+  };
+
+  const validateBookingForm = () => {
+    try {
+      bookingFormSchema.parse(bookingForm);
+      setBookingErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const errors: Record<string, string> = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            errors[err.path[0].toString()] = err.message;
+          }
+        });
+        setBookingErrors(errors);
+      }
+      return false;
+    }
+  };
+
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateContactForm()) {
+      toast({
+        title: "Form Error",
+        description: "Please fix the errors in the form.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setContactLoading(true);
+    
+    try {
+      // Store data in Supabase
+      const { error } = await supabase.from('contact_messages').insert({
+        first_name: contactForm.firstName,
+        last_name: contactForm.lastName,
+        email: contactForm.email,
+        phone: contactForm.phone,
+        subject: contactForm.subject,
+        message: contactForm.message
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Message Sent",
+        description: "We'll get back to you as soon as possible!",
+      });
+      
+      // Reset form
+      setContactForm({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: ""
+      });
+      
+    } catch (error: any) {
+      console.error("Error submitting contact form:", error);
+      toast({
+        title: "Submission Error",
+        description: error.message || "There was a problem sending your message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setContactLoading(false);
+    }
+  };
+
+  const handleBookingSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!validateBookingForm()) {
+      toast({
+        title: "Form Error",
+        description: "Please fix the errors in the form.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setBookingLoading(true);
+    
+    try {
+      // Store data in Supabase
+      const { error } = await supabase.from('booking_requests').insert({
+        first_name: bookingForm.firstName,
+        last_name: bookingForm.lastName,
+        email: bookingForm.email,
+        phone: bookingForm.phone,
+        address: bookingForm.address,
+        preferred_date: bookingForm.preferredDate,
+        preferred_time: bookingForm.preferredTime,
+        product_interest: bookingForm.productInterest,
+        additional_notes: bookingForm.notes
+      });
+      
+      if (error) throw error;
+      
+      toast({
+        title: "Booking Request Received",
+        description: "One of our team members will contact you to confirm your appointment.",
+      });
+      
+      // Reset form
+      setBookingForm({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        address: "",
+        preferredDate: "",
+        preferredTime: "",
+        productInterest: "",
+        notes: ""
+      });
+      
+    } catch (error: any) {
+      console.error("Error submitting booking form:", error);
+      toast({
+        title: "Submission Error",
+        description: error.message || "There was a problem booking your appointment. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setBookingLoading(false);
+    }
   };
 
   return (
@@ -167,42 +378,112 @@ const Contact = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="firstName">First Name</Label>
-                          <Input id="firstName" placeholder="Your first name" required />
+                          <Input 
+                            id="firstName"
+                            name="firstName"
+                            value={contactForm.firstName}
+                            onChange={handleContactChange}
+                            placeholder="Your first name" 
+                            required 
+                            className={contactErrors.firstName ? "border-red-500" : ""}
+                          />
+                          {contactErrors.firstName && (
+                            <p className="text-xs text-red-500">{contactErrors.firstName}</p>
+                          )}
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="lastName">Last Name</Label>
-                          <Input id="lastName" placeholder="Your last name" required />
+                          <Input 
+                            id="lastName"
+                            name="lastName"
+                            value={contactForm.lastName}
+                            onChange={handleContactChange}
+                            placeholder="Your last name" 
+                            required 
+                            className={contactErrors.lastName ? "border-red-500" : ""}
+                          />
+                          {contactErrors.lastName && (
+                            <p className="text-xs text-red-500">{contactErrors.lastName}</p>
+                          )}
                         </div>
                       </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="email">Email</Label>
-                          <Input id="email" type="email" placeholder="Your email address" required />
+                          <Input 
+                            id="email"
+                            name="email"
+                            value={contactForm.email}
+                            onChange={handleContactChange}
+                            type="email" 
+                            placeholder="Your email address" 
+                            required
+                            className={contactErrors.email ? "border-red-500" : ""} 
+                          />
+                          {contactErrors.email && (
+                            <p className="text-xs text-red-500">{contactErrors.email}</p>
+                          )}
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="phone">Phone</Label>
-                          <Input id="phone" placeholder="Your phone number" required />
+                          <Input 
+                            id="phone"
+                            name="phone"
+                            value={contactForm.phone}
+                            onChange={handleContactChange}
+                            placeholder="Your phone number" 
+                            className={contactErrors.phone ? "border-red-500" : ""}
+                          />
+                          {contactErrors.phone && (
+                            <p className="text-xs text-red-500">{contactErrors.phone}</p>
+                          )}
                         </div>
                       </div>
                       
                       <div className="space-y-2">
                         <Label htmlFor="subject">Subject</Label>
-                        <Input id="subject" placeholder="What is your message about?" required />
+                        <Input 
+                          id="subject"
+                          name="subject"
+                          value={contactForm.subject}
+                          onChange={handleContactChange}
+                          placeholder="What is your message about?" 
+                          required
+                          className={contactErrors.subject ? "border-red-500" : ""} 
+                        />
+                        {contactErrors.subject && (
+                          <p className="text-xs text-red-500">{contactErrors.subject}</p>
+                        )}
                       </div>
                       
                       <div className="space-y-2">
                         <Label htmlFor="message">Message</Label>
                         <Textarea 
                           id="message" 
+                          name="message"
+                          value={contactForm.message}
+                          onChange={handleContactChange}
                           placeholder="Please provide details about your inquiry..."
-                          className="min-h-[120px]"
+                          className={`min-h-[120px] ${contactErrors.message ? "border-red-500" : ""}`}
                           required 
                         />
+                        {contactErrors.message && (
+                          <p className="text-xs text-red-500">{contactErrors.message}</p>
+                        )}
                       </div>
                       
-                      <Button type="submit" className="w-full bg-stylegroup-green hover:bg-stylegroup-green/90">
-                        Send Message
+                      <Button 
+                        type="submit" 
+                        disabled={contactLoading}
+                        className="w-full bg-stylegroup-green hover:bg-stylegroup-green/90"
+                      >
+                        {contactLoading ? (
+                          <>
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                            Sending...
+                          </>
+                        ) : "Send Message"}
                       </Button>
                     </form>
                   </CardContent>
@@ -218,39 +499,110 @@ const Contact = () => {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="bookingFirstName">First Name</Label>
-                          <Input id="bookingFirstName" placeholder="Your first name" required />
+                          <Input 
+                            id="bookingFirstName"
+                            name="firstName"
+                            value={bookingForm.firstName}
+                            onChange={handleBookingChange}
+                            placeholder="Your first name" 
+                            required
+                            className={bookingErrors.firstName ? "border-red-500" : ""} 
+                          />
+                          {bookingErrors.firstName && (
+                            <p className="text-xs text-red-500">{bookingErrors.firstName}</p>
+                          )}
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="bookingLastName">Last Name</Label>
-                          <Input id="bookingLastName" placeholder="Your last name" required />
+                          <Input 
+                            id="bookingLastName"
+                            name="lastName"
+                            value={bookingForm.lastName}
+                            onChange={handleBookingChange}
+                            placeholder="Your last name" 
+                            required
+                            className={bookingErrors.lastName ? "border-red-500" : ""} 
+                          />
+                          {bookingErrors.lastName && (
+                            <p className="text-xs text-red-500">{bookingErrors.lastName}</p>
+                          )}
                         </div>
                       </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="bookingEmail">Email</Label>
-                          <Input id="bookingEmail" type="email" placeholder="Your email address" required />
+                          <Input 
+                            id="bookingEmail"
+                            name="email"
+                            value={bookingForm.email}
+                            onChange={handleBookingChange}
+                            type="email" 
+                            placeholder="Your email address" 
+                            required
+                            className={bookingErrors.email ? "border-red-500" : ""} 
+                          />
+                          {bookingErrors.email && (
+                            <p className="text-xs text-red-500">{bookingErrors.email}</p>
+                          )}
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="bookingPhone">Phone</Label>
-                          <Input id="bookingPhone" placeholder="Your phone number" required />
+                          <Input 
+                            id="bookingPhone"
+                            name="phone"
+                            value={bookingForm.phone}
+                            onChange={handleBookingChange}
+                            placeholder="Your phone number" 
+                            required
+                            className={bookingErrors.phone ? "border-red-500" : ""} 
+                          />
+                          {bookingErrors.phone && (
+                            <p className="text-xs text-red-500">{bookingErrors.phone}</p>
+                          )}
                         </div>
                       </div>
                       
                       <div className="space-y-2">
                         <Label htmlFor="address">Property Address</Label>
-                        <Input id="address" placeholder="Where should we conduct the measure?" required />
+                        <Input 
+                          id="address"
+                          name="address"
+                          value={bookingForm.address}
+                          onChange={handleBookingChange}
+                          placeholder="Where should we conduct the measure?" 
+                          required
+                          className={bookingErrors.address ? "border-red-500" : ""} 
+                        />
+                        {bookingErrors.address && (
+                          <p className="text-xs text-red-500">{bookingErrors.address}</p>
+                        )}
                       </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="preferredDate">Preferred Date</Label>
-                          <Input id="preferredDate" type="date" min={new Date().toISOString().split('T')[0]} required />
+                          <Input 
+                            id="preferredDate"
+                            name="preferredDate"
+                            value={bookingForm.preferredDate}
+                            onChange={handleBookingChange}
+                            type="date" 
+                            min={new Date().toISOString().split('T')[0]} 
+                            required
+                            className={bookingErrors.preferredDate ? "border-red-500" : ""} 
+                          />
+                          {bookingErrors.preferredDate && (
+                            <p className="text-xs text-red-500">{bookingErrors.preferredDate}</p>
+                          )}
                         </div>
                         <div className="space-y-2">
                           <Label htmlFor="preferredTime">Preferred Time</Label>
-                          <Select>
-                            <SelectTrigger id="preferredTime">
+                          <Select 
+                            onValueChange={(value) => handleSelectChange(value, "preferredTime")}
+                            value={bookingForm.preferredTime}
+                          >
+                            <SelectTrigger id="preferredTime" className={bookingErrors.preferredTime ? "border-red-500" : ""}>
                               <SelectValue placeholder="Select time" />
                             </SelectTrigger>
                             <SelectContent>
@@ -258,12 +610,18 @@ const Contact = () => {
                               <SelectItem value="afternoon">Afternoon (12PM - 5PM)</SelectItem>
                             </SelectContent>
                           </Select>
+                          {bookingErrors.preferredTime && (
+                            <p className="text-xs text-red-500">{bookingErrors.preferredTime}</p>
+                          )}
                         </div>
                       </div>
                       
                       <div className="space-y-2">
                         <Label htmlFor="productInterest">Product Interest</Label>
-                        <Select>
+                        <Select 
+                          onValueChange={(value) => handleSelectChange(value, "productInterest")}
+                          value={bookingForm.productInterest}
+                        >
                           <SelectTrigger id="productInterest">
                             <SelectValue placeholder="Select product" />
                           </SelectTrigger>
@@ -282,14 +640,26 @@ const Contact = () => {
                       <div className="space-y-2">
                         <Label htmlFor="notes">Additional Notes</Label>
                         <Textarea 
-                          id="notes" 
+                          id="notes"
+                          name="notes"
+                          value={bookingForm.notes}
+                          onChange={handleBookingChange}
                           placeholder="Tell us more about your requirements..."
                           className="min-h-[80px]" 
                         />
                       </div>
                       
-                      <Button type="submit" className="w-full bg-stylegroup-green hover:bg-stylegroup-green/90">
-                        Book Appointment
+                      <Button 
+                        type="submit" 
+                        disabled={bookingLoading}
+                        className="w-full bg-stylegroup-green hover:bg-stylegroup-green/90"
+                      >
+                        {bookingLoading ? (
+                          <>
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                            Processing...
+                          </>
+                        ) : "Book Appointment"}
                       </Button>
                     </form>
                   </CardContent>

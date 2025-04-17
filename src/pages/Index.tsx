@@ -13,6 +13,7 @@ import CallToAction from "@/components/CallToAction";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import FloatingContact from "@/components/FloatingContact";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 const Index = () => {
   const location = useLocation();
@@ -42,6 +43,7 @@ const Index = () => {
         <ServicesMap />
         <Testimonials />
         <QuoteForm />
+        <NewsletterSignup />
         <CallToAction />
       </main>
       <Footer />
