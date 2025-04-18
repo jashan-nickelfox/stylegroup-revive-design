@@ -1,8 +1,10 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { ThemeProvider } from "@/providers/ThemeProvider";
 import Index from "./pages/Index";
 import SheerCurtains from "./pages/curtains/SheerCurtains";
 import NotFound from "./pages/NotFound";
@@ -39,66 +41,68 @@ const queryClient = new QueryClient();
 
 const App = () => {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            
-            {/* Main pages */}
-            <Route path="/products" element={<Products />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/faqs" element={<FAQs />} />
-            <Route path="/projects" element={<ProjectsList />} />
-            <Route path="/projects/:id" element={<ProjectDetail />} />
-            
-            {/* Main product category routes */}
-            <Route path="/blinds" element={<Blinds />} />
-            <Route path="/shutters" element={<Shutters />} />
-            <Route path="/awnings" element={<Awnings />} />
-            <Route path="/curtains" element={<Curtains />} />
-            <Route path="/motorization" element={<Motorization />} />
-            <Route path="/commercial" element={<Commercial />} />
-            <Route path="/service-areas" element={<ServiceAreas />} />
-            
-            {/* Specific product routes - temporarily using NotFound until specific pages are created */}
-            <Route path="/curtains/sheer" element={<SheerCurtains />} />
-            <Route path="/blinds/roller" element={<NotFound />} />
-            <Route path="/blinds/venetian" element={<NotFound />} />
-            <Route path="/blinds/vertical" element={<NotFound />} />
-            <Route path="/blinds/roman" element={<NotFound />} />
-            <Route path="/shutters/plantation" element={<NotFound />} />
-            <Route path="/shutters/timber" element={<NotFound />} />
-            <Route path="/shutters/exterior" element={<NotFound />} />
-            <Route path="/awnings/folding-arm" element={<NotFound />} />
-            <Route path="/awnings/straight-drop" element={<NotFound />} />
-            <Route path="/awnings/pivot-arm" element={<NotFound />} />
-            <Route path="/curtains/blockout" element={<NotFound />} />
-            <Route path="/curtains/s-fold" element={<NotFound />} />
-            
-            {/* Information pages */}
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/sitemap" element={<Sitemap />} />
-            
-            {/* Admin Routes */}
-            <Route path="/admin/login" element={<AdminLogin />} />
-            <Route path="/admin" element={<AdminLayout />}>
-              <Route index element={<Navigate to="/admin/dashboard" />} />
-              <Route path="dashboard" element={<Dashboard />} />
-            </Route>
-            
-            {/* Catch-all route */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
+    <ThemeProvider defaultTheme="light">
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              
+              {/* Main pages */}
+              <Route path="/products" element={<Products />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/faqs" element={<FAQs />} />
+              <Route path="/projects" element={<ProjectsList />} />
+              <Route path="/projects/:id" element={<ProjectDetail />} />
+              
+              {/* Main product category routes */}
+              <Route path="/blinds" element={<Blinds />} />
+              <Route path="/shutters" element={<Shutters />} />
+              <Route path="/awnings" element={<Awnings />} />
+              <Route path="/curtains" element={<Curtains />} />
+              <Route path="/motorization" element={<Motorization />} />
+              <Route path="/commercial" element={<Commercial />} />
+              <Route path="/service-areas" element={<ServiceAreas />} />
+              
+              {/* Specific product routes - temporarily using NotFound until specific pages are created */}
+              <Route path="/curtains/sheer" element={<SheerCurtains />} />
+              <Route path="/blinds/roller" element={<NotFound />} />
+              <Route path="/blinds/venetian" element={<NotFound />} />
+              <Route path="/blinds/vertical" element={<NotFound />} />
+              <Route path="/blinds/roman" element={<NotFound />} />
+              <Route path="/shutters/plantation" element={<NotFound />} />
+              <Route path="/shutters/timber" element={<NotFound />} />
+              <Route path="/shutters/exterior" element={<NotFound />} />
+              <Route path="/awnings/folding-arm" element={<NotFound />} />
+              <Route path="/awnings/straight-drop" element={<NotFound />} />
+              <Route path="/awnings/pivot-arm" element={<NotFound />} />
+              <Route path="/curtains/blockout" element={<NotFound />} />
+              <Route path="/curtains/s-fold" element={<NotFound />} />
+              
+              {/* Information pages */}
+              <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+              <Route path="/terms-of-service" element={<TermsOfService />} />
+              <Route path="/sitemap" element={<Sitemap />} />
+              
+              {/* Admin Routes */}
+              <Route path="/admin/login" element={<AdminLogin />} />
+              <Route path="/admin" element={<AdminLayout />}>
+                <Route index element={<Navigate to="/admin/dashboard" />} />
+                <Route path="dashboard" element={<Dashboard />} />
+              </Route>
+              
+              {/* Catch-all route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </QueryClientProvider>
+    </ThemeProvider>
   );
 };
 
