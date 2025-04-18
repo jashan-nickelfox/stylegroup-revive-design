@@ -178,7 +178,7 @@ const Header = () => {
         
         <div className="hidden lg:block">
           <Button 
-            className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white" 
+            className="bg-stylegroup-green text-white hover:bg-white hover:text-stylegroup-green font-medium px-4 py-2 rounded transition-colors duration-300" 
             onClick={handleGetQuote}
             aria-label="Get a free quote"
           >
