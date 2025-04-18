@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
+import ContinuousCarousel from "./ContinuousCarousel";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -16,22 +17,18 @@ const Hero = () => {
   return (
     <section className="relative h-screen min-h-[600px] w-full bg-gradient-to-b from-black/20 to-black/70 overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        <img 
-          src="https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" 
-          alt="Modern interior with window treatments" 
-          className="w-full h-full object-cover"
-        />
+        <ContinuousCarousel />
       </div>
       <div className="container h-full flex flex-col justify-center pt-24">
         <div className="max-w-3xl animate-fade-in">
           <h1 className="text-white font-serif text-3xl sm:text-5xl lg:text-6xl font-medium mb-6">
             Premium Window Furnishings<br />
-                <span 
-                  className="text-stylegroup-lightgreen text-opacity-80 font-semibold"
-                  style={{ textShadow: '2px 2px white' }}
-                >
-                  For Every Space
-                </span>
+            <span 
+              className="text-stylegroup-lightgreen text-opacity-80 font-semibold"
+              style={{ textShadow: '2px 2px white' }}
+            >
+              For Every Space
+            </span>
           </h1>
           <p className="text-white text-lg sm:text-xl mb-8 max-w-2xl">
             Elevate your home with custom window treatments designed for the Brisbane climate. Quality craftsmanship, expert installation.
