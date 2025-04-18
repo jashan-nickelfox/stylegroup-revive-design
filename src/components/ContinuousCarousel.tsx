@@ -30,68 +30,37 @@ const images: CarouselImage[] = [
 ];
 
 const ContinuousCarousel = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer) return;
+    if (isHovered) return;
 
-    let animationFrameId: number;
-    let currentScroll = 0;
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 5000); // Change image every 5 seconds
 
-    const scroll = () => {
-      if (isHovered || !scrollContainer) return;
-      
-      currentScroll += 0.5; // Adjust speed here
-      if (currentScroll >= scrollContainer.scrollWidth / 2) {
-        currentScroll = 0;
-      }
-      
-      scrollContainer.scrollLeft = currentScroll;
-      animationFrameId = requestAnimationFrame(scroll);
-    };
-
-    animationFrameId = requestAnimationFrame(scroll);
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
+    return () => clearInterval(interval);
   }, [isHovered]);
 
   return (
     <div 
-      className="relative w-full overflow-hidden"
+      className="w-full h-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div 
-        ref={scrollRef}
-        className="flex gap-4 overflow-hidden whitespace-nowrap"
-      >
-        {/* First set of images */}
+      <div className="w-full h-full relative overflow-hidden">
         {images.map((image, index) => (
           <div
-            key={`first-${index}`}
-            className="min-w-[300px] h-[600px] relative inline-block transform transition-transform duration-500"
+            key={index}
+            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${
+              index === currentIndex ? 'opacity-100' : 'opacity-0'
+            }`}
           >
             <img
               src={image.url}
               alt={image.alt}
-              className="w-full h-full object-cover rounded-lg"
-            />
-          </div>
-        ))}
-        {/* Duplicate set for seamless loop */}
-        {images.map((image, index) => (
-          <div
-            key={`second-${index}`}
-            className="min-w-[300px] h-[600px] relative inline-block transform transition-transform duration-500"
-          >
-            <img
-              src={image.url}
-              alt={image.alt}
-              className="w-full h-full object-cover rounded-lg"
+              className="w-full h-full object-cover"
             />
           </div>
         ))}
