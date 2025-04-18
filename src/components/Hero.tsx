@@ -15,11 +15,11 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative h-screen min-h-[600px] w-full bg-gradient-to-b from-black/20 to-black/70 overflow-hidden">
+    <section className="relative h-screen min-h-[600px] w-full bg-gradient-to-b from-white/10 to-black/80 overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <ContinuousCarousel />
       </div>
-      <div className="container h-full flex flex-col justify-center pt-24">
+      <div className="container h-full flex flex-col justify-center mt-24">
         <div className="max-w-3xl animate-fade-in">
           <h1 className="text-white font-serif text-3xl sm:text-5xl lg:text-6xl font-medium mb-6">
             Premium Window Furnishings<br />

@@ -23,10 +23,6 @@ const images: CarouselImage[] = [
     url: "https://images.unsplash.com/photo-1615874694520-474822394e73?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
     alt: "Stylish outdoor awnings"
   },
-  {
-    url: "https://images.unsplash.com/photo-1615874833974-642a3fa5fb6f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-    alt: "Modern aluminium screens"
-  }
 ];
 
 const ContinuousCarousel = () => {
@@ -38,7 +34,7 @@ const ContinuousCarousel = () => {
 
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000); // Change image every 5 seconds
+    }, 4000); // Change image every 5 seconds
 
     return () => clearInterval(interval);
   }, [isHovered]);
@@ -54,7 +50,7 @@ const ContinuousCarousel = () => {
           <div
             key={index}
             className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${
-              index === currentIndex ? 'opacity-100' : 'opacity-0'
+              index === currentIndex ? 'opacity-80' : 'opacity-0'
             }`}
           >
             <img
