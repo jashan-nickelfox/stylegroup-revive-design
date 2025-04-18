@@ -92,9 +92,9 @@ const ProductCategories = () => {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-6">
                   <h3 className="text-white font-serif text-2xl mb-2 transition-transform group-hover:-translate-y-1">{category.title}</h3>
-                  <p className="text-white/80 mb-4 text-sm">{category.description}</p>
+                  <p className="text-white mb-4 text-sm">{category.description}</p>
                   <div 
-                    className="text-stylegroup-lightgreen group-hover:text-white flex items-center gap-1.5 text-sm font-medium transition-all group-hover:translate-x-1"
+                    className="text-white group-hover:text-white flex items-center gap-1.5 text-sm font-medium transition-all group-hover:translate-x-1"
                   >
                     Explore {category.title} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </div>

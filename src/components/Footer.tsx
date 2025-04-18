@@ -235,7 +235,7 @@ const Footer = () => {
               </li>
               <li className="flex justify-between">
                 <span className="text-white/80">Sunday:</span>
-                <span>Closed</span>
+                <span>10.00 AM - 2.00 AM</span>
               </li>
             </ul>
           </div>
