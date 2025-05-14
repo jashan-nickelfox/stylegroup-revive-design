@@ -70,7 +70,7 @@ const ServicesMap = () => {
                   <button 
                     onClick={() => setActiveArea(activeArea === area.id ? null : area.id)}
                     className={`w-full p-4 text-left flex justify-between items-center transition-colors ${
-                      activeArea === area.id ? 'bg-stylegroup-navy text-white' : 'bg-white text-stylegroup-navy hover:bg-stylegroup-lightgray'
+                      activeArea === area.id ? 'bg-white text-stylegroup-navy' : 'bg-white text-stylegroup-navy hover:bg-stylegroup-lightgray'
                     }`}
                   >
                     <span className="font-medium">{area.name}</span>

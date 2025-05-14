@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Check, Loader2 } from "lucide-react";
@@ -16,37 +15,41 @@ const QuoteForm = () => {
   });
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
       // Store data in Supabase
-      const { error } = await supabase.from('quote_requests').insert({
+      const { error } = await supabase.from("quote_requests").insert({
         full_name: formData.name,
         email: formData.email,
         phone: formData.phone,
         product_interest: formData.project,
-        message: formData.message
+        message: formData.message,
       });
-      
+
       if (error) {
         throw error;
       }
-      
+
       setSubmitted(true);
-      
+
       toast({
         title: "Request Submitted",
         description: "We'll be in touch with you soon!",
       });
-      
+
       // Reset form after 3 seconds
       setTimeout(() => {
         setFormData({
@@ -59,10 +62,12 @@ const QuoteForm = () => {
         setSubmitted(false);
       }, 3000);
     } catch (error: any) {
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
       toast({
         title: "Submission Error",
-        description: error.message || "There was a problem submitting your request. Please try again.",
+        description:
+          error.message ||
+          "There was a problem submitting your request. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -78,42 +83,55 @@ const QuoteForm = () => {
             <div className="bg-stylegroup-green text-white p-8 lg:p-12 lg:col-span-2">
               <h2 className="font-serif text-3xl mb-6">Request a Free Quote</h2>
               <p className="mb-8 text-white/80">
-                Get started with a free, no-obligation quote for your window furnishing project. We'll help you find the perfect solution for your home or business.
+                Get started with a free, no-obligation quote for your window
+                furnishing project. We'll help you find the perfect solution for
+                your home or business.
               </p>
-              
+
               <div className="space-y-6">
                 <div className="flex items-start">
                   <div className="bg-white/10 p-3 rounded-lg mr-4">
-                    <Check className="h-5 w-5 text-stylegroup-lightgreen" />
+                    <Check className="h-5 w-5 text-stylegroup-white" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-medium mb-1">Free Measure & Quote</h3>
-                    <p className="text-white/80 text-sm">We'll visit your property to take precise measurements at no cost</p>
+                    <h3 className="text-lg font-medium mb-1">
+                      Free Measure & Quote
+                    </h3>
+                    <p className="text-white/80 text-sm">
+                      We'll visit your property to take precise measurements at
+                      no cost
+                    </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="bg-white/10 p-3 rounded-lg mr-4">
-                    <Check className="h-5 w-5 text-stylegroup-lightgreen" />
+                    <Check className="h-5 w-5 text-stylegroup-white" />
                   </div>
                   <div>
                     <h3 className="text-lg font-medium mb-1">Expert Advice</h3>
-                    <p className="text-white/80 text-sm">Get personalized recommendations from our window treatment specialists</p>
+                    <p className="text-white/80 text-sm">
+                      Get personalized recommendations from our window treatment
+                      specialists
+                    </p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start">
                   <div className="bg-white/10 p-3 rounded-lg mr-4">
-                    <Check className="h-5 w-5 text-stylegroup-lightgreen" />
+                    <Check className="h-5 w-5 text-stylegroup-white" />
                   </div>
                   <div>
                     <h3 className="text-lg font-medium mb-1">No Pressure</h3>
-                    <p className="text-white/80 text-sm">Detailed quote with clear pricing and no obligation to proceed</p>
+                    <p className="text-white/80 text-sm">
+                      Detailed quote with clear pricing and no obligation to
+                      proceed
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-            
+
             <div className="p-8 lg:p-12 lg:col-span-3">
               {submitted ? (
                 <div className="h-full flex flex-col items-center justify-center text-center">
@@ -122,14 +140,18 @@ const QuoteForm = () => {
                   </div>
                   <h3 className="text-2xl font-medium mb-3">Thank You!</h3>
                   <p className="text-stylegroup-darkgray mb-6">
-                    Your quote request has been successfully submitted. One of our team members will contact you shortly.
+                    Your quote request has been successfully submitted. One of
+                    our team members will contact you shortly.
                   </p>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium mb-2">
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium mb-2"
+                      >
                         Full Name <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -143,9 +165,12 @@ const QuoteForm = () => {
                         placeholder="Your name"
                       />
                     </div>
-                    
+
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium mb-2">
+                      <label
+                        htmlFor="phone"
+                        className="block text-sm font-medium mb-2"
+                      >
                         Phone Number <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -159,9 +184,12 @@ const QuoteForm = () => {
                         placeholder="Your phone number"
                       />
                     </div>
-                    
+
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium mb-2">
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium mb-2"
+                      >
                         Email <span className="text-red-500">*</span>
                       </label>
                       <input
@@ -175,9 +203,12 @@ const QuoteForm = () => {
                         placeholder="Your email address"
                       />
                     </div>
-                    
+
                     <div>
-                      <label htmlFor="project" className="block text-sm font-medium mb-2">
+                      <label
+                        htmlFor="project"
+                        className="block text-sm font-medium mb-2"
+                      >
                         Project Type
                       </label>
                       <select
@@ -196,9 +227,12 @@ const QuoteForm = () => {
                         <option value="other">Other</option>
                       </select>
                     </div>
-                    
+
                     <div className="md:col-span-2">
-                      <label htmlFor="message" className="block text-sm font-medium mb-2">
+                      <label
+                        htmlFor="message"
+                        className="block text-sm font-medium mb-2"
+                      >
                         Message
                       </label>
                       <textarea
@@ -212,10 +246,10 @@ const QuoteForm = () => {
                       ></textarea>
                     </div>
                   </div>
-                  
+
                   <div className="mt-8">
-                    <Button 
-                      type="submit" 
+                    <Button
+                      type="submit"
                       className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white w-full md:w-auto"
                       disabled={loading}
                     >
@@ -224,10 +258,13 @@ const QuoteForm = () => {
                           <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                           Processing...
                         </>
-                      ) : "Submit Quote Request"}
+                      ) : (
+                        "Submit Quote Request"
+                      )}
                     </Button>
                     <p className="text-xs text-stylegroup-darkgray mt-4">
-                      By submitting this form, you agree to our privacy policy and terms of service.
+                      By submitting this form, you agree to our privacy policy
+                      and terms of service.
                     </p>
                   </div>
                 </form>

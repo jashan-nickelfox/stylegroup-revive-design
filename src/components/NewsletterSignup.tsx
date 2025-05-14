@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -17,19 +16,14 @@ const NewsletterSignup = () => {
     setLoading(true);
 
     try {
-      // Check for valid email format
       if (!/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/.test(email)) {
         throw new Error("Please enter a valid email address");
       }
 
-      // Store in Supabase
-      const { error } = await supabase
-        .from('newsletter_subscriptions')
-        .insert({ email });
+      const { error } = await supabase.from('newsletter_subscriptions').insert({ email });
 
       if (error) {
         if (error.code === '23505') {
-          // Unique violation - email already exists
           toast({
             title: "Already Subscribed",
             description: "This email is already subscribed to our newsletter.",
@@ -43,8 +37,6 @@ const NewsletterSignup = () => {
           title: "Thank You!",
           description: "You've been successfully added to our newsletter.",
         });
-
-        // Reset after 3 seconds
         setTimeout(() => {
           setEmail("");
           setSubmitted(false);
@@ -67,21 +59,19 @@ const NewsletterSignup = () => {
       <div className="container">
         <div className="max-w-3xl mx-auto text-center">
           <div className="inline-block bg-white/10 p-3 rounded-full mb-6">
-            <Mail className="h-6 w-6" />
+            <Mail className="h-6 w-6 text-white" />
           </div>
-          
-          <h2 className="text-3xl md:text-4xl font-medium mb-4">Stay Updated with Style Group</h2>
-          <p className="text-white/80 mb-8 text-lg">
+          <h2 className="text-3xl md:text-4xl font-medium mb-4 text-white">Stay Updated with Style Group</h2>
+          <p className="text-white mb-8 text-lg">
             Join our newsletter for the latest window furnishing trends, special offers, and expert design tips.
           </p>
-
           {submitted ? (
             <div className="bg-white/10 rounded-lg p-6 max-w-md mx-auto">
               <div className="bg-white text-green-600 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-4">
                 <Check className="h-6 w-6" />
               </div>
-              <h3 className="text-xl font-medium mb-2">Thank You for Subscribing!</h3>
-              <p className="text-white/80">
+              <h3 className="text-xl font-medium mb-2 text-white">Thank You for Subscribing!</h3>
+              <p className="text-white">
                 You're now on the list! Watch your inbox for exclusive promotions and updates.
               </p>
             </div>
@@ -90,7 +80,7 @@ const NewsletterSignup = () => {
               <Input
                 type="email"
                 placeholder="Enter your email address"
-                className="bg-white/10 border-white/20 text-white placeholder:text-white/50 focus-visible:ring-stylegroup-lightgreen"
+                className="bg-white/10 border-white/20 text-white placeholder:text-white/70 focus-visible:ring-stylegroup-lightgreen"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -99,7 +89,7 @@ const NewsletterSignup = () => {
               <Button 
                 type="submit" 
                 disabled={loading}
-                className="bg-stylegroup-lightgreen hover:bg-stylegroup-lightgreen/90 text-stylegroup-green font-medium whitespace-nowrap"
+                className="bg-white hover:bg-stylegroup-lightgreen text-stylegroup-green font-medium whitespace-nowrap"
               >
                 {loading ? (
                   <>
@@ -110,8 +100,7 @@ const NewsletterSignup = () => {
               </Button>
             </form>
           )}
-          
-          <p className="text-sm text-white/70 mt-4">
+          <p className="text-sm text-white mt-4">
             We respect your privacy. You can unsubscribe at any time.
           </p>
         </div>

@@ -25,7 +25,7 @@ const Curtains = () => {
       <main className="flex-grow pt-32">
         <section className="container py-12">
           <div className="max-w-4xl mx-auto">
-            <h1 className="section-title text-center mb-8">Curtains</h1>
+            <h1 className="section-title text-center mb-8">Aluminium Screens</h1>
             
             <div className="mb-10">
               <ProductContent productType="curtains" />
@@ -33,8 +33,8 @@ const Curtains = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-12">
               <div className="bg-stylegroup-lightgray/30 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-3 text-stylegroup-green">Sheer Curtains</h3>
-                <p className="mb-3">Lightweight, translucent curtains that diffuse natural light while maintaining privacy and creating an elegant, airy atmosphere.</p>
+                <h3 className="text-xl font-medium mb-3 text-stylegroup-green">Aluminium Shutters Gallery</h3>
+                <p className="mb-3">Our Calypso range of screens can be made fixed or adjustable, so you can determine how much light or view you wish to have.</p>
                 <Button 
                   variant="outline"
                   className="border-stylegroup-green text-stylegroup-green hover:bg-stylegroup-green/10"
@@ -44,34 +44,12 @@ const Curtains = () => {
                 </Button>
               </div>
               <div className="bg-stylegroup-lightgray/30 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-3 text-stylegroup-green">Blockout Curtains</h3>
-                <p className="mb-3">Heavy, lined curtains that completely block light, providing optimal privacy and insulation for bedrooms and media rooms.</p>
+                <h3 className="text-xl font-medium mb-3 text-stylegroup-green">Aluminium Screens</h3>
+                <p className="mb-3">Complete control at your finger tips. Seeview has all the benefits of the Calypso without the winder, simply rotate the blades by hand.</p>
                 <Button 
                   variant="outline"
                   className="border-stylegroup-green text-stylegroup-green hover:bg-stylegroup-green/10"
                   onClick={() => navigate('/curtains/blockout')}
-                >
-                  Learn More
-                </Button>
-              </div>
-              <div className="bg-stylegroup-lightgray/30 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-3 text-stylegroup-green">S-Fold Curtains</h3>
-                <p className="mb-3">Contemporary curtains with a smooth, wave-like fold pattern that creates a clean, modern look perfect for large windows.</p>
-                <Button 
-                  variant="outline"
-                  className="border-stylegroup-green text-stylegroup-green hover:bg-stylegroup-green/10"
-                  onClick={() => navigate('/curtains/s-fold')}
-                >
-                  Learn More
-                </Button>
-              </div>
-              <div className="bg-stylegroup-lightgray/30 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-3 text-stylegroup-green">Pencil Pleat Curtains</h3>
-                <p className="mb-3">Traditional curtains with tightly gathered pleats at the top, offering a classic, tailored appearance suitable for any décor.</p>
-                <Button 
-                  variant="outline"
-                  className="border-stylegroup-green text-stylegroup-green hover:bg-stylegroup-green/10"
-                  onClick={() => navigate('/curtains/pencil-pleat')}
                 >
                   Learn More
                 </Button>

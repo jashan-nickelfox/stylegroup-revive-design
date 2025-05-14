@@ -31,6 +31,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import Sitemap from "./pages/Sitemap";
 import FAQs from "./pages/FAQs";
+import CrimsafePage from "./pages/crimsafe";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ const App = () => (
           <Route path="/faqs" element={<FAQs />} />
           <Route path="/projects" element={<ProjectsList />} />
           <Route path="/projects/:id" element={<ProjectDetail />} />
+          <Route path="/crimsafe" element={<CrimsafePage />} />
           
           {/* Main product category routes */}
           <Route path="/blinds" element={<Blinds />} />

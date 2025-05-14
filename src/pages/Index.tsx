@@ -48,7 +48,7 @@ const Index = () => {
       </main>
       <Footer />
       <BackToTop />
-      <FloatingContact />
+      {/* <FloatingContact /> */}
     </div>
   );
 };

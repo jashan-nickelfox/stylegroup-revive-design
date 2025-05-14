@@ -1,43 +1,42 @@
-
-import { 
-  BadgeCheck, 
-  Ruler, 
-  ThumbsUp, 
-  Clock, 
-  Home, 
-  Shield 
-} from "lucide-react";
+import { BadgeCheck, Ruler, ThumbsUp, Clock, Home, Shield } from "lucide-react";
+import React from "react";
 
 const features = [
   {
     icon: <BadgeCheck className="h-10 w-10 text-stylegroup-gold" />,
     title: "Quality Products",
-    description: "Premium materials and craftsmanship in all our window furnishings"
+    description:
+      "Premium materials and craftsmanship in all our window furnishings",
   },
   {
     icon: <Ruler className="h-10 w-10 text-stylegroup-gold" />,
     title: "Expert Measurement",
-    description: "Precise consultations and measurements for perfect fit every time"
+    description:
+      "Precise consultations and measurements for perfect fit every time",
   },
   {
     icon: <ThumbsUp className="h-10 w-10 text-stylegroup-gold" />,
     title: "Professional Installation",
-    description: "Skilled installers with years of experience ensuring quality finishing"
+    description:
+      "Skilled installers with years of experience ensuring quality finishing",
   },
   {
     icon: <Clock className="h-10 w-10 text-stylegroup-gold" />,
     title: "10-Year Warranty",
-    description: "Confidence in our products with comprehensive warranty coverage"
+    description:
+      "Confidence in our products with comprehensive warranty coverage",
   },
   {
     icon: <Home className="h-10 w-10 text-stylegroup-gold" />,
     title: "Local Brisbane Business",
-    description: "Supporting the local community with products designed for Queensland"
+    description:
+      "Supporting the local community with products designed for Queensland",
   },
   {
     icon: <Shield className="h-10 w-10 text-stylegroup-gold" />,
     title: "Satisfaction Guarantee",
-    description: "We're not happy until you're completely satisfied with our service"
+    description:
+      "We're not happy until you're completely satisfied with our service",
   },
 ];
 
@@ -46,24 +45,34 @@ const WhyChooseUs = () => {
     <section className="py-16 md:py-24 bg-white">
       <div className="container">
         <div className="text-center mb-12 max-w-3xl mx-auto">
-          <h2 className="section-title heading-underline mx-auto">Why Choose Style Group</h2>
+          <h2 className="section-title heading-underline mx-auto">
+            Why Choose Style Group
+          </h2>
           <p className="mt-4 text-lg text-stylegroup-darkgray">
-            For over 15 years, we've been Brisbane's trusted experts in premium window furnishings.
-            Our commitment to quality and service sets us apart.
+            For over 15 years, we've been Brisbane's trusted experts in premium
+            window furnishings. Our commitment to quality and service sets us
+            apart.
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div 
+            <div
               key={index}
-              className="bg-stylegroup-lightgray p-8 rounded-lg transition-all hover:shadow-md"
+              className="group bg-stylegroup-lightgray hover:bg-stylegroup-green/80 p-8 rounded-lg transition-all duration-300 hover:shadow-md hover:scale-105"
             >
               <div className="mb-4">
-                {feature.icon}
+                {React.cloneElement(feature.icon, {
+                  className:
+                    "h-10 w-10 text-stylegroup-gold transition-colors duration-300 group-hover:text-white",
+                })}
               </div>
-              <h3 className="text-xl font-medium mb-3 text-stylegroup-navy">{feature.title}</h3>
-              <p className="text-stylegroup-darkgray">{feature.description}</p>
+              <h3 className="text-xl font-medium mb-3 text-stylegroup-navy group-hover:text-white">
+                {feature.title}
+              </h3>
+              <p className="text-stylegroup-darkgray group-hover:text-white">
+                {feature.description}
+              </p>
             </div>
           ))}
         </div>

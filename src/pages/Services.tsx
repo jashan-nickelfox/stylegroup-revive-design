@@ -1,4 +1,3 @@
-
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
@@ -6,6 +5,7 @@ import FloatingContact from "@/components/FloatingContact";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Check, ArrowRight } from "lucide-react";
+import QuoteForm from "@/components/QuoteForm";
 
 const Services = () => {
   const navigate = useNavigate();
@@ -77,7 +77,7 @@ const Services = () => {
               </div>
               <div className="bg-stylegroup-lightgray/30 rounded-lg p-6">
                 <img 
-                  src="https://images.unsplash.com/photo-1577563908411-5077b6dc7624?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                  src="/consultation.jpg" 
                   alt="Consultation service" 
                   className="rounded-lg w-full h-auto"
                 />
@@ -91,7 +91,7 @@ const Services = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <div className="order-2 lg:order-1 bg-white rounded-lg p-6">
                 <img 
-                  src="https://images.unsplash.com/photo-1621905251189-08b45249ff78?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" 
+                  src="/installation.jpg" 
                   alt="Installation service" 
                   className="rounded-lg w-full h-auto"
                 />

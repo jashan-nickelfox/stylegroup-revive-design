@@ -1,66 +1,74 @@
+import { useState } from "react";
 
-import { useEffect, useRef, useState } from 'react';
+interface ContinuousCarouselProps {
+  currentIndex: number;
+}
 
 interface CarouselImage {
   url: string;
   alt: string;
+  label: string;
 }
 
 const images: CarouselImage[] = [
   {
-    url: "https://images.unsplash.com/photo-1513694203232-719a280e022f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80",
-    alt: "Modern interior with window treatments"
+    url: "/flooring.jpg",
+    alt: "Modern interior with window treatments",
+    label: "Flooring",
   },
   {
-    url: "https://images.unsplash.com/photo-1615874959474-d609969a20ed?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-    alt: "Elegant roller blinds in modern home"
+    url: "/blinds.jpg",
+    alt: "Elegant roller blinds in modern home",
+    label: "Blinds",
   },
   {
-    url: "https://images.unsplash.com/photo-1615875474908-f403116f5287?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-    alt: "Contemporary window shutters"
+    url: "/shutters.jpg",
+    alt: "Contemporary window shutters",
+    label: "Shutters",
   },
   {
-    url: "https://images.unsplash.com/photo-1615874694520-474822394e73?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80",
-    alt: "Stylish outdoor awnings"
+    url: "/awnings.jpg",
+    alt: "Stylish outdoor awnings",
+    label: "Awnings",
   },
 ];
 
-const ContinuousCarousel = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-
-  useEffect(() => {
-    if (isHovered) return;
-
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 4000); // Change image every 5 seconds
-
-    return () => clearInterval(interval);
-  }, [isHovered]);
-
+const ContinuousCarousel = ({ currentIndex }: ContinuousCarouselProps) => {
   return (
-    <div 
-      className="w-full h-full"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="w-full h-full relative overflow-hidden">
-        {images.map((image, index) => (
-          <div
-            key={index}
-            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${
-              index === currentIndex ? 'opacity-80' : 'opacity-0'
-            }`}
-          >
+    <div className="relative w-full h-[900px] overflow-hidden rounded-lg shadow-lg">
+      {/* Background Images */}
+      {images.map((image, index) => (
+        <div
+          key={index}
+          className={`absolute inset-0 transition-opacity duration-400 ease-in-out ${
+            index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+          }`}
+        >
+          <div className="relative w-full h-full">
             <img
               src={image.url}
               alt={image.alt}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover filter blur-sm brightness-10"
+              loading="lazy"
             />
+            {/* Black transparent overlay */}
+            <div className="absolute inset-0 bg-black/15" />
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
+
+      {/* Slanted Labels */}
+      {/* {images.map((image, index) => (
+        <div
+          key={index}
+          className={`absolute top-6 right-[-40px] transform rotate-45 origin-top-right z-30 text-white text-sm font-semibold tracking-wide bg-black/60 px-8 py-2 shadow-lg transition-all duration-700 ${
+            index === currentIndex ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
+          }`}
+          style={{ width: "200px" }}
+        >
+          {image.label}
+        </div>
+      ))} */}
     </div>
   );
 };

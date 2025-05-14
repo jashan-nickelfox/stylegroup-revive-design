@@ -1,16 +1,18 @@
-
 import { useState, useEffect } from "react";
 import { ArrowUp } from "lucide-react";
 
 const BackToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [useDarkBg, setUseDarkBg] = useState(false);
 
-  const toggleVisibility = () => {
-    if (window.pageYOffset > 300) {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
+  const handleScroll = () => {
+    const yOffset = window.pageYOffset;
+
+    // Show button after scrolling 300px
+    setIsVisible(yOffset > 300);
+
+    // Change style after 1500px (adjust based on where green section starts)
+    setUseDarkBg(yOffset > 1500);
   };
 
   const scrollToTop = () => {
@@ -21,17 +23,21 @@ const BackToTop = () => {
   };
 
   useEffect(() => {
-    window.addEventListener("scroll", toggleVisibility);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener("scroll", toggleVisibility);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-8 right-8 z-40 bg-stylegroup-green text-white p-3 rounded-full shadow-lg transition-opacity duration-300 ${
+      className={`fixed bottom-8 right-8 z-40 p-3 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110 ${
         isVisible ? "opacity-100" : "opacity-0 pointer-events-none"
+      } ${
+        useDarkBg
+          ? "bg-white text-stylegroup-green hover:shadow-stylegroup-green/40"
+          : "bg-stylegroup-green text-white hover:shadow-white/40"
       }`}
       aria-label="Back to top"
     >
