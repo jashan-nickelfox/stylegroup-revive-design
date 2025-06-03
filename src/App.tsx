@@ -15,7 +15,6 @@ import Shutters from "./pages/products/Shutters";
 import Awnings from "./pages/products/Awnings";
 import Motorization from "./pages/products/Motorization";
 import Commercial from "./pages/products/Commercial";
-import AluminiumScreens from "./pages/products/AluminiumScreens";
 
 // Import specific product pages
 import RollerBlinds from "./pages/products/RollerBlinds";
@@ -78,11 +77,10 @@ const App = () => (
             <Route path="/blinds/venetian" element={<VenetianBlinds />} />
             <Route path="/blinds/vertical" element={<VerticalBlinds />} />
             
-            {/* Curtains and screens routes */}
+            {/* Curtains routes */}
             <Route path="/curtains/sheer" element={<SheerCurtains />} />
             <Route path="/curtains/blockout" element={<NotFound />} />
             <Route path="/curtains/s-fold" element={<NotFound />} />
-            <Route path="/aluminium-screens" element={<AluminiumScreens />} />
             
             {/* Shutters routes - keeping as placeholders for now */}
             <Route path="/shutters/plantation" element={<NotFound />} />

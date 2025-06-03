@@ -1,4 +1,3 @@
-
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,10 +12,10 @@ const categories = [
     link: "/blinds",
     subcategories: [
       { name: "Roller Blinds", link: "/blinds/roller" },
-      { name: "Roman Blinds", link: "/blinds/roman" },
-      { name: "Venetian Blinds", link: "/blinds/venetian" },
-      { name: "Vertical Blinds", link: "/blinds/vertical" },
-      { name: "Panel Blind Blinds", link: "/blinds/roman" },
+      { name: "Roman Blinds", link: "/blinds/venetian" },
+      { name: "Venetian Blinds", link: "/blinds/vertical" },
+      { name: "Vertical Blinds", link: "/blinds/roman" },
+      { name: "Panel Glind Blinds", link: "/blinds/roman" },
       { name: "HoneyComb Blinds", link: "/blinds/roman" },
     ],
   },
@@ -54,12 +53,10 @@ const categories = [
     description: "Enhance both the security and style of space",
     image:
       "https://www.stylegroup.com.au/wp-content/uploads/2015/06/Calypso-102-300x225.jpg",
-    link: "/aluminium-screens",
+    link: "/curtains",
     subcategories: [
-      { name: "Laser-Cut Screens", link: "/aluminium-screens" },
-      { name: "Slatted Screens", link: "/aluminium-screens" },
-      { name: "Perforated Screens", link: "/aluminium-screens" },
-      { name: "Custom Designs", link: "/aluminium-screens" },
+      { name: "Aluminium Shutters Gallery", link: "/curtains/" },
+      { name: "Aluminium Screens", link: "/curtains/blockout" },
     ],
   },
 ];
