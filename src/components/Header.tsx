@@ -50,7 +50,7 @@ const Header = () => {
           <div className="flex items-center space-x-6 text-base">
             <a
               href="tel:0733240900"
-              className="flex items-center hover:text-stylegroup-lightgreen/100"
+              className="flex items-center hover:text-stylegroup-lightgreen/100 transition-colors duration-300"
               aria-label="Call our office"
             >
               <Phone className="h-3.5 w-3.5 mr-1.5" />
@@ -58,7 +58,7 @@ const Header = () => {
             </a>
             <a
               href="mailto:info@stylegroup.com.au"
-              className="hidden md:flex items-center hover:text-stylegroup-lightgreen/100"
+              className="hidden md:flex items-center hover:text-stylegroup-lightgreen/100 transition-colors duration-300"
               aria-label="Email us"
             >
               <Mail className="h-3.5 w-3.5 mr-1.5" />
@@ -66,7 +66,7 @@ const Header = () => {
             </a>
             <Link
               to="/contact"
-              className="hidden md:flex items-center hover:text-stylegroup-lightgreen/100 cursor-pointer"
+              className="hidden md:flex items-center hover:text-stylegroup-lightgreen/100 cursor-pointer transition-colors duration-300"
             >
               <MapPin className="h-3.5 w-3.5 mr-1.5" />
               <span>Brisbane, QLD</span>
@@ -75,7 +75,7 @@ const Header = () => {
           <div>
             <Button
               variant="link"
-              className="text-white text-base hover:text-stylegroup-lightgreen/100 p-0"
+              className="text-white text-base hover:text-stylegroup-lightgreen/100 p-0 transition-colors duration-300"
               onClick={handleBookMeasure}
               aria-label="Book a free measure and quote"
             >
@@ -110,7 +110,7 @@ const Header = () => {
                 />
               </Link>
               <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-transparent hover:bg-transparent text-base hover:text-stylegroup-green">
+                <NavigationMenuTrigger className="bg-transparent hover:bg-transparent text-base hover:text-stylegroup-green transition-colors duration-300">
                   Products
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -119,7 +119,7 @@ const Header = () => {
                       <NavigationMenuLink asChild>
                         <Link
                           to="/products"
-                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-stylegroup-lightgreen/50 to-stylegroup-green p-6 no-underline outline-none focus:shadow-md"
+                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-stylegroup-lightgreen/50 to-stylegroup-green p-6 no-underline outline-none focus:shadow-md transition-all duration-300 hover:shadow-lg"
                         >
                           <div className="mb-2 mt-4 text-lg font-medium text-white">
                             All Products
@@ -152,7 +152,7 @@ const Header = () => {
                     <NavigationMenuLink asChild>
                       <Link
                         to={`/${item}`}
-                        className="group inline-flex h-10 items-center px-4 py-2 text-base font-medium hover:text-stylegroup-lightgreen hover:underline capitalize"
+                        className="group inline-flex h-10 items-center px-4 py-2 text-base font-medium hover:text-stylegroup-lightgreen hover:underline capitalize transition-colors duration-300"
                       >
                         {item}
                       </Link>
@@ -164,10 +164,10 @@ const Header = () => {
           </NavigationMenu>
         </nav>
 
-        {/* Desktop quote + Crimsafe image */}
+        {/* Desktop quote button */}
         <div className="hidden lg:flex items-center gap-4">
           <Button
-            className="bg-stylegroup-green text-white font-medium px-4 py-2 rounded transition duration-300 transform hover:scale-105"
+            className="bg-stylegroup-green text-white font-medium px-4 py-2 rounded transition-all duration-300 transform hover:scale-105 hover:bg-stylegroup-green/90 hover:shadow-lg"
             onClick={handleGetQuote}
             aria-label="Get a free quote"
           >
@@ -177,7 +177,7 @@ const Header = () => {
 
         {/* Mobile Menu Toggle */}
         <button
-          className="lg:hidden p-2 rounded-md text-stylegroup-green"
+          className="lg:hidden p-2 rounded-md text-stylegroup-green transition-colors duration-300 hover:bg-stylegroup-green/10"
           onClick={toggleMobileMenu}
           aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
         >
@@ -203,37 +203,37 @@ const Header = () => {
                     </summary>
                     <ul className="mt-2 ml-4 space-y-2">
                       <li>
-                        <Link to="/products" className="block py-1">
+                        <Link to="/products" className="block py-1 hover:text-stylegroup-green transition-colors duration-300">
                           All Products
                         </Link>
                       </li>
                       <li>
-                        <Link to="/blinds" className="block py-1">
+                        <Link to="/blinds" className="block py-1 hover:text-stylegroup-green transition-colors duration-300">
                           Blinds
                         </Link>
                       </li>
                       <li>
-                        <Link to="/shutters" className="block py-1">
+                        <Link to="/shutters" className="block py-1 hover:text-stylegroup-green transition-colors duration-300">
                           Shutters
                         </Link>
                       </li>
                       <li>
-                        <Link to="/awnings" className="block py-1">
+                        <Link to="/awnings" className="block py-1 hover:text-stylegroup-green transition-colors duration-300">
                           Awnings
                         </Link>
                       </li>
                       <li>
-                        <Link to="/curtains" className="block py-1">
+                        <Link to="/curtains" className="block py-1 hover:text-stylegroup-green transition-colors duration-300">
                           Curtains
                         </Link>
                       </li>
                       <li>
-                        <Link to="/motorization" className="block py-1">
+                        <Link to="/motorization" className="block py-1 hover:text-stylegroup-green transition-colors duration-300">
                           Motorization
                         </Link>
                       </li>
                       <li>
-                        <Link to="/commercial" className="block py-1">
+                        <Link to="/commercial" className="block py-1 hover:text-stylegroup-green transition-colors duration-300">
                           Commercial
                         </Link>
                       </li>
@@ -248,7 +248,7 @@ const Header = () => {
                     >
                       <Link
                         to={`/${item}`}
-                        className="block font-medium capitalize"
+                        className="block font-medium capitalize hover:text-stylegroup-green transition-colors duration-300"
                       >
                         {item}
                       </Link>
@@ -258,14 +258,14 @@ const Header = () => {
               </ul>
               <div className="mt-6 space-y-3">
                 <Button
-                  className="w-full bg-stylegroup-green hover:bg-stylegroup-green/90 text-white"
+                  className="w-full bg-stylegroup-green hover:bg-stylegroup-green/90 text-white transition-all duration-300"
                   onClick={handleGetQuote}
                 >
                   Get Free Quote
                 </Button>
                 <Button
                   variant="outline"
-                  className="w-full border-stylegroup-green text-stylegroup-green hover:bg-stylegroup-green/10"
+                  className="w-full border-stylegroup-green text-stylegroup-green hover:bg-stylegroup-green/10 transition-all duration-300"
                   onClick={handleBookMeasure}
                 >
                   Book Free Measure
@@ -284,7 +284,7 @@ const ProductLink = ({ to, title, children }) => (
     <NavigationMenuLink asChild>
       <Link
         to={to}
-        className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-stylegroup-lightgray/30 hover:text-stylegroup-green"
+        className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors duration-300 hover:bg-stylegroup-lightgray/30 hover:text-stylegroup-green"
       >
         <div className="text-base font-medium">{title}</div>
         <p className="line-clamp-2 text-base leading-snug text-muted-foreground">

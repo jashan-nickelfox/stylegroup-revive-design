@@ -22,6 +22,7 @@ export type Database = {
           preferred_date: string
           preferred_time: string
           product_interest: string | null
+          status: string | null
         }
         Insert: {
           additional_notes?: string | null
@@ -35,6 +36,7 @@ export type Database = {
           preferred_date: string
           preferred_time: string
           product_interest?: string | null
+          status?: string | null
         }
         Update: {
           additional_notes?: string | null
@@ -48,6 +50,7 @@ export type Database = {
           preferred_date?: string
           preferred_time?: string
           product_interest?: string | null
+          status?: string | null
         }
         Relationships: []
       }
