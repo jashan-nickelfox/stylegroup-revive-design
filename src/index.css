@@ -88,10 +88,6 @@
     @apply bg-stylegroup-green/10 border-stylegroup-green/80;
   }
 
-  .border-stylegroup-navy:hover {
-    @apply bg-stylegroup-navy/10 border-stylegroup-navy/80;
-  }
-
   /* Navigation hover effects */
   nav a:hover, .nav-link:hover {
     @apply text-stylegroup-green transition-colors duration-300;

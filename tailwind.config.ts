@@ -71,6 +71,7 @@ export default {
 				stylegroup: {
 					green: '#005638',    // Dark green from stylegroup.com.au
 					lightgreen: '#4C8C71', // Lighter green accent
+					navy: '#1e3a8a',     // Navy blue color
 					black: '#000000',    // Black from their site
 					lightgray: '#F5F5F5',
 					midgray: '#E0E0E0',
