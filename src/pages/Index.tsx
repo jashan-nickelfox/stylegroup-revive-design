@@ -8,7 +8,7 @@ import FeaturedProjects from "@/components/FeaturedProjects";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Testimonials from "@/components/Testimonials";
 import QuoteForm from "@/components/QuoteForm";
-import ServicesMap from "@/components/ServicesMap";
+import InteractiveServicesMap from "@/components/InteractiveServicesMap";
 import CallToAction from "@/components/CallToAction";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
@@ -40,7 +40,7 @@ const Index = () => {
         <ProductCategories />
         <WhyChooseUs />
         <FeaturedProjects />
-        <ServicesMap />
+        <InteractiveServicesMap />
         <Testimonials />
         <QuoteForm />
         <NewsletterSignup />
