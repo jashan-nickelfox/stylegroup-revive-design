@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,7 +14,6 @@ import Blinds from "./pages/products/Blinds";
 import Curtains from "./pages/products/Curtains";
 import Shutters from "./pages/products/Shutters";
 import Awnings from "./pages/products/Awnings";
-import Motorization from "./pages/products/Motorization";
 import Commercial from "./pages/products/Commercial";
 
 // Import specific product pages
@@ -21,6 +21,22 @@ import RollerBlinds from "./pages/products/RollerBlinds";
 import RomanBlinds from "./pages/products/RomanBlinds";
 import VenetianBlinds from "./pages/products/VenetianBlinds";
 import VerticalBlinds from "./pages/products/VerticalBlinds";
+import PanelGlidesBlinds from "./pages/products/PanelGlidesBlinds";
+import HoneycombBlinds from "./pages/products/HoneycombBlinds";
+
+// Import shutter pages
+import AluminiumShuttersGallery from "./pages/products/AluminiumShuttersGallery";
+import AluminiumScreens from "./pages/products/AluminiumScreens";
+import PlantationShutters from "./pages/products/PlantationShutters";
+import TimberShutters from "./pages/products/TimberShutters";
+import PvcShutters from "./pages/products/PvcShutters";
+import ExteriorShutters from "./pages/products/ExteriorShutters";
+
+// Import awning pages
+import FoldingArmAwnings from "./pages/products/FoldingArmAwnings";
+import StraightDropAwnings from "./pages/products/StraightDropAwnings";
+import PivotArmAwnings from "./pages/products/PivotArmAwnings";
+import FixedCanopies from "./pages/products/FixedCanopies";
 
 // Import project pages
 import ProjectsList from "./pages/ProjectsList";
@@ -67,7 +83,6 @@ const App = () => (
             <Route path="/shutters" element={<Shutters />} />
             <Route path="/awnings" element={<Awnings />} />
             <Route path="/curtains" element={<Curtains />} />
-            <Route path="/motorization" element={<Motorization />} />
             <Route path="/commercial" element={<Commercial />} />
             <Route path="/service-areas" element={<ServiceAreas />} />
             
@@ -76,21 +91,27 @@ const App = () => (
             <Route path="/blinds/roman" element={<RomanBlinds />} />
             <Route path="/blinds/venetian" element={<VenetianBlinds />} />
             <Route path="/blinds/vertical" element={<VerticalBlinds />} />
+            <Route path="/blinds/panel-glides" element={<PanelGlidesBlinds />} />
+            <Route path="/blinds/honeycomb" element={<HoneycombBlinds />} />
+            
+            {/* Shutters routes */}
+            <Route path="/shutters/aluminium-gallery" element={<AluminiumShuttersGallery />} />
+            <Route path="/shutters/aluminium-screens" element={<AluminiumScreens />} />
+            <Route path="/shutters/plantation" element={<PlantationShutters />} />
+            <Route path="/shutters/timber" element={<TimberShutters />} />
+            <Route path="/shutters/pvc" element={<PvcShutters />} />
+            <Route path="/shutters/exterior" element={<ExteriorShutters />} />
             
             {/* Curtains routes */}
             <Route path="/curtains/sheer" element={<SheerCurtains />} />
             <Route path="/curtains/blockout" element={<NotFound />} />
             <Route path="/curtains/s-fold" element={<NotFound />} />
             
-            {/* Shutters routes - keeping as placeholders for now */}
-            <Route path="/shutters/plantation" element={<NotFound />} />
-            <Route path="/shutters/timber" element={<NotFound />} />
-            <Route path="/shutters/exterior" element={<NotFound />} />
-            
-            {/* Awnings routes - keeping as placeholders for now */}
-            <Route path="/awnings/folding-arm" element={<NotFound />} />
-            <Route path="/awnings/straight-drop" element={<NotFound />} />
-            <Route path="/awnings/pivot-arm" element={<NotFound />} />
+            {/* Awnings routes */}
+            <Route path="/awnings/folding-arm" element={<FoldingArmAwnings />} />
+            <Route path="/awnings/straight-drop" element={<StraightDropAwnings />} />
+            <Route path="/awnings/pivot-arm" element={<PivotArmAwnings />} />
+            <Route path="/awnings/fixed-canopies" element={<FixedCanopies />} />
             
             {/* Information pages */}
             <Route path="/privacy-policy" element={<PrivacyPolicy />} />

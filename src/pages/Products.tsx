@@ -1,4 +1,3 @@
-
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
@@ -91,10 +90,6 @@ const Products = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
             <ProductContent productType="shutters" />
             <ProductContent productType="awnings" />
-          </div>
-          
-          <div className="max-w-2xl mx-auto mb-16">
-            <ProductContent productType="motorization" className="text-center" />
           </div>
         </section>
 

@@ -12,11 +12,11 @@ const categories = [
     link: "/blinds",
     subcategories: [
       { name: "Roller Blinds", link: "/blinds/roller" },
-      { name: "Roman Blinds", link: "/blinds/venetian" },
-      { name: "Venetian Blinds", link: "/blinds/vertical" },
-      { name: "Vertical Blinds", link: "/blinds/roman" },
-      { name: "Panel Glind Blinds", link: "/blinds/roman" },
-      { name: "HoneyComb Blinds", link: "/blinds/roman" },
+      { name: "Roman Blinds", link: "/blinds/roman" },
+      { name: "Venetian Blinds", link: "/blinds/venetian" },
+      { name: "Vertical Blinds", link: "/blinds/vertical" },
+      { name: "Panel Glide Blinds", link: "/blinds/panel-glides" },
+      { name: "Honeycomb Blinds", link: "/blinds/honeycomb" },
     ],
   },
   {
@@ -27,11 +27,12 @@ const categories = [
       "https://www.stylegroup.com.au/wp-content/uploads/2015/06/heritance_truview_living_3-536x1030.jpg",
     link: "/shutters",
     subcategories: [
-      { name: "Composite Shutters", link: "/shutters/plantation" },
-      { name: "Synthetic Shutters", link: "/shutters/timber" },
-      { name: "Plantation Timber Shutters", link: "/shutters/exterior" },
-      { name: "Aluminium Shutters", link: "/shutters/exterior" },
-      { name: "Roller Shutter Shutters", link: "/shutters/exterior" },
+      { name: "Aluminium Shutters Gallery", link: "/shutters/aluminium-gallery" },
+      { name: "Aluminium Screens", link: "/shutters/aluminium-screens" },
+      { name: "Plantation Shutters", link: "/shutters/plantation" },
+      { name: "Timber Shutters", link: "/shutters/timber" },
+      { name: "PVC Shutters", link: "/shutters/pvc" },
+      { name: "Exterior Shutters", link: "/shutters/exterior" },
     ],
   },
   {
@@ -43,8 +44,9 @@ const categories = [
     link: "/awnings",
     subcategories: [
       { name: "Folding Arm Awnings", link: "/awnings/folding-arm" },
-      { name: "Roller-Style Awnings", link: "/awnings/straight-drop" },
-      { name: "Ziptrak Awnings", link: "/awnings/pivot-arm" },
+      { name: "Straight Drop Awnings", link: "/awnings/straight-drop" },
+      { name: "Pivot Arm Awnings", link: "/awnings/pivot-arm" },
+      { name: "Fixed Canopies", link: "/awnings/fixed-canopies" },
     ],
   },
   {
@@ -55,8 +57,8 @@ const categories = [
       "https://www.stylegroup.com.au/wp-content/uploads/2015/06/Calypso-102-300x225.jpg",
     link: "/curtains",
     subcategories: [
-      { name: "Aluminium Shutters Gallery", link: "/curtains/" },
-      { name: "Aluminium Screens", link: "/curtains/blockout" },
+      { name: "Sheer Curtains", link: "/curtains/sheer" },
+      { name: "Blockout Curtains", link: "/curtains/blockout" },
     ],
   },
 ];

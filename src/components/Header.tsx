@@ -228,11 +228,6 @@ const Header = () => {
                         </Link>
                       </li>
                       <li>
-                        <Link to="/motorization" className="block py-1 hover:text-stylegroup-green transition-colors duration-300">
-                          Motorization
-                        </Link>
-                      </li>
-                      <li>
                         <Link to="/commercial" className="block py-1 hover:text-stylegroup-green transition-colors duration-300">
                           Commercial
                         </Link>
