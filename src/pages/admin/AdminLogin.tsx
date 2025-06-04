@@ -32,7 +32,7 @@ const AdminLogin = () => {
     const { error } = await signIn(email, password);
     
     if (error) {
-      setError('Invalid email or password');
+      setError(error.message || 'Invalid email or password');
     }
     
     setLoading(false);
@@ -90,7 +90,7 @@ const AdminLogin = () => {
               </div>
             </div>
             {error && (
-              <div className="text-red-600 text-sm">{error}</div>
+              <div className="text-red-600 text-sm bg-red-50 p-3 rounded-md">{error}</div>
             )}
             <Button
               type="submit"

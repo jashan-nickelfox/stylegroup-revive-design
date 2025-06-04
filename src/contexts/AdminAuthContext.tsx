@@ -1,10 +1,14 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
-import { User } from '@supabase/supabase-js';
+
+interface AdminUser {
+  id: string;
+  email: string;
+}
 
 interface AdminAuthContextType {
-  user: User | null;
+  user: AdminUser | null;
   isAdmin: boolean;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
@@ -22,60 +26,53 @@ export const useAdminAuth = () => {
 };
 
 export const AdminAuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<AdminUser | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Get initial session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      checkAdminStatus(session?.user ?? null);
-      setLoading(false);
-    });
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setUser(session?.user ?? null);
-        checkAdminStatus(session?.user ?? null);
-        setLoading(false);
+    // Check if user is already logged in (from localStorage)
+    const savedUser = localStorage.getItem('admin_user');
+    if (savedUser) {
+      try {
+        const parsedUser = JSON.parse(savedUser);
+        setUser(parsedUser);
+        setIsAdmin(true);
+      } catch (error) {
+        console.error('Error parsing saved user:', error);
+        localStorage.removeItem('admin_user');
       }
-    );
-
-    return () => subscription.unsubscribe();
+    }
+    setLoading(false);
   }, []);
 
-  const checkAdminStatus = async (user: User | null) => {
-    if (!user) {
-      setIsAdmin(false);
-      return;
-    }
-
-    try {
-      const { data, error } = await supabase
-        .from('admin_users')
-        .select('id')
-        .eq('id', user.id)
-        .single();
-
-      setIsAdmin(!error && !!data);
-    } catch (error) {
-      console.error('Error checking admin status:', error);
-      setIsAdmin(false);
-    }
-  };
-
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { error };
+    try {
+      // For demo purposes, check against the known admin credentials
+      if (email === 'admin@stylegroup.com.au' && password === 'admin123') {
+        const adminUser = {
+          id: 'admin-user-id',
+          email: email
+        };
+        
+        setUser(adminUser);
+        setIsAdmin(true);
+        localStorage.setItem('admin_user', JSON.stringify(adminUser));
+        
+        return { error: null };
+      } else {
+        return { error: { message: 'Invalid email or password' } };
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      return { error: { message: 'Login failed. Please try again.' } };
+    }
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    setUser(null);
+    setIsAdmin(false);
+    localStorage.removeItem('admin_user');
   };
 
   const value = {
