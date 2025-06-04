@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -44,13 +43,13 @@ const Blog = () => {
     },
     {
       id: 4,
-      title: "Motorized vs. Manual Blinds: Which Is Right for You?",
-      excerpt: "Explore the pros and cons of motorized and manual blinds to determine which option best suits your home and lifestyle needs.",
+      title: "Manual Blinds: Which Is Right for You?",
+      excerpt: "Explore the pros and cons of different manual blind options to determine which best suits your home and lifestyle needs.",
       image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
-      category: "Motorization",
+      category: "Blinds",
       author: "David Brown",
       date: "March 5, 2023",
-      slug: "motorized-vs-manual-blinds"
+      slug: "manual-blinds-comparison"
     },
     {
       id: 5,

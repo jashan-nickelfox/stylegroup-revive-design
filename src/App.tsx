@@ -42,6 +42,14 @@ import FixedCanopies from "./pages/products/FixedCanopies";
 import ProjectsList from "./pages/ProjectsList";
 import ProjectDetail from "./components/ProjectDetail";
 
+// Import blog pages
+import HowToChoosePerfectBlinds from "./pages/blog/HowToChoosePerfectBlinds";
+import PlantationShuttersGuide from "./pages/blog/PlantationShuttersGuide";
+import KeepHomeCoolSummer from "./pages/blog/KeepHomeCoolSummer";
+import ManualBlindsComparison from "./pages/blog/ManualBlindsComparison";
+import LatestCurtainTrends from "./pages/blog/LatestCurtainTrends";
+import ChallengingWindows from "./pages/blog/ChallengingWindows";
+
 // Import other page placeholders
 import Services from "./pages/Services";
 import Products from "./pages/Products";
@@ -77,6 +85,14 @@ const App = () => (
             <Route path="/projects" element={<ProjectsList />} />
             <Route path="/projects/:id" element={<ProjectDetail />} />
             <Route path="/crimsafe" element={<CrimsafePage />} />
+            
+            {/* Blog article routes */}
+            <Route path="/blog/how-to-choose-perfect-blinds" element={<HowToChoosePerfectBlinds />} />
+            <Route path="/blog/plantation-shutters-ultimate-guide" element={<PlantationShuttersGuide />} />
+            <Route path="/blog/keep-home-cool-summer-window-furnishings" element={<KeepHomeCoolSummer />} />
+            <Route path="/blog/manual-blinds-comparison" element={<ManualBlindsComparison />} />
+            <Route path="/blog/latest-curtain-trends" element={<LatestCurtainTrends />} />
+            <Route path="/blog/window-treatments-challenging-windows" element={<ChallengingWindows />} />
             
             {/* Main product category routes */}
             <Route path="/blinds" element={<Blinds />} />
