@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AdminAuthProvider } from "@/contexts/AdminAuthContext";
 import Index from "./pages/Index";
+import NotFound from "./pages/NotFound";
 
 // Import product pages
 import Blinds from "./pages/products/Blinds";
@@ -28,6 +30,9 @@ import PlantationShutters from "./pages/products/PlantationShutters";
 import TimberShutters from "./pages/products/TimberShutters";
 import PvcShutters from "./pages/products/PvcShutters";
 import ExteriorShutters from "./pages/products/ExteriorShutters";
+
+// Import curtain pages
+import SheerCurtains from "./pages/curtains/SheerCurtains";
 
 // Import awning pages
 import FoldingArmAwnings from "./pages/products/FoldingArmAwnings";
