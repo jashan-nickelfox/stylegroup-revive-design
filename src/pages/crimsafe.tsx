@@ -9,6 +9,22 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Shield, Lock, Eye, Award, Clock, Wrench } from "lucide-react";
 
 const CrimsafePage = () => {
+  const protectionLevels = [
+    { title: 'Regular', description: 'Essential protection for your home and family' },
+    { title: 'Classic', description: 'The new benchmark in security screens' },
+    { title: 'Ultimate', description: 'Take your home security to the next level' },
+    { title: 'iQ', description: 'Australia\'s first smart digital mesh security screen' },
+  ];
+
+  const features = [
+    { icon: Shield, title: 'Strength', description: 'Crimsafe has been tested to be FIVE TIMES stronger than the Australian Standard.' },
+    { icon: Lock, title: 'Fastening Method', description: 'Screw-Clamped Mesh – creates a barrier that cannot be kicked in.' },
+    { icon: Award, title: 'Warranty', description: '12 Years of protection covered under your Crimsafe extended warranty.' },
+    { icon: Wrench, title: 'Clamping System', description: 'Exclusive Screw-Clamp technology ensures a barrier that cannot be kicked in.' },
+    { icon: Eye, title: 'Locking Options', description: 'Can be mechanical or electronic (allowing access by Keypad, Bluetooth or Keyfob)' },
+    { icon: Clock, title: 'Stainless Mesh', description: 'Crimsafe Tensile-Tuff stainless steel mesh is 26.5% thicker than typical stainless steel mesh.' },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -51,12 +67,7 @@ const CrimsafePage = () => {
         <section className="max-w-5xl mx-auto px-4 py-12">
           <h3 className="text-2xl font-semibold text-center mb-8">Four Levels of Protection for Your Home or Business</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { title: 'Regular', description: 'Essential protection for your home and family' },
-              { title: 'Classic', description: 'The new benchmark in security screens' },
-              { title: 'Ultimate', description: 'Take your home security to the next level' },
-              { title: 'iQ', description: 'Australia\'s first smart digital mesh security screen' },
-            ].map((item, index) => (
+            {protectionLevels.map((item, index) => (
               <div key={index} className="bg-white p-6 rounded shadow hover:shadow-lg transition-shadow">
                 <h4 className="text-xl font-bold mb-2">Crimsafe® {item.title}</h4>
                 <p className="text-gray-700">{item.description}</p>
@@ -70,14 +81,7 @@ const CrimsafePage = () => {
           <div className="max-w-5xl mx-auto px-4">
             <h3 className="text-2xl font-semibold text-center mb-8">Crimsafe Product Features</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[
-                { icon: Shield, title: 'Strength', description: 'Crimsafe has been tested to be FIVE TIMES stronger than the Australian Standard.' },
-                { icon: Lock, title: 'Fastening Method', description: ''Screw-Clamped' Mesh – creates a barrier that cannot be kicked in.' },
-                { icon: Award, title: 'Warranty', description: '12 Years of protection covered under your Crimsafe extended warranty.' },
-                { icon: Wrench, title: 'Clamping System', description: 'Exclusive Screw-Clamp™ technology ensures a barrier that cannot be kicked in.' },
-                { icon: Eye, title: 'Locking Options', description: 'Can be mechanical or electronic (allowing access by Keypad, Bluetooth or Keyfob)' },
-                { icon: Clock, title: 'Stainless Mesh', description: 'Crimsafe Tensile-Tuff® stainless steel mesh is 26.5% thicker than typical stainless steel mesh.' },
-              ].map((feature, index) => (
+              {features.map((feature, index) => (
                 <div key={index} className="bg-white p-6 rounded shadow hover:shadow-lg transition-shadow">
                   <div className="flex items-center mb-3">
                     <feature.icon className="h-6 w-6 text-stylegroup-green mr-3" />
