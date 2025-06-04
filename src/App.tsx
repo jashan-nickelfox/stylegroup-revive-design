@@ -1,13 +1,10 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "@/components/theme/ThemeProvider";
+import { AdminAuthProvider } from "@/contexts/AdminAuthContext";
 import Index from "./pages/Index";
-import SheerCurtains from "./pages/curtains/SheerCurtains";
-import NotFound from "./pages/NotFound";
 
 // Import product pages
 import Blinds from "./pages/products/Blinds";
@@ -63,11 +60,18 @@ import Sitemap from "./pages/Sitemap";
 import FAQs from "./pages/FAQs";
 import CrimsafePage from "./pages/crimsafe";
 
+// Admin imports
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import HeroManagement from "./pages/admin/HeroManagement";
+import ProductManagement from "./pages/admin/ProductManagement";
+import InquiryManagement from "./pages/admin/InquiryManagement";
+
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
+    <AdminAuthProvider>
       <TooltipProvider>
         <Toaster />
         <Sonner />
@@ -134,12 +138,20 @@ const App = () => (
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/sitemap" element={<Sitemap />} />
             
-            {/* Catch-all route */}
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/hero" element={<HeroManagement />} />
+            <Route path="/admin/products" element={<ProductManagement />} />
+            <Route path="/admin/services" element={<ProductManagement />} />
+            <Route path="/admin/footer" element={<HeroManagement />} />
+            <Route path="/admin/inquiries" element={<InquiryManagement />} />
+            
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
       </TooltipProvider>
-    </ThemeProvider>
+    </AdminAuthProvider>
   </QueryClientProvider>
 );
 
