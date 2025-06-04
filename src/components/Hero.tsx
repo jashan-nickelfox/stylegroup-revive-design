@@ -4,50 +4,84 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import ContinuousCarousel from "./ContinuousCarousel";
+import { supabase } from "@/integrations/supabase/client";
 
-const heroContent = [
+interface HeroContent {
+  title: string;
+  subtitle: string;
+  description: string;
+  background_image?: string | null;
+}
+
+const staticContent: HeroContent[] = [
   {
     title: "Luxurious Flooring Solutions",
     subtitle: "Style Meets Durability",
     description:
       "Transform your interiors with premium flooring designed for aesthetics and performance. Ideal for Brisbane homes, crafted for lasting comfort and beauty.",
+    background_image: "/flooring.jpg",
   },
   {
     title: "Premium Blinds for Style, Comfort & Control",
     subtitle: "Perfect Light Control",
     description:
       "Discover our tailored blinds that seamlessly combine style, privacy, and energy efficiency. From sleek rollers to timeless venetians.",
+    background_image: "/blinds.jpg",
   },
   {
     title: "Architectural Shutters That Define Elegance",
     subtitle: "Durability & Design",
     description:
       "Engineered for performance and crafted with elegance, our premium shutters offer unmatched durability and refined aesthetics.",
+    background_image: "/shutters.jpg",
   },
   {
     title: "Stylish All-Weather Awnings for Outdoor Living",
     subtitle: "Outdoor Elegance",
     description:
       "Step into outdoor comfort with our all-weather awnings designed for year-round protection and aesthetic charm. Engineered to shield your home from harsh sun, wind, and rain",
-  },  
+    background_image: "/awnings.jpg",
+  },
 ];
 
 const Hero = () => {
   const navigate = useNavigate();
+  const [heroContent, setHeroContent] = useState<HeroContent[]>(staticContent);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [typingDone, setTypingDone] = useState(false);
 
-  const { title, subtitle, description } = heroContent[currentIndex];
+  useEffect(() => {
+    fetchHeroContent();
+  }, []);
 
   useEffect(() => {
-    if (typingDone) {
+    if (typingDone && heroContent.length > 1) {
       const timer = setTimeout(() => {
         setCurrentIndex((prev) => (prev + 1) % heroContent.length);
         setTypingDone(false);
       }, 1500);
       return () => clearTimeout(timer);
     }
-  }, [typingDone]);
+  }, [typingDone, heroContent]);
+
+  const fetchHeroContent = async () => {
+    const { data, error } = await supabase
+      .from("hero_content")
+      .select("*")
+      .eq("is_active", true)
+      .order("updated_at", { ascending: false });
+
+    if (!error && data) {
+      const supabaseContent: HeroContent[] = data.map((item) => ({
+        title: item.title,
+        subtitle: item.subtitle,
+        description: item.description,
+        background_image: item.background_image || "/fallback.jpg",
+      }));
+
+      setHeroContent([...staticContent, ...supabaseContent]);
+    }
+  };
 
   const scrollToQuote = () => {
     const quoteSection = document.getElementById("quote");
@@ -56,10 +90,19 @@ const Hero = () => {
     }
   };
 
+  const { title, subtitle, description } = heroContent[currentIndex];
+
   return (
     <section className="relative h-screen min-h-[600px] w-full bg-gradient overflow-hidden">
       <div className="absolute inset-0 -z-10">
-        <ContinuousCarousel currentIndex={currentIndex} />
+        <ContinuousCarousel
+          currentIndex={currentIndex}
+          images={heroContent.map((item) => ({
+            url: item.background_image || "/fallback.jpg",
+            alt: item.title,
+            label: item.title,
+          }))}
+        />
       </div>
 
       <div className="container h-full flex flex-col justify-center mt-24">
@@ -67,7 +110,6 @@ const Hero = () => {
           key={currentIndex}
           className="max-w-3xl p-6 opacity-0 animate-fade-in transition-opacity duration-700 ease-in-out min-h-[380px] flex flex-col justify-between"
         >
-          {/* Heading & Subtitle */}
           <div>
             <h1 className="text-white font-serif text-3xl sm:text-5xl lg:text-6xl font-medium mb-6">
               {title}
@@ -78,7 +120,7 @@ const Hero = () => {
                 wrapper="span"
                 speed={40}
                 repeat={0}
-                className="text-stylegroup-green  font-semibold"
+                className="text-stylegroup-green font-semibold"
                 style={{ textShadow: "2px 2px white", display: "inline-block" }}
               />
             </h1>
@@ -88,7 +130,6 @@ const Hero = () => {
             </p>
           </div>
 
-          {/* Fixed Button Group */}
           <div className="flex flex-col sm:flex-row gap-4">
             <Button
               onClick={scrollToQuote}
@@ -98,7 +139,7 @@ const Hero = () => {
               Request Free Quote
             </Button>
             <Button
-              onClick={() => navigate('/products')}
+              onClick={() => navigate("/products")}
               size="lg"
               className="bg-white text-stylegroup-green hover:bg-stylegroup-green hover:text-white flex items-center gap-2 transition-colors duration-300"
             >

@@ -69,6 +69,7 @@ import CrimsafePage from "./pages/crimsafe";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import HeroManagement from "./pages/admin/HeroManagement";
+import FooterManagement from "./pages/admin/FooterManagment";
 import ProductManagement from "./pages/admin/ProductManagement";
 import InquiryManagement from "./pages/admin/InquiryManagement";
 
@@ -149,7 +150,7 @@ const App = () => (
             <Route path="/admin/hero" element={<HeroManagement />} />
             <Route path="/admin/products" element={<ProductManagement />} />
             <Route path="/admin/services" element={<ProductManagement />} />
-            <Route path="/admin/footer" element={<HeroManagement />} />
+            <Route path="/admin/footer" element={<FooterManagement />} />
             <Route path="/admin/inquiries" element={<InquiryManagement />} />
             
             <Route path="*" element={<NotFound />} />
