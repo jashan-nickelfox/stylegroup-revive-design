@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -63,7 +62,7 @@ const Commercial = () => {
             <h1 className="section-title text-center mb-8">Commercial Solutions</h1>
             
             <div className="mb-10">
-              <ProductContent productType="awnings" />
+              <ProductContent productSlug="commercial-awnings" />
             </div>
             
             <div className="my-12">

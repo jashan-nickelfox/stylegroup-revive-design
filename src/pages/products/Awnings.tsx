@@ -1,4 +1,3 @@
-
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -28,7 +27,7 @@ const Awnings = () => {
             <h1 className="section-title text-center mb-8">Awnings</h1>
             
             <div className="mb-10">
-              <ProductContent productType="awnings" />
+              <ProductContent productSlug="awnings" />
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-12">
