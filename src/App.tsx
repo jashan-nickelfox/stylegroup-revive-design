@@ -71,6 +71,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import HeroManagement from "./pages/admin/HeroManagement";
 import FooterManagement from "./pages/admin/FooterManagment";
 import ProductManagement from "./pages/admin/ProductManagement";
+import ServicesManagement from "./pages/admin/ServicesManagement";
 import InquiryManagement from "./pages/admin/InquiryManagement";
 
 const queryClient = new QueryClient();
