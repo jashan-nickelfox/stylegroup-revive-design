@@ -9,17 +9,20 @@ import { Textarea } from '@/components/ui/textarea';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus } from 'lucide-react';
+import { Pencil, Trash2, Plus, Upload, X } from 'lucide-react';
 
 interface Product {
   id: string;
   name: string;
   category: string;
   description: string;
+  intro: string;
+  slug: string;
   price: number;
   image_url: string;
   features: string[];
   is_active: boolean;
+  order_index: number;
 }
 
 const ProductManagement = () => {
@@ -28,18 +31,43 @@ const ProductManagement = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     category: '',
     description: '',
+    intro: '',
+    slug: '',
     price: 0,
     image_url: '',
     features: '',
+    order_index: 0,
   });
   const { toast } = useToast();
 
   useEffect(() => {
     fetchProducts();
+    
+    // Set up real-time subscription
+    const channel = supabase
+      .channel('products-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'products'
+        },
+        () => {
+          console.log('Products changed, refetching...');
+          fetchProducts();
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const fetchProducts = async () => {
@@ -48,7 +76,7 @@ const ProductManagement = () => {
       const { data, error } = await supabase
         .from('products')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('order_index', { ascending: true });
 
       if (error) {
         console.error('Error fetching products:', error);
@@ -69,6 +97,43 @@ const ProductManagement = () => {
     }
   };
 
+  const generateSlug = (name: string) => {
+    return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+  };
+
+  const handleImageUpload = async (file: File) => {
+    try {
+      setUploading(true);
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
+      const filePath = `products/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('product-images')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data } = supabase.storage
+        .from('product-images')
+        .getPublicUrl(filePath);
+
+      setFormData({ ...formData, image_url: data.publicUrl });
+      toast({ title: 'Success', description: 'Image uploaded successfully' });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to upload image',
+        variant: 'destructive',
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
@@ -78,6 +143,7 @@ const ProductManagement = () => {
         ...formData,
         features: formData.features.split(',').map(f => f.trim()).filter(f => f),
         is_active: true,
+        slug: formData.slug || generateSlug(formData.name),
       };
 
       if (editingProduct) {
@@ -98,7 +164,6 @@ const ProductManagement = () => {
       }
 
       resetForm();
-      fetchProducts();
     } catch (error) {
       console.error('Error saving product:', error);
       toast({
@@ -117,9 +182,12 @@ const ProductManagement = () => {
       name: product.name,
       category: product.category,
       description: product.description || '',
+      intro: product.intro || '',
+      slug: product.slug || '',
       price: product.price || 0,
       image_url: product.image_url || '',
       features: product.features?.join(', ') || '',
+      order_index: product.order_index || 0,
     });
     setShowForm(true);
   };
@@ -136,7 +204,6 @@ const ProductManagement = () => {
       if (error) throw error;
       
       toast({ title: 'Success', description: 'Product deleted successfully' });
-      fetchProducts();
     } catch (error) {
       console.error('Error deleting product:', error);
       toast({
@@ -152,9 +219,12 @@ const ProductManagement = () => {
       name: '',
       category: '',
       description: '',
+      intro: '',
+      slug: '',
       price: 0,
       image_url: '',
       features: '',
+      order_index: 0,
     });
     setEditingProduct(null);
     setShowForm(false);
@@ -196,16 +266,23 @@ const ProductManagement = () => {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Product Name</Label>
+                    <Label htmlFor="name">Product Name *</Label>
                     <Input
                       id="name"
                       value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      onChange={(e) => {
+                        const name = e.target.value;
+                        setFormData({ 
+                          ...formData, 
+                          name,
+                          slug: formData.slug || generateSlug(name)
+                        });
+                      }}
                       required
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="category">Category</Label>
+                    <Label htmlFor="category">Category *</Label>
                     <Input
                       id="category"
                       value={formData.category}
@@ -214,14 +291,47 @@ const ProductManagement = () => {
                     />
                   </div>
                 </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="slug">Slug</Label>
+                    <Input
+                      id="slug"
+                      value={formData.slug}
+                      onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                      placeholder="auto-generated-from-name"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="order_index">Display Order</Label>
+                    <Input
+                      id="order_index"
+                      type="number"
+                      value={formData.order_index}
+                      onChange={(e) => setFormData({ ...formData, order_index: parseInt(e.target.value) || 0 })}
+                    />
+                  </div>
+                </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
+                  <Label htmlFor="intro">Short Description (for cards) *</Label>
+                  <Textarea
+                    id="intro"
+                    value={formData.intro}
+                    onChange={(e) => setFormData({ ...formData, intro: e.target.value })}
+                    rows={2}
+                    placeholder="Brief description shown on product cards"
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="description">Full Description</Label>
                   <Textarea
                     id="description"
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                    rows={3}
+                    rows={4}
                   />
                 </div>
                 
@@ -237,23 +347,44 @@ const ProductManagement = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="image_url">Image URL</Label>
-                    <Input
-                      id="image_url"
-                      value={formData.image_url}
-                      onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                    />
+                    <Label>Product Image</Label>
+                    <div className="flex items-center gap-2">
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleImageUpload(file);
+                        }}
+                        disabled={uploading}
+                      />
+                      {uploading && <span className="text-sm text-gray-500">Uploading...</span>}
+                    </div>
+                    {formData.image_url && (
+                      <div className="relative">
+                        <img src={formData.image_url} alt="Preview" className="w-32 h-32 object-cover rounded" />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="absolute top-1 right-1"
+                          onClick={() => setFormData({ ...formData, image_url: '' })}
+                        >
+                          <X className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="features">Features (comma-separated)</Label>
+                  <Label htmlFor="features">Key Features (comma-separated)</Label>
                   <Textarea
                     id="features"
                     value={formData.features}
                     onChange={(e) => setFormData({ ...formData, features: e.target.value })}
                     placeholder="Feature 1, Feature 2, Feature 3"
-                    rows={2}
+                    rows={3}
                   />
                 </div>
 
@@ -261,7 +392,7 @@ const ProductManagement = () => {
                   <Button type="button" variant="outline" onClick={resetForm}>
                     Cancel
                   </Button>
-                  <Button type="submit" disabled={saving} className="bg-stylegroup-green hover:bg-stylegroup-green/90">
+                  <Button type="submit" disabled={saving || uploading} className="bg-stylegroup-green hover:bg-stylegroup-green/90">
                     {saving ? 'Saving...' : editingProduct ? 'Update Product' : 'Create Product'}
                   </Button>
                 </div>
@@ -283,8 +414,10 @@ const ProductManagement = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead>Image</TableHead>
                     <TableHead>Name</TableHead>
                     <TableHead>Category</TableHead>
+                    <TableHead>Order</TableHead>
                     <TableHead>Price</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Actions</TableHead>
@@ -293,8 +426,14 @@ const ProductManagement = () => {
                 <TableBody>
                   {products.map((product) => (
                     <TableRow key={product.id}>
+                      <TableCell>
+                        {product.image_url && (
+                          <img src={product.image_url} alt={product.name} className="w-12 h-12 object-cover rounded" />
+                        )}
+                      </TableCell>
                       <TableCell className="font-medium">{product.name}</TableCell>
                       <TableCell>{product.category}</TableCell>
+                      <TableCell>{product.order_index}</TableCell>
                       <TableCell>${product.price?.toFixed(2) || '0.00'}</TableCell>
                       <TableCell>
                         <span className={`px-2 py-1 rounded-full text-xs ${

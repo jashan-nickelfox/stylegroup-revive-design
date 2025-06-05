@@ -215,9 +215,13 @@ export type Database = {
           features: string[] | null
           id: string
           image_url: string | null
+          intro: string | null
           is_active: boolean | null
           name: string
+          order_index: number | null
           price: number | null
+          slug: string | null
+          subtitle: string | null
           updated_at: string | null
         }
         Insert: {
@@ -227,9 +231,13 @@ export type Database = {
           features?: string[] | null
           id?: string
           image_url?: string | null
+          intro?: string | null
           is_active?: boolean | null
           name: string
+          order_index?: number | null
           price?: number | null
+          slug?: string | null
+          subtitle?: string | null
           updated_at?: string | null
         }
         Update: {
@@ -239,9 +247,13 @@ export type Database = {
           features?: string[] | null
           id?: string
           image_url?: string | null
+          intro?: string | null
           is_active?: boolean | null
           name?: string
+          order_index?: number | null
           price?: number | null
+          slug?: string | null
+          subtitle?: string | null
           updated_at?: string | null
         }
         Relationships: []

@@ -2,11 +2,11 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import FloatingContact from "@/components/FloatingContact";
-import ProductCategories from "@/components/ProductCategories";
 import ProductContent from "@/components/ProductContent";
 import { Button } from "@/components/ui/button";
 import { useNavigate, Link } from "react-router-dom";
 import { ArrowRight, Check } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 // Define product categories with descriptions and features
 const productFeatures = [
@@ -44,6 +44,34 @@ const productFeatures = [
 
 const Products = () => {
   const navigate = useNavigate();
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('is_active', true)
+        .order('order_index', { ascending: true });
+
+      if (error) {
+        console.error('Error fetching products:', error);
+        return;
+      }
+
+      setProducts(data || []);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleGetQuote = () => {
     navigate('/', { state: { scrollToSection: 'quote' } });
@@ -82,15 +110,28 @@ const Products = () => {
         </section>
 
         <section className="container py-12">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-            <ProductContent productType="blinds" />
-            <ProductContent productType="curtains" />
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
-            <ProductContent productType="shutters" />
-            <ProductContent productType="awnings" />
-          </div>
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="animate-pulse">
+                  <div className="h-6 bg-gray-200 rounded mb-3 w-3/4"></div>
+                  <div className="h-4 bg-gray-200 rounded mb-6"></div>
+                  <div className="h-48 bg-gray-200 rounded mb-6"></div>
+                  <div className="space-y-2">
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                    <div className="h-4 bg-gray-200 rounded"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
+              {products.map((product) => (
+                <ProductContent key={product.id} productSlug={product.slug} />
+              ))}
+            </div>
+          )}
         </section>
 
         <section className="py-16 bg-stylegroup-lightgray">
