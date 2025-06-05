@@ -11,57 +11,55 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Pencil, Trash2, Plus } from 'lucide-react';
 
-interface Product {
+interface Service {
   id: string;
-  name: string;
-  category: string;
+  title: string;
   description: string;
-  price: number;
+  icon: string;
   image_url: string;
-  features: string[];
+  order_index: number;
   is_active: boolean;
 }
 
-const ProductManagement = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+const ServicesManagement = () => {
+  const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [editingService, setEditingService] = useState<Service | null>(null);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    category: '',
+    title: '',
     description: '',
-    price: 0,
+    icon: '',
     image_url: '',
-    features: '',
+    order_index: 0,
   });
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchProducts();
+    fetchServices();
   }, []);
 
-  const fetchProducts = async () => {
+  const fetchServices = async () => {
     try {
       setLoading(true);
       const { data, error } = await supabase
-        .from('products')
+        .from('services')
         .select('*')
-        .order('created_at', { ascending: false });
+        .order('order_index', { ascending: true });
 
       if (error) {
-        console.error('Error fetching products:', error);
+        console.error('Error fetching services:', error);
         throw error;
       }
       
-      console.log('Fetched products:', data);
-      setProducts(data || []);
+      console.log('Fetched services:', data);
+      setServices(data || []);
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error('Error fetching services:', error);
       toast({
         title: 'Error',
-        description: 'Failed to fetch products',
+        description: 'Failed to fetch services',
         variant: 'destructive',
       });
     } finally {
@@ -74,36 +72,35 @@ const ProductManagement = () => {
     setSaving(true);
     
     try {
-      const productData = {
+      const serviceData = {
         ...formData,
-        features: formData.features.split(',').map(f => f.trim()).filter(f => f),
         is_active: true,
       };
 
-      if (editingProduct) {
+      if (editingService) {
         const { error } = await supabase
-          .from('products')
-          .update(productData)
-          .eq('id', editingProduct.id);
+          .from('services')
+          .update(serviceData)
+          .eq('id', editingService.id);
         
         if (error) throw error;
-        toast({ title: 'Success', description: 'Product updated successfully' });
+        toast({ title: 'Success', description: 'Service updated successfully' });
       } else {
         const { error } = await supabase
-          .from('products')
-          .insert([productData]);
+          .from('services')
+          .insert([serviceData]);
         
         if (error) throw error;
-        toast({ title: 'Success', description: 'Product created successfully' });
+        toast({ title: 'Success', description: 'Service created successfully' });
       }
 
       resetForm();
-      fetchProducts();
+      fetchServices();
     } catch (error) {
-      console.error('Error saving product:', error);
+      console.error('Error saving service:', error);
       toast({
         title: 'Error',
-        description: 'Failed to save product',
+        description: 'Failed to save service',
         variant: 'destructive',
       });
     } finally {
@@ -111,37 +108,36 @@ const ProductManagement = () => {
     }
   };
 
-  const handleEdit = (product: Product) => {
-    setEditingProduct(product);
+  const handleEdit = (service: Service) => {
+    setEditingService(service);
     setFormData({
-      name: product.name,
-      category: product.category,
-      description: product.description || '',
-      price: product.price || 0,
-      image_url: product.image_url || '',
-      features: product.features?.join(', ') || '',
+      title: service.title,
+      description: service.description,
+      icon: service.icon || '',
+      image_url: service.image_url || '',
+      order_index: service.order_index || 0,
     });
     setShowForm(true);
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this product?')) return;
+    if (!confirm('Are you sure you want to delete this service?')) return;
 
     try {
       const { error } = await supabase
-        .from('products')
+        .from('services')
         .delete()
         .eq('id', id);
 
       if (error) throw error;
       
-      toast({ title: 'Success', description: 'Product deleted successfully' });
-      fetchProducts();
+      toast({ title: 'Success', description: 'Service deleted successfully' });
+      fetchServices();
     } catch (error) {
-      console.error('Error deleting product:', error);
+      console.error('Error deleting service:', error);
       toast({
         title: 'Error',
-        description: 'Failed to delete product',
+        description: 'Failed to delete service',
         variant: 'destructive',
       });
     }
@@ -149,14 +145,13 @@ const ProductManagement = () => {
 
   const resetForm = () => {
     setFormData({
-      name: '',
-      category: '',
+      title: '',
       description: '',
-      price: 0,
+      icon: '',
       image_url: '',
-      features: '',
+      order_index: 0,
     });
-    setEditingProduct(null);
+    setEditingService(null);
     setShowForm(false);
   };
 
@@ -164,7 +159,7 @@ const ProductManagement = () => {
     return (
       <AdminLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg">Loading products...</div>
+          <div className="text-lg">Loading services...</div>
         </div>
       </AdminLayout>
     );
@@ -175,42 +170,42 @@ const ProductManagement = () => {
       <div className="space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Product Management</h1>
-            <p className="text-gray-600">Manage your products catalog</p>
+            <h1 className="text-3xl font-bold text-gray-900">Services Management</h1>
+            <p className="text-gray-600">Manage your services offerings</p>
           </div>
           <Button
             onClick={() => setShowForm(true)}
             className="bg-stylegroup-green hover:bg-stylegroup-green/90"
           >
             <Plus className="h-4 w-4 mr-2" />
-            Add Product
+            Add Service
           </Button>
         </div>
 
         {showForm && (
           <Card>
             <CardHeader>
-              <CardTitle>{editingProduct ? 'Edit Product' : 'Add New Product'}</CardTitle>
+              <CardTitle>{editingService ? 'Edit Service' : 'Add New Service'}</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">Product Name</Label>
+                    <Label htmlFor="title">Service Title</Label>
                     <Input
-                      id="name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      id="title"
+                      value={formData.title}
+                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                       required
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="category">Category</Label>
+                    <Label htmlFor="icon">Icon Name (Lucide React)</Label>
                     <Input
-                      id="category"
-                      value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      required
+                      id="icon"
+                      value={formData.icon}
+                      onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
+                      placeholder="e.g., Home, Settings, Users"
                     />
                   </div>
                 </div>
@@ -222,20 +217,11 @@ const ProductManagement = () => {
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     rows={3}
+                    required
                   />
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="price">Price</Label>
-                    <Input
-                      id="price"
-                      type="number"
-                      step="0.01"
-                      value={formData.price}
-                      onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
-                    />
-                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="image_url">Image URL</Label>
                     <Input
@@ -244,17 +230,15 @@ const ProductManagement = () => {
                       onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
                     />
                   </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="features">Features (comma-separated)</Label>
-                  <Textarea
-                    id="features"
-                    value={formData.features}
-                    onChange={(e) => setFormData({ ...formData, features: e.target.value })}
-                    placeholder="Feature 1, Feature 2, Feature 3"
-                    rows={2}
-                  />
+                  <div className="space-y-2">
+                    <Label htmlFor="order_index">Display Order</Label>
+                    <Input
+                      id="order_index"
+                      type="number"
+                      value={formData.order_index}
+                      onChange={(e) => setFormData({ ...formData, order_index: parseInt(e.target.value) || 0 })}
+                    />
+                  </div>
                 </div>
 
                 <div className="flex justify-end space-x-2">
@@ -262,7 +246,7 @@ const ProductManagement = () => {
                     Cancel
                   </Button>
                   <Button type="submit" disabled={saving} className="bg-stylegroup-green hover:bg-stylegroup-green/90">
-                    {saving ? 'Saving...' : editingProduct ? 'Update Product' : 'Create Product'}
+                    {saving ? 'Saving...' : editingService ? 'Update Service' : 'Create Service'}
                   </Button>
                 </div>
               </form>
@@ -272,37 +256,37 @@ const ProductManagement = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Products List ({products.length} total)</CardTitle>
+            <CardTitle>Services List ({services.length} total)</CardTitle>
           </CardHeader>
           <CardContent>
-            {products.length === 0 ? (
+            {services.length === 0 ? (
               <div className="text-center py-8">
-                <p className="text-gray-500">No products found. Add your first product to get started.</p>
+                <p className="text-gray-500">No services found. Add your first service to get started.</p>
               </div>
             ) : (
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Category</TableHead>
-                    <TableHead>Price</TableHead>
+                    <TableHead>Title</TableHead>
+                    <TableHead>Description</TableHead>
+                    <TableHead>Order</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {products.map((product) => (
-                    <TableRow key={product.id}>
-                      <TableCell className="font-medium">{product.name}</TableCell>
-                      <TableCell>{product.category}</TableCell>
-                      <TableCell>${product.price?.toFixed(2) || '0.00'}</TableCell>
+                  {services.map((service) => (
+                    <TableRow key={service.id}>
+                      <TableCell className="font-medium">{service.title}</TableCell>
+                      <TableCell className="max-w-md truncate">{service.description}</TableCell>
+                      <TableCell>{service.order_index}</TableCell>
                       <TableCell>
                         <span className={`px-2 py-1 rounded-full text-xs ${
-                          product.is_active 
+                          service.is_active 
                             ? 'bg-green-100 text-green-800' 
                             : 'bg-red-100 text-red-800'
                         }`}>
-                          {product.is_active ? 'Active' : 'Inactive'}
+                          {service.is_active ? 'Active' : 'Inactive'}
                         </span>
                       </TableCell>
                       <TableCell>
@@ -310,14 +294,14 @@ const ProductManagement = () => {
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => handleEdit(product)}
+                            onClick={() => handleEdit(service)}
                           >
                             <Pencil className="h-4 w-4" />
                           </Button>
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => handleDelete(product.id)}
+                            onClick={() => handleDelete(service.id)}
                           >
                             <Trash2 className="h-4 w-4" />
                           </Button>
@@ -335,4 +319,4 @@ const ProductManagement = () => {
   );
 };
 
-export default ProductManagement;
+export default ServicesManagement;
