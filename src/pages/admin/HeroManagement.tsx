@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus, Upload } from 'lucide-react';
+import { Pencil, Trash2, Plus, Upload, X } from 'lucide-react';
 
 interface HeroContent {
   id: string;
@@ -66,26 +66,32 @@ const HeroManagement = () => {
     }
   };
 
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    // For now, we'll just use a placeholder URL
-    // In a real implementation, you would upload to Supabase Storage
-    setUploading(true);
+  const handleFileUpload = async (file: File) => {
     try {
-      // Simulate upload delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // For demonstration, we'll use a placeholder URL
-      const imageUrl = `https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=1200&h=800&fit=crop`;
-      
-      setFormData({ ...formData, background_image: imageUrl });
+      setUploading(true);
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
+      const filePath = `hero/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('hero-images')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data } = supabase.storage
+        .from('hero-images')
+        .getPublicUrl(filePath);
+
+      setFormData({ ...formData, background_image: data.publicUrl });
       toast({
         title: 'Success',
-        description: 'Image uploaded successfully (demo)',
+        description: 'Image uploaded successfully',
       });
     } catch (error) {
+      console.error('Error uploading image:', error);
       toast({
         title: 'Error',
         description: 'Failed to upload image',
@@ -255,42 +261,39 @@ const HeroManagement = () => {
                 <div className="space-y-2">
                   <Label>Background Image</Label>
                   <div className="space-y-4">
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center gap-2">
                       <Input
                         type="file"
                         accept="image/*"
-                        onChange={handleFileUpload}
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleFileUpload(file);
+                        }}
                         disabled={uploading}
-                        className="hidden"
-                        id="file-upload"
                       />
-                      <Label htmlFor="file-upload" className="cursor-pointer">
-                        <Button
-                          type="button"
-                          variant="outline"
-                          disabled={uploading}
-                          asChild
-                        >
-                          <span>
-                            <Upload className="h-4 w-4 mr-2" />
-                            {uploading ? 'Uploading...' : 'Upload Image'}
-                          </span>
-                        </Button>
-                      </Label>
-                      <span className="text-sm text-gray-500">or enter URL below</span>
+                      {uploading && <span className="text-sm text-gray-500">Uploading...</span>}
                     </div>
                     <Input
                       value={formData.background_image}
                       onChange={(e) => setFormData({ ...formData, background_image: e.target.value })}
-                      placeholder="Enter image URL"
+                      placeholder="Or enter image URL"
                     />
                     {formData.background_image && (
-                      <div className="mt-2">
+                      <div className="relative">
                         <img
                           src={formData.background_image}
                           alt="Preview"
-                          className="w-32 h-20 object-cover rounded border"
+                          className="w-48 h-32 object-cover rounded border"
                         />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="absolute top-1 right-1"
+                          onClick={() => setFormData({ ...formData, background_image: '' })}
+                        >
+                          <X className="h-3 w-3" />
+                        </Button>
                       </div>
                     )}
                   </div>
@@ -302,7 +305,7 @@ const HeroManagement = () => {
                   </Button>
                   <Button
                     type="submit"
-                    disabled={saving}
+                    disabled={saving || uploading}
                     className="bg-stylegroup-green hover:bg-stylegroup-green/90"
                   >
                     {saving ? 'Saving...' : editingHero ? 'Update Hero Content' : 'Create Hero Content'}
@@ -326,9 +329,9 @@ const HeroManagement = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead>Image</TableHead>
                     <TableHead>Title</TableHead>
                     <TableHead>Subtitle</TableHead>
-                    <TableHead>Image</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
@@ -336,8 +339,6 @@ const HeroManagement = () => {
                 <TableBody>
                   {heroContents.map((hero) => (
                     <TableRow key={hero.id}>
-                      <TableCell className="font-medium">{hero.title}</TableCell>
-                      <TableCell>{hero.subtitle}</TableCell>
                       <TableCell>
                         {hero.background_image ? (
                           <img src={hero.background_image} alt="Hero" className="w-16 h-10 object-cover rounded" />
@@ -345,6 +346,8 @@ const HeroManagement = () => {
                           <span className="text-gray-400">No image</span>
                         )}
                       </TableCell>
+                      <TableCell className="font-medium">{hero.title}</TableCell>
+                      <TableCell>{hero.subtitle}</TableCell>
                       <TableCell>
                         <span className={`px-2 py-1 rounded-full text-xs ${
                           hero.is_active 

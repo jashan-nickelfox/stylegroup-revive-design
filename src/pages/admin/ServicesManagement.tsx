@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus } from 'lucide-react';
+import { Pencil, Trash2, Plus, Upload, X } from 'lucide-react';
 
 interface Service {
   id: string;
@@ -27,6 +27,7 @@ const ServicesManagement = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -64,6 +65,39 @@ const ServicesManagement = () => {
       });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleImageUpload = async (file: File) => {
+    try {
+      setUploading(true);
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
+      const filePath = `services/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('service-images')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const { data } = supabase.storage
+        .from('service-images')
+        .getPublicUrl(filePath);
+
+      setFormData({ ...formData, image_url: data.publicUrl });
+      toast({ title: 'Success', description: 'Image uploaded successfully' });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to upload image',
+        variant: 'destructive',
+      });
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -223,12 +257,33 @@ const ServicesManagement = () => {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="image_url">Image URL</Label>
-                    <Input
-                      id="image_url"
-                      value={formData.image_url}
-                      onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                    />
+                    <Label>Service Image</Label>
+                    <div className="flex items-center gap-2">
+                      <Input
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleImageUpload(file);
+                        }}
+                        disabled={uploading}
+                      />
+                      {uploading && <span className="text-sm text-gray-500">Uploading...</span>}
+                    </div>
+                    {formData.image_url && (
+                      <div className="relative">
+                        <img src={formData.image_url} alt="Preview" className="w-32 h-32 object-cover rounded" />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="absolute top-1 right-1"
+                          onClick={() => setFormData({ ...formData, image_url: '' })}
+                        >
+                          <X className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    )}
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="order_index">Display Order</Label>
@@ -245,7 +300,7 @@ const ServicesManagement = () => {
                   <Button type="button" variant="outline" onClick={resetForm}>
                     Cancel
                   </Button>
-                  <Button type="submit" disabled={saving} className="bg-stylegroup-green hover:bg-stylegroup-green/90">
+                  <Button type="submit" disabled={saving || uploading} className="bg-stylegroup-green hover:bg-stylegroup-green/90">
                     {saving ? 'Saving...' : editingService ? 'Update Service' : 'Create Service'}
                   </Button>
                 </div>
@@ -267,6 +322,7 @@ const ServicesManagement = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
+                    <TableHead>Image</TableHead>
                     <TableHead>Title</TableHead>
                     <TableHead>Description</TableHead>
                     <TableHead>Order</TableHead>
@@ -277,6 +333,11 @@ const ServicesManagement = () => {
                 <TableBody>
                   {services.map((service) => (
                     <TableRow key={service.id}>
+                      <TableCell>
+                        {service.image_url && (
+                          <img src={service.image_url} alt={service.title} className="w-12 h-12 object-cover rounded" />
+                        )}
+                      </TableCell>
                       <TableCell className="font-medium">{service.title}</TableCell>
                       <TableCell className="max-w-md truncate">{service.description}</TableCell>
                       <TableCell>{service.order_index}</TableCell>
