@@ -2,7 +2,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
-import FloatingContact from "@/components/FloatingContact";
 
 const PrivacyPolicy = () => {
   return (
@@ -115,7 +114,6 @@ const PrivacyPolicy = () => {
       </main>
       <Footer />
       <BackToTop />
-      <FloatingContact />
     </div>
   );
 };

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
-import FloatingContact from "@/components/FloatingContact";
 import { Button } from "@/components/ui/button";
 import CallToAction from "@/components/CallToAction";
 import { Check, ArrowRight } from "lucide-react";
@@ -108,7 +107,6 @@ const RollerBlinds = () => {
       </main>
       <Footer />
       <BackToTop />
-      <FloatingContact />
     </div>
   );
 };

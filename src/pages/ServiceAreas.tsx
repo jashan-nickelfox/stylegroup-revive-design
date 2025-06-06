@@ -2,7 +2,6 @@
 import React from 'react';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import FloatingContact from "@/components/FloatingContact";
 import BackToTop from "@/components/BackToTop";
 import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
@@ -121,7 +120,6 @@ const ServiceAreas = () => {
       </main>
       <Footer />
       <BackToTop />
-      <FloatingContact />
     </div>
   );
 };

@@ -2,7 +2,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
-import FloatingContact from "@/components/FloatingContact";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Clock, User, Tag } from "lucide-react";
@@ -81,7 +80,6 @@ const ChallengingWindows = () => {
       </main>
       <Footer />
       <BackToTop />
-      <FloatingContact />
     </div>
   );
 };

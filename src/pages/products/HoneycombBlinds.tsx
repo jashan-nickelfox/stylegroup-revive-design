@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
-import FloatingContact from "@/components/FloatingContact";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check, Thermometer, Volume2, Shield, Lightbulb } from "lucide-react";
 import CallToAction from "@/components/CallToAction";
@@ -123,7 +122,6 @@ const HoneycombBlinds = () => {
       </main>
       <Footer />
       <BackToTop />
-      <FloatingContact />
     </div>
   );
 };

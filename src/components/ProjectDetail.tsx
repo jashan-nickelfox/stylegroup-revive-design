@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
-import FloatingContact from "@/components/FloatingContact";
 import { Button } from "@/components/ui/button";
 import { Check, ArrowLeft, ArrowRight, Share2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -163,7 +162,6 @@ const ProjectDetail = () => {
         </main>
         <Footer />
         <BackToTop />
-        <FloatingContact />
       </div>
     );
   }
@@ -392,7 +390,6 @@ const ProjectDetail = () => {
       </main>
       <Footer />
       <BackToTop />
-      <FloatingContact />
     </div>
   );
 };

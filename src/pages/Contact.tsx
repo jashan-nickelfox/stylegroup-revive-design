@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import FloatingContact from "@/components/FloatingContact";
 import BackToTop from "@/components/BackToTop";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
@@ -671,7 +670,6 @@ const Contact = () => {
       </main>
       <Footer />
       <BackToTop />
-      <FloatingContact />
     </div>
   );
 };

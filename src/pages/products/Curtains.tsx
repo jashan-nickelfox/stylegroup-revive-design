@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
-import FloatingContact from "@/components/FloatingContact";
 import ProductContent from "@/components/ProductContent";
 import { Button } from "@/components/ui/button";
 import CallToAction from "@/components/CallToAction";
@@ -76,7 +75,6 @@ const Curtains = () => {
       </main>
       <Footer />
       <BackToTop />
-      <FloatingContact />
     </div>
   );
 };
