@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Check, Shield, Bug, Wind, Home } from "lucide-react";
 import CallToAction from "@/components/CallToAction";
 
-const AluminiumScreens = () => {
+const AluminiumSecurityScreens = () => {
   const navigate = useNavigate();
   
   const handleGetQuote = () => {
@@ -20,19 +20,21 @@ const AluminiumScreens = () => {
   };
 
   const features = [
-    { icon: Shield, title: "Security", description: "Enhanced protection while maintaining visibility" },
-    { icon: Bug, title: "Insect Protection", description: "Keep insects out while allowing fresh air in" },
-    { icon: Wind, title: "Weather Shield", description: "Protection from wind, rain, and debris" },
-    { icon: Home, title: "Privacy", description: "Maintain privacy without blocking natural light" }
+    { icon: Shield, title: "Enhanced Security", description: "Strong aluminium construction provides excellent protection" },
+    { icon: Bug, title: "Insect Protection", description: "Fine mesh keeps insects out while allowing air circulation" },
+    { icon: Wind, title: "Weather Resistant", description: "Durable construction withstands harsh weather conditions" },
+    { icon: Home, title: "Aesthetic Appeal", description: "Sleek design complements modern home architecture" }
   ];
 
   const benefits = [
-    "Powder-coated aluminium construction",
-    "Corrosion and rust resistant",
+    "Heavy-duty aluminium frame construction",
+    "Corrosion resistant powder coating",
+    "Custom sizing for perfect fit",
+    "Professional installation included",
     "Low maintenance requirements",
-    "Custom sizing available",
-    "Professional installation",
-    "10-year warranty coverage"
+    "Excellent ventilation properties",
+    "UV resistant materials",
+    "10-year structural warranty"
   ];
 
   return (
@@ -41,7 +43,7 @@ const AluminiumScreens = () => {
       <main className="flex-grow pt-32">
         <section className="container py-12">
           <div className="max-w-4xl mx-auto">
-            <h1 className="section-title text-center mb-8">Aluminium Screens</h1>
+            <h1 className="section-title text-center mb-8">Aluminium Security Screens</h1>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
               <div>
@@ -52,11 +54,11 @@ const AluminiumScreens = () => {
                 />
               </div>
               <div>
-                <h2 className="text-2xl font-medium text-stylegroup-green mb-6">Premium Security & Style</h2>
+                <h2 className="text-2xl font-medium text-stylegroup-green mb-6">Premium Security & Protection</h2>
                 <p className="text-stylegroup-darkgray mb-6">
-                  Our aluminium screens provide the perfect combination of security, protection, and 
-                  aesthetic appeal. Designed to enhance both the security and style of your space, 
-                  these screens offer excellent ventilation while keeping your home safe and comfortable.
+                  Our aluminium security screens provide robust protection while maintaining excellent 
+                  visibility and ventilation. Perfect for homes and businesses requiring enhanced security 
+                  without compromising on style or functionality.
                 </p>
                 <div className="grid grid-cols-2 gap-4 mb-6">
                   {features.map((feature, index) => (
@@ -72,33 +74,8 @@ const AluminiumScreens = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-12">
-              <div className="bg-stylegroup-lightgray/30 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-3 text-stylegroup-green">Security Screens</h3>
-                <p className="mb-3">Heavy-duty aluminium security screens designed to provide maximum protection while maintaining visibility and airflow.</p>
-                <Button 
-                  variant="outline"
-                  className="border-stylegroup-green text-stylegroup-green hover:bg-stylegroup-green/10"
-                  onClick={() => navigate('/aluminium-screens/security')}
-                >
-                  Learn More
-                </Button>
-              </div>
-              <div className="bg-stylegroup-lightgray/30 rounded-lg p-6">
-                <h3 className="text-xl font-medium mb-3 text-stylegroup-green">Privacy Screens</h3>
-                <p className="mb-3">Stylish privacy screens that block unwanted views while allowing controlled airflow and natural light into your space.</p>
-                <Button 
-                  variant="outline"
-                  className="border-stylegroup-green text-stylegroup-green hover:bg-stylegroup-green/10"
-                  onClick={() => navigate('/aluminium-screens/privacy')}
-                >
-                  Learn More
-                </Button>
-              </div>
-            </div>
-
             <div className="bg-stylegroup-lightgray/30 rounded-lg p-8 mb-12">
-              <h3 className="text-xl font-medium text-stylegroup-green mb-6 text-center">Why Choose Aluminium Screens?</h3>
+              <h3 className="text-xl font-medium text-stylegroup-green mb-6 text-center">Why Choose Aluminium Security Screens?</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {benefits.map((benefit, index) => (
                   <div key={index} className="flex items-start">
@@ -110,11 +87,11 @@ const AluminiumScreens = () => {
             </div>
 
             <div className="text-center mb-8">
-              <h3 className="text-xl font-medium text-stylegroup-green mb-4">Applications</h3>
+              <h3 className="text-xl font-medium text-stylegroup-green mb-4">Perfect For</h3>
               <p className="text-stylegroup-darkgray mb-6">
-                Perfect for doors, windows, patios, and outdoor entertainment areas. 
-                Our aluminium screens are suitable for residential and commercial properties, 
-                providing reliable protection and enhanced comfort year-round.
+                Ideal for doors, windows, patios, and outdoor areas where security is a priority. 
+                Our aluminium security screens are suitable for both residential and commercial properties, 
+                providing reliable protection year-round.
               </p>
             </div>
 
@@ -144,4 +121,4 @@ const AluminiumScreens = () => {
   );
 };
 
-export default AluminiumScreens;
+export default AluminiumSecurityScreens;

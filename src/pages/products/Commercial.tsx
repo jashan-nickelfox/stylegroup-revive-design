@@ -1,9 +1,9 @@
+
 import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 import FloatingContact from "@/components/FloatingContact";
-import ProductContent from "@/components/ProductContent";
 import { Button } from "@/components/ui/button";
 import { Building2, Factory, Store, School, Building, Hotel, Check } from "lucide-react";
 import CallToAction from "@/components/CallToAction";
@@ -62,7 +62,27 @@ const Commercial = () => {
             <h1 className="section-title text-center mb-8">Commercial Solutions</h1>
             
             <div className="mb-10">
-              <ProductContent productSlug="commercial-awnings" />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-12">
+                <div>
+                  <img 
+                    src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop" 
+                    alt="Commercial Window Solutions" 
+                    className="w-full h-80 object-cover rounded-lg shadow-md"
+                  />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-medium text-stylegroup-green mb-6">Professional Window Solutions</h2>
+                  <p className="text-stylegroup-darkgray mb-6">
+                    Style Group provides comprehensive commercial window furnishing solutions designed to meet 
+                    the unique requirements of businesses, institutions, and commercial properties. Our products 
+                    combine functionality, durability, and professional aesthetics.
+                  </p>
+                  <p className="text-stylegroup-darkgray mb-6">
+                    From energy-efficient blinds to stylish awnings, we deliver solutions that enhance workplace 
+                    comfort, reduce energy costs, and create impressive commercial environments.
+                  </p>
+                </div>
+              </div>
             </div>
             
             <div className="my-12">

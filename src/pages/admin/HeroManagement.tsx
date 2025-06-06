@@ -73,19 +73,29 @@ const HeroManagement = () => {
       const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
       const filePath = `hero/${fileName}`;
 
-      const { error: uploadError } = await supabase.storage
-        .from('hero-images')
-        .upload(filePath, file);
+      console.log('Starting hero image upload...', { fileName, filePath });
+
+      const { data, error: uploadError } = await supabase.storage
+        .from('product-images')
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
 
       if (uploadError) {
+        console.error('Upload error:', uploadError);
         throw uploadError;
       }
 
-      const { data } = supabase.storage
-        .from('hero-images')
+      console.log('Upload successful:', data);
+
+      const { data: urlData } = supabase.storage
+        .from('product-images')
         .getPublicUrl(filePath);
 
-      setFormData({ ...formData, background_image: data.publicUrl });
+      console.log('Public URL:', urlData.publicUrl);
+
+      setFormData({ ...formData, background_image: urlData.publicUrl });
       toast({
         title: 'Success',
         description: 'Image uploaded successfully',
@@ -94,7 +104,7 @@ const HeroManagement = () => {
       console.error('Error uploading image:', error);
       toast({
         title: 'Error',
-        description: 'Failed to upload image',
+        description: 'Failed to upload image. Please try again.',
         variant: 'destructive',
       });
     } finally {
@@ -261,7 +271,7 @@ const HeroManagement = () => {
                 <div className="space-y-2">
                   <Label>Background Image</Label>
                   <div className="space-y-4">
-                    <div className="flex items-center gap-2">
+                    <div className="space-y-2">
                       <Input
                         type="file"
                         accept="image/*"
@@ -270,8 +280,14 @@ const HeroManagement = () => {
                           if (file) handleFileUpload(file);
                         }}
                         disabled={uploading}
+                        className="cursor-pointer"
                       />
-                      {uploading && <span className="text-sm text-gray-500">Uploading...</span>}
+                      {uploading && (
+                        <div className="flex items-center gap-2">
+                          <div className="animate-spin h-4 w-4 border-2 border-stylegroup-green border-t-transparent rounded-full"></div>
+                          <span className="text-sm text-gray-500">Uploading image...</span>
+                        </div>
+                      )}
                     </div>
                     <Input
                       value={formData.background_image}
@@ -279,7 +295,7 @@ const HeroManagement = () => {
                       placeholder="Or enter image URL"
                     />
                     {formData.background_image && (
-                      <div className="relative">
+                      <div className="relative inline-block">
                         <img
                           src={formData.background_image}
                           alt="Preview"
@@ -289,7 +305,7 @@ const HeroManagement = () => {
                           type="button"
                           variant="destructive"
                           size="sm"
-                          className="absolute top-1 right-1"
+                          className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
                           onClick={() => setFormData({ ...formData, background_image: '' })}
                         >
                           <X className="h-3 w-3" />

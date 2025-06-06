@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -108,25 +107,35 @@ const ProductManagement = () => {
       const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
       const filePath = `products/${fileName}`;
 
-      const { error: uploadError } = await supabase.storage
+      console.log('Starting image upload...', { fileName, filePath });
+
+      const { data, error: uploadError } = await supabase.storage
         .from('product-images')
-        .upload(filePath, file);
+        .upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
 
       if (uploadError) {
+        console.error('Upload error:', uploadError);
         throw uploadError;
       }
 
-      const { data } = supabase.storage
+      console.log('Upload successful:', data);
+
+      const { data: urlData } = supabase.storage
         .from('product-images')
         .getPublicUrl(filePath);
 
-      setFormData({ ...formData, image_url: data.publicUrl });
+      console.log('Public URL:', urlData.publicUrl);
+
+      setFormData({ ...formData, image_url: urlData.publicUrl });
       toast({ title: 'Success', description: 'Image uploaded successfully' });
     } catch (error) {
       console.error('Error uploading image:', error);
       toast({
         title: 'Error',
-        description: 'Failed to upload image',
+        description: 'Failed to upload image. Please try again.',
         variant: 'destructive',
       });
     } finally {
@@ -348,7 +357,7 @@ const ProductManagement = () => {
                   </div>
                   <div className="space-y-2">
                     <Label>Product Image</Label>
-                    <div className="flex items-center gap-2">
+                    <div className="space-y-2">
                       <Input
                         type="file"
                         accept="image/*"
@@ -357,23 +366,34 @@ const ProductManagement = () => {
                           if (file) handleImageUpload(file);
                         }}
                         disabled={uploading}
+                        className="cursor-pointer"
                       />
-                      {uploading && <span className="text-sm text-gray-500">Uploading...</span>}
+                      {uploading && (
+                        <div className="flex items-center gap-2">
+                          <div className="animate-spin h-4 w-4 border-2 border-stylegroup-green border-t-transparent rounded-full"></div>
+                          <span className="text-sm text-gray-500">Uploading image...</span>
+                        </div>
+                      )}
+                      <Input
+                        placeholder="Or enter image URL"
+                        value={formData.image_url}
+                        onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                      />
+                      {formData.image_url && (
+                        <div className="relative inline-block">
+                          <img src={formData.image_url} alt="Preview" className="w-32 h-32 object-cover rounded border" />
+                          <Button
+                            type="button"
+                            variant="destructive"
+                            size="sm"
+                            className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
+                            onClick={() => setFormData({ ...formData, image_url: '' })}
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      )}
                     </div>
-                    {formData.image_url && (
-                      <div className="relative">
-                        <img src={formData.image_url} alt="Preview" className="w-32 h-32 object-cover rounded" />
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          className="absolute top-1 right-1"
-                          onClick={() => setFormData({ ...formData, image_url: '' })}
-                        >
-                          <X className="h-3 w-3" />
-                        </Button>
-                      </div>
-                    )}
                   </div>
                 </div>
                 
