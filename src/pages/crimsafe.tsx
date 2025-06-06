@@ -69,34 +69,17 @@ const Crimsafe = () => {
           <div className="container relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <div>
-                <div className="inline-block bg-stylegroup-green/20 text-stylegroup-green px-4 py-2 rounded-full text-sm font-medium mb-6">
+                <div className="inline-block bg-stylegroup-green/20 text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
                   Australia's #1 Security Screen
                 </div>
                 <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
                   Crimsafe
-                  <span className="block text-stylegroup-green">Security Screens</span>
+                  <span className="block text-stylegroup-lightgreen">Security Screens</span>
                 </h1>
                 <p className="text-xl mb-8 text-gray-200 leading-relaxed">
                   The only security screen combining patented screw-clamp technology with 
                   Tensile-Tuff® mesh. Maximum security without compromising your view or style.
                 </p>
-                <div className="flex flex-wrap gap-4">
-                  <Button 
-                    onClick={handleGetQuote}
-                    className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white px-8 py-4 text-lg"
-                    size="lg"
-                  >
-                    Get Free Quote <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                  <Button 
-                    onClick={handleBookMeasure}
-                    variant="outline"
-                    className="border-2 border-white text-white hover:bg-white hover:text-slate-900 px-8 py-4 text-lg"
-                    size="lg"
-                  >
-                    Book Free Measure
-                  </Button>
-                </div>
               </div>
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-r from-stylegroup-green/20 to-transparent rounded-2xl"></div>
@@ -234,7 +217,7 @@ const Crimsafe = () => {
         </section>
 
         {/* Final CTA Section */}
-        <section className="py-20 bg-stylegroup-green text-white">
+        {/* <section className="py-20 bg-stylegroup-green text-white">
           <div className="container text-center">
             <h2 className="text-4xl font-bold mb-8">Ready to Secure Your Home?</h2>
             <p className="text-xl mb-10 text-white/90 max-w-3xl mx-auto leading-relaxed">
@@ -269,7 +252,7 @@ const Crimsafe = () => {
               </Button>
             </div>
           </div>
-        </section>
+        </section> */}
 
         <CallToAction />
       </main>
