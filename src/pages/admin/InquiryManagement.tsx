@@ -12,6 +12,7 @@ const InquiryManagement = () => {
   const [quoteRequests, setQuoteRequests] = useState([]);
   const [bookingRequests, setBookingRequests] = useState([]);
   const [newsletterSubscriptions, setNewsletterSubscriptions] = useState([]);
+  const [contactMessages, setContactMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
@@ -21,15 +22,17 @@ const InquiryManagement = () => {
 
   const fetchAllInquiries = async () => {
     try {
-      const [quotes, bookings, newsletters] = await Promise.all([
+      const [quotes, bookings, newsletters, messages] = await Promise.all([
         supabase.from('quote_requests').select('*').order('created_at', { ascending: false }),
         supabase.from('booking_requests').select('*').order('created_at', { ascending: false }),
         supabase.from('newsletter_subscriptions').select('*').order('created_at', { ascending: false }),
+        supabase.from('contact_messages').select('*').order('created_at', { ascending: false }),
       ]);
 
       setQuoteRequests(quotes.data || []);
       setBookingRequests(bookings.data || []);
       setNewsletterSubscriptions(newsletters.data || []);
+      setContactMessages(messages.data || []);
     } catch (error) {
       console.error('Error fetching inquiries:', error);
       toast({
@@ -61,9 +64,10 @@ const InquiryManagement = () => {
         </div>
 
         <Tabs defaultValue="quotes" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="quotes">Quote Requests ({quoteRequests.length})</TabsTrigger>
             <TabsTrigger value="bookings">Booking Requests ({bookingRequests.length})</TabsTrigger>
+            <TabsTrigger value="messages">Contact Messages ({contactMessages.length})</TabsTrigger>
             <TabsTrigger value="newsletters">Newsletter Subscriptions ({newsletterSubscriptions.length})</TabsTrigger>
           </TabsList>
 
@@ -135,6 +139,42 @@ const InquiryManagement = () => {
                           </span>
                         </TableCell>
                         <TableCell>{format(new Date(request.created_at), 'MMM dd, yyyy')}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="messages">
+            <Card>
+              <CardHeader>
+                <CardTitle>Contact Messages</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Email</TableHead>
+                      <TableHead>Phone</TableHead>
+                      <TableHead>Subject</TableHead>
+                      <TableHead>Message</TableHead>
+                      <TableHead>Date</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {contactMessages.map((message: any) => (
+                      <TableRow key={message.id}>
+                        <TableCell className="font-medium">
+                          {message.first_name} {message.last_name}
+                        </TableCell>
+                        <TableCell>{message.email}</TableCell>
+                        <TableCell>{message.phone || 'Not provided'}</TableCell>
+                        <TableCell>{message.subject}</TableCell>
+                        <TableCell className="max-w-xs truncate">{message.message}</TableCell>
+                        <TableCell>{format(new Date(message.created_at), 'MMM dd, yyyy')}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

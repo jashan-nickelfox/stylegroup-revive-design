@@ -12,7 +12,6 @@ import ServicesMap from "@/components/ServicesMap";
 import CallToAction from "@/components/CallToAction";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
-import FloatingContact from "@/components/FloatingContact";
 import NewsletterSignup from "@/components/NewsletterSignup";
 
 const Index = () => {
@@ -48,7 +47,6 @@ const Index = () => {
       </main>
       <Footer />
       <BackToTop />
-      {/* <FloatingContact /> */}
     </div>
   );
 };
