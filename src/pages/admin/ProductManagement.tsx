@@ -1,90 +1,62 @@
+
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
+import ImageUpload from '@/components/admin/ImageUpload';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
-import { Pencil, Trash2, Plus, Upload, X } from 'lucide-react';
+import { Pencil, Trash2, Plus } from 'lucide-react';
 
 interface Product {
   id: string;
   name: string;
   category: string;
   description: string;
-  intro: string;
-  slug: string;
-  price: number;
   image_url: string;
   features: string[];
   is_active: boolean;
+  price: number;
   order_index: number;
 }
 
 const ProductManagement = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [saving, setSaving] = useState(false);
-  const [uploading, setUploading] = useState(false);
+  const [isAddingNew, setIsAddingNew] = useState(false);
+  const { toast } = useToast();
+
   const [formData, setFormData] = useState({
     name: '',
     category: '',
     description: '',
-    intro: '',
-    slug: '',
-    price: 0,
     image_url: '',
-    features: '',
-    order_index: 0,
+    features: [''],
+    price: 0,
+    is_active: true,
+    order_index: 0
   });
-  const { toast } = useToast();
 
   useEffect(() => {
     fetchProducts();
-    
-    // Set up real-time subscription
-    const channel = supabase
-      .channel('products-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'products'
-        },
-        () => {
-          console.log('Products changed, refetching...');
-          fetchProducts();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
   }, []);
 
   const fetchProducts = async () => {
     try {
-      setLoading(true);
       const { data, error } = await supabase
         .from('products')
         .select('*')
         .order('order_index', { ascending: true });
 
-      if (error) {
-        console.error('Error fetching products:', error);
-        throw error;
-      }
-      
-      console.log('Fetched products:', data);
+      if (error) throw error;
       setProducts(data || []);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching products:', error);
       toast({
         title: 'Error',
@@ -96,63 +68,73 @@ const ProductManagement = () => {
     }
   };
 
-  const generateSlug = (name: string) => {
-    return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+  const handleInputChange = (field: string, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
-  const handleImageUpload = async (file: File) => {
-    try {
-      setUploading(true);
-      const fileExt = file.name.split('.').pop();
-      const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
-      const filePath = `products/${fileName}`;
+  const handleFeatureChange = (index: number, value: string) => {
+    const newFeatures = [...formData.features];
+    newFeatures[index] = value;
+    setFormData(prev => ({
+      ...prev,
+      features: newFeatures
+    }));
+  };
 
-      console.log('Starting image upload...', { fileName, filePath });
+  const addFeature = () => {
+    setFormData(prev => ({
+      ...prev,
+      features: [...prev.features, '']
+    }));
+  };
 
-      const { data, error: uploadError } = await supabase.storage
-        .from('product-images')
-        .upload(filePath, file, {
-          cacheControl: '3600',
-          upsert: false
-        });
+  const removeFeature = (index: number) => {
+    const newFeatures = formData.features.filter((_, i) => i !== index);
+    setFormData(prev => ({
+      ...prev,
+      features: newFeatures
+    }));
+  };
 
-      if (uploadError) {
-        console.error('Upload error:', uploadError);
-        throw uploadError;
-      }
+  const handleImageUploaded = (url: string) => {
+    setFormData(prev => ({
+      ...prev,
+      image_url: url
+    }));
+  };
 
-      console.log('Upload successful:', data);
+  const handleImageRemoved = () => {
+    setFormData(prev => ({
+      ...prev,
+      image_url: ''
+    }));
+  };
 
-      const { data: urlData } = supabase.storage
-        .from('product-images')
-        .getPublicUrl(filePath);
-
-      console.log('Public URL:', urlData.publicUrl);
-
-      setFormData({ ...formData, image_url: urlData.publicUrl });
-      toast({ title: 'Success', description: 'Image uploaded successfully' });
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to upload image. Please try again.',
-        variant: 'destructive',
-      });
-    } finally {
-      setUploading(false);
-    }
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      category: '',
+      description: '',
+      image_url: '',
+      features: [''],
+      price: 0,
+      is_active: true,
+      order_index: 0
+    });
+    setEditingProduct(null);
+    setIsAddingNew(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSaving(true);
-    
+
     try {
       const productData = {
         ...formData,
-        features: formData.features.split(',').map(f => f.trim()).filter(f => f),
-        is_active: true,
-        slug: formData.slug || generateSlug(formData.name),
+        features: formData.features.filter(f => f.trim() !== '')
       };
 
       if (editingProduct) {
@@ -160,28 +142,35 @@ const ProductManagement = () => {
           .from('products')
           .update(productData)
           .eq('id', editingProduct.id);
-        
+
         if (error) throw error;
-        toast({ title: 'Success', description: 'Product updated successfully' });
+
+        toast({
+          title: 'Success',
+          description: 'Product updated successfully',
+        });
       } else {
         const { error } = await supabase
           .from('products')
           .insert([productData]);
-        
+
         if (error) throw error;
-        toast({ title: 'Success', description: 'Product created successfully' });
+
+        toast({
+          title: 'Success',
+          description: 'Product created successfully',
+        });
       }
 
+      fetchProducts();
       resetForm();
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving product:', error);
       toast({
         title: 'Error',
-        description: 'Failed to save product',
+        description: error.message || 'Failed to save product',
         variant: 'destructive',
       });
-    } finally {
-      setSaving(false);
     }
   };
 
@@ -191,14 +180,13 @@ const ProductManagement = () => {
       name: product.name,
       category: product.category,
       description: product.description || '',
-      intro: product.intro || '',
-      slug: product.slug || '',
-      price: product.price || 0,
       image_url: product.image_url || '',
-      features: product.features?.join(', ') || '',
-      order_index: product.order_index || 0,
+      features: product.features || [''],
+      price: product.price || 0,
+      is_active: product.is_active,
+      order_index: product.order_index || 0
     });
-    setShowForm(true);
+    setIsAddingNew(true);
   };
 
   const handleDelete = async (id: string) => {
@@ -211,9 +199,14 @@ const ProductManagement = () => {
         .eq('id', id);
 
       if (error) throw error;
-      
-      toast({ title: 'Success', description: 'Product deleted successfully' });
-    } catch (error) {
+
+      toast({
+        title: 'Success',
+        description: 'Product deleted successfully',
+      });
+
+      fetchProducts();
+    } catch (error: any) {
       console.error('Error deleting product:', error);
       toast({
         title: 'Error',
@@ -223,27 +216,11 @@ const ProductManagement = () => {
     }
   };
 
-  const resetForm = () => {
-    setFormData({
-      name: '',
-      category: '',
-      description: '',
-      intro: '',
-      slug: '',
-      price: 0,
-      image_url: '',
-      features: '',
-      order_index: 0,
-    });
-    setEditingProduct(null);
-    setShowForm(false);
-  };
-
   if (loading) {
     return (
       <AdminLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="text-lg">Loading products...</div>
+          <div className="text-lg">Loading...</div>
         </div>
       </AdminLayout>
     );
@@ -252,168 +229,139 @@ const ProductManagement = () => {
   return (
     <AdminLayout>
       <div className="space-y-6">
-        <div className="flex items-center justify-between">
+        <div className="flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">Product Management</h1>
-            <p className="text-gray-600">Manage your products catalog</p>
+            <p className="text-gray-600">Manage your products and their details</p>
           </div>
-          <Button
-            onClick={() => setShowForm(true)}
-            className="bg-stylegroup-green hover:bg-stylegroup-green/90"
-          >
-            <Plus className="h-4 w-4 mr-2" />
+          <Button onClick={() => setIsAddingNew(true)} className="flex items-center gap-2">
+            <Plus className="h-4 w-4" />
             Add Product
           </Button>
         </div>
 
-        {showForm && (
+        {isAddingNew && (
           <Card>
             <CardHeader>
               <CardTitle>{editingProduct ? 'Edit Product' : 'Add New Product'}</CardTitle>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name">Product Name *</Label>
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <Label htmlFor="name">Product Name</Label>
                     <Input
                       id="name"
                       value={formData.name}
-                      onChange={(e) => {
-                        const name = e.target.value;
-                        setFormData({ 
-                          ...formData, 
-                          name,
-                          slug: formData.slug || generateSlug(name)
-                        });
-                      }}
+                      onChange={(e) => handleInputChange('name', e.target.value)}
                       required
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="category">Category *</Label>
-                    <Input
-                      id="category"
-                      value={formData.category}
-                      onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                      required
-                    />
+                  <div>
+                    <Label htmlFor="category">Category</Label>
+                    <Select value={formData.category} onValueChange={(value) => handleInputChange('category', value)}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="blinds">Blinds</SelectItem>
+                        <SelectItem value="shutters">Shutters</SelectItem>
+                        <SelectItem value="awnings">Awnings</SelectItem>
+                        <SelectItem value="curtains">Curtains</SelectItem>
+                        <SelectItem value="commercial">Commercial</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="slug">Slug</Label>
-                    <Input
-                      id="slug"
-                      value={formData.slug}
-                      onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                      placeholder="auto-generated-from-name"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="order_index">Display Order</Label>
-                    <Input
-                      id="order_index"
-                      type="number"
-                      value={formData.order_index}
-                      onChange={(e) => setFormData({ ...formData, order_index: parseInt(e.target.value) || 0 })}
-                    />
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="intro">Short Description (for cards) *</Label>
-                  <Textarea
-                    id="intro"
-                    value={formData.intro}
-                    onChange={(e) => setFormData({ ...formData, intro: e.target.value })}
-                    rows={2}
-                    placeholder="Brief description shown on product cards"
-                    required
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="description">Full Description</Label>
+                <div>
+                  <Label htmlFor="description">Description</Label>
                   <Textarea
                     id="description"
                     value={formData.description}
-                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                    onChange={(e) => handleInputChange('description', e.target.value)}
                     rows={4}
                   />
                 </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+                <div>
+                  <Label>Product Image</Label>
+                  <ImageUpload
+                    currentImage={formData.image_url}
+                    onImageUploaded={handleImageUploaded}
+                    onImageRemoved={handleImageRemoved}
+                  />
+                </div>
+
+                <div>
+                  <Label>Features</Label>
                   <div className="space-y-2">
+                    {formData.features.map((feature, index) => (
+                      <div key={index} className="flex gap-2">
+                        <Input
+                          value={feature}
+                          onChange={(e) => handleFeatureChange(index, e.target.value)}
+                          placeholder="Enter feature"
+                        />
+                        {formData.features.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="outline"
+                            onClick={() => removeFeature(index)}
+                          >
+                            Remove
+                          </Button>
+                        )}
+                      </div>
+                    ))}
+                    <Button type="button" variant="outline" onClick={addFeature}>
+                      Add Feature
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div>
                     <Label htmlFor="price">Price</Label>
                     <Input
                       id="price"
                       type="number"
-                      step="0.01"
                       value={formData.price}
-                      onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
+                      onChange={(e) => handleInputChange('price', parseFloat(e.target.value) || 0)}
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label>Product Image</Label>
-                    <div className="space-y-2">
-                      <Input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) handleImageUpload(file);
-                        }}
-                        disabled={uploading}
-                        className="cursor-pointer"
-                      />
-                      {uploading && (
-                        <div className="flex items-center gap-2">
-                          <div className="animate-spin h-4 w-4 border-2 border-stylegroup-green border-t-transparent rounded-full"></div>
-                          <span className="text-sm text-gray-500">Uploading image...</span>
-                        </div>
-                      )}
-                      <Input
-                        placeholder="Or enter image URL"
-                        value={formData.image_url}
-                        onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                      />
-                      {formData.image_url && (
-                        <div className="relative inline-block">
-                          <img src={formData.image_url} alt="Preview" className="w-32 h-32 object-cover rounded border" />
-                          <Button
-                            type="button"
-                            variant="destructive"
-                            size="sm"
-                            className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
-                            onClick={() => setFormData({ ...formData, image_url: '' })}
-                          >
-                            <X className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      )}
-                    </div>
+                  <div>
+                    <Label htmlFor="order_index">Order Index</Label>
+                    <Input
+                      id="order_index"
+                      type="number"
+                      value={formData.order_index}
+                      onChange={(e) => handleInputChange('order_index', parseInt(e.target.value) || 0)}
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="is_active">Status</Label>
+                    <Select
+                      value={formData.is_active.toString()}
+                      onValueChange={(value) => handleInputChange('is_active', value === 'true')}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="true">Active</SelectItem>
+                        <SelectItem value="false">Inactive</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="features">Key Features (comma-separated)</Label>
-                  <Textarea
-                    id="features"
-                    value={formData.features}
-                    onChange={(e) => setFormData({ ...formData, features: e.target.value })}
-                    placeholder="Feature 1, Feature 2, Feature 3"
-                    rows={3}
-                  />
-                </div>
 
-                <div className="flex justify-end space-x-2">
+                <div className="flex gap-4">
+                  <Button type="submit">
+                    {editingProduct ? 'Update Product' : 'Create Product'}
+                  </Button>
                   <Button type="button" variant="outline" onClick={resetForm}>
                     Cancel
-                  </Button>
-                  <Button type="submit" disabled={saving || uploading} className="bg-stylegroup-green hover:bg-stylegroup-green/90">
-                    {saving ? 'Saving...' : editingProduct ? 'Update Product' : 'Create Product'}
                   </Button>
                 </div>
               </form>
@@ -423,70 +371,70 @@ const ProductManagement = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>Products List ({products.length} total)</CardTitle>
+            <CardTitle>Products</CardTitle>
           </CardHeader>
           <CardContent>
-            {products.length === 0 ? (
-              <div className="text-center py-8">
-                <p className="text-gray-500">No products found. Add your first product to get started.</p>
-              </div>
-            ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Image</TableHead>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Category</TableHead>
-                    <TableHead>Order</TableHead>
-                    <TableHead>Price</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {products.map((product) => (
-                    <TableRow key={product.id}>
-                      <TableCell>
-                        {product.image_url && (
-                          <img src={product.image_url} alt={product.name} className="w-12 h-12 object-cover rounded" />
-                        )}
-                      </TableCell>
-                      <TableCell className="font-medium">{product.name}</TableCell>
-                      <TableCell>{product.category}</TableCell>
-                      <TableCell>{product.order_index}</TableCell>
-                      <TableCell>${product.price?.toFixed(2) || '0.00'}</TableCell>
-                      <TableCell>
-                        <span className={`px-2 py-1 rounded-full text-xs ${
-                          product.is_active 
-                            ? 'bg-green-100 text-green-800' 
-                            : 'bg-red-100 text-red-800'
-                        }`}>
-                          {product.is_active ? 'Active' : 'Inactive'}
-                        </span>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex space-x-2">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleEdit(product)}
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => handleDelete(product.id)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Image</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {products.map((product) => (
+                  <TableRow key={product.id}>
+                    <TableCell>
+                      {product.image_url ? (
+                        <img
+                          src={product.image_url}
+                          alt={product.name}
+                          className="w-12 h-12 object-cover rounded"
+                        />
+                      ) : (
+                        <div className="w-12 h-12 bg-gray-200 rounded flex items-center justify-center text-xs">
+                          No Image
                         </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            )}
+                      )}
+                    </TableCell>
+                    <TableCell className="font-medium">{product.name}</TableCell>
+                    <TableCell>{product.category}</TableCell>
+                    <TableCell>{product.price ? `$${product.price}` : 'N/A'}</TableCell>
+                    <TableCell>
+                      <span className={`px-2 py-1 rounded-full text-xs ${
+                        product.is_active 
+                          ? 'bg-green-100 text-green-800' 
+                          : 'bg-red-100 text-red-800'
+                      }`}>
+                        {product.is_active ? 'Active' : 'Inactive'}
+                      </span>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleEdit(product)}
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleDelete(product.id)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       </div>
