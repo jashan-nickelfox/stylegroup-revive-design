@@ -50,7 +50,7 @@ const Header = () => {
           <div className="flex items-center space-x-6 text-base">
             <a
               href="tel:0733240900"
-              className="flex items-center hover:text-stylegroup-lightgreen/100 transition-colors duration-300"
+              className="idden md:flex items-center cursor-pointer transition-transform duration-300 hover:scale-105"
               aria-label="Call our office"
             >
               <Phone className="h-3.5 w-3.5 mr-1.5" />
@@ -58,7 +58,7 @@ const Header = () => {
             </a>
             <a
               href="mailto:info@stylegroup.com.au"
-              className="hidden md:flex items-center hover:text-stylegroup-lightgreen/100 transition-colors duration-300"
+              className="idden md:flex items-center cursor-pointer transition-transform duration-300 hover:scale-105"
               aria-label="Email us"
             >
               <Mail className="h-3.5 w-3.5 mr-1.5" />
@@ -66,7 +66,7 @@ const Header = () => {
             </a>
             <Link
               to="/contact"
-              className="hidden md:flex items-center hover:text-stylegroup-lightgreen/100 cursor-pointer transition-colors duration-300"
+              className="hidden md:flex items-center cursor-pointer transition-transform duration-300 hover:scale-105"
             >
               <MapPin className="h-3.5 w-3.5 mr-1.5" />
               <span>Brisbane, QLD</span>
@@ -75,7 +75,7 @@ const Header = () => {
           <div>
             <Button
               variant="link"
-              className="text-white text-base hover:text-stylegroup-lightgreen/100 p-0 transition-colors duration-300"
+              className="text-white text-base hover: p-0 transition-colors duration-300"
               onClick={handleBookMeasure}
               aria-label="Book a free measure and quote"
             >

@@ -89,7 +89,7 @@ const NewsletterSignup = () => {
               <Button 
                 type="submit" 
                 disabled={loading}
-                className="bg-white hover:bg-stylegroup-lightgreen text-stylegroup-green font-medium whitespace-nowrap"
+                className="bg-white hover:bg-white text-stylegroup-green font-medium whitespace-nowrap"
               >
                 {loading ? (
                   <>

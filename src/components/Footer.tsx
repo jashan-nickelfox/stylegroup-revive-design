@@ -88,15 +88,15 @@ const Footer = () => {
               Brisbane's premier provider of quality window furnishings for residential and commercial clients.
             </p>
             <div className="space-y-3">
-              <a href={`tel:${footerData?.phone || "0733240900"}`} className="flex items-center text-white/80 hover:text-stylegroup-lightgreen">
+              <a href={`tel:${footerData?.phone || "0733240900"}`} className="flex items-center text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out">
                 <Phone className="h-4 w-4 mr-3" />
                 <span>{footerData?.phone || "07 3324 0900"}</span>
               </a>
-              <a href={`mailto:${footerData?.email || "info@stylegroup.com.au"}`} className="flex items-center text-white/80 hover:text-stylegroup-lightgreen">
+              <a href={`mailto:${footerData?.email || "info@stylegroup.com.au"}`} className="flex items-center text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out">
                 <Mail className="h-4 w-4 mr-3" />
                 <span>{footerData?.email || "info@stylegroup.com.au"}</span>
               </a>
-              <Link to="/contact" className="flex items-center text-white/80 hover:text-stylegroup-lightgreen">
+              <Link to="/contact" className="flex items-center text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out">
                 <MapPin className="h-4 w-4 mr-3" />
                 <span>{footerData?.address || "123 Main St, Brisbane QLD"}</span>
               </Link>
@@ -107,14 +107,12 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-medium mb-6">Quick Links</h4>
             <ul className="space-y-3">
-              <li><Link to="/about" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> About Us</Link></li>
-              <li><Link to="/services" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Our Services</Link></li>
-              <li><Link to="/projects" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Our Gallery</Link></li>
-              <li><Link to="/contact" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Contact Us</Link></li>
-              <li><Link to="/faqs" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> FAQs</Link></li>
-              <li><Link to="/blog" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Blog</Link></li>
-              <li><div onClick={() => scrollToSection("quote")} className="text-white/80 hover:text-stylegroup-lightgreen flex items-center cursor-pointer"><ArrowRight className="h-3 w-3 mr-2" /> Get a Quote</div></li>
-              <li><div onClick={handleBookMeasure} className="text-white/80 hover:text-stylegroup-lightgreen flex items-center cursor-pointer"><ArrowRight className="h-3 w-3 mr-2" /> Book Free Measure</div></li>
+              <li><Link to="/about" className="text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> About Us</Link></li>
+              <li><Link to="/services" className="text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Our Services</Link></li>
+              <li><Link to="/projects" className="text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Our Gallery</Link></li>
+              <li><Link to="/contact" className="text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Contact Us</Link></li>
+              <li><Link to="/faqs" className="text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> FAQs</Link></li>
+              <li><Link to="/blog" className="text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Blog</Link></li>
             </ul>
           </div>
 
@@ -122,14 +120,12 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-medium mb-6">Our Products</h4>
             <ul className="space-y-3">
-              <li><Link to="/products" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> All Products</Link></li>
-              <li><Link to="/blinds" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Blinds</Link></li>
-              <li><Link to="/shutters" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Shutters</Link></li>
-              <li><Link to="/awnings" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Awnings</Link></li>
-              <li><Link to="/curtains" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Curtains</Link></li>
-              <li><Link to="/motorization" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Motorization</Link></li>
-              <li><Link to="/commercial" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Commercial Solutions</Link></li>
-              <li><Link to="/service-areas" className="text-white/80 hover:text-stylegroup-lightgreen flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Service Areas</Link></li>
+              <li><Link to="/products" className="text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> All Products</Link></li>
+              <li><Link to="/blinds" className="text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Blinds</Link></li>
+              <li><Link to="/shutters" className="text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Shutters</Link></li>
+              <li><Link to="/awnings" className="text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Awnings</Link></li>
+              <li><Link to="/commercial" className="text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Commercial Solutions</Link></li>
+              <li><Link to="/service-areas" className="text-white/80 hover:scale-105 transition-transform duration-200 ease-in-out flex items-center"><ArrowRight className="h-3 w-3 mr-2" /> Service Areas</Link></li>
             </ul>
           </div>
 
