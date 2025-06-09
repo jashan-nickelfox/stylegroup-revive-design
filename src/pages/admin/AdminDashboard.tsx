@@ -182,7 +182,7 @@ const AdminDashboard = () => {
             </CardContent>
           </Card>
 
-          <Card>
+          {/* <Card>
             <CardHeader>
               <CardTitle>Recent Activity</CardTitle>
             </CardHeader>
@@ -206,10 +206,10 @@ const AdminDashboard = () => {
                 </div>
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
 
-        <Card>
+        {/* <Card>
           <CardHeader>
             <CardTitle>System Status</CardTitle>
           </CardHeader>
@@ -229,7 +229,7 @@ const AdminDashboard = () => {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
     </AdminLayout>
   );

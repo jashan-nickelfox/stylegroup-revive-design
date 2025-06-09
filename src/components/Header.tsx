@@ -140,7 +140,7 @@ const Header = () => {
                     <ProductLink to="/awnings" title="Awnings">
                       Extend your outdoor living with quality awnings
                     </ProductLink>
-                    <ProductLink to="/curtains" title="Aluminium Screens">
+                    <ProductLink to="/aluminiumscreens" title="Aluminium Screens">
                       Enhance both the security and style of your space
                     </ProductLink>
                   </ul>

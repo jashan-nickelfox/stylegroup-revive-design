@@ -10,7 +10,7 @@ import NotFound from "./pages/NotFound";
 
 // Import product pages
 import Blinds from "./pages/products/Blinds";
-import Curtains from "./pages/products/Curtains";
+//import Curtains from "./pages/products/AluminiumScreens";
 import Shutters from "./pages/products/Shutters";
 import Awnings from "./pages/products/Awnings";
 import Commercial from "./pages/products/Commercial";
@@ -109,7 +109,7 @@ const App = () => (
             <Route path="/blinds" element={<Blinds />} />
             <Route path="/shutters" element={<Shutters />} />
             <Route path="/awnings" element={<Awnings />} />
-            <Route path="/curtains" element={<Curtains />} />
+            <Route path="/aluminiumscreens" element={<AluminiumScreens />} />
             <Route path="/commercial" element={<Commercial />} />
             <Route path="/service-areas" element={<ServiceAreas />} />
             
