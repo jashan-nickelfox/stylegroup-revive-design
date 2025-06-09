@@ -70,22 +70,18 @@
     @apply after:content-[''] after:block after:w-24 after:h-1 after:bg-stylegroup-lightgreen after:mt-2;
   }
 
-  /* Global button hover effects */
+  /* Global button hover effects - constant popout effect */
   button, .button, [role="button"] {
-    @apply transition-all duration-300 ease-in-out;
-  }
-
-  button:hover, .button:hover, [role="button"]:hover {
-    @apply transform hover:scale-105;
+    @apply transition-all duration-300 ease-in-out transform hover:scale-105;
   }
 
   /* Specific hover effects for different button variants */
   .bg-stylegroup-green:hover {
-    @apply bg-stylegroup-green/90 shadow-lg;
+    @apply shadow-lg;
   }
 
   .border-stylegroup-green:hover {
-    @apply bg-stylegroup-green/10 border-stylegroup-green/80;
+    @apply bg-stylegroup-green/10 border-stylegroup-green/80 shadow-md;
   }
 
   /* Navigation hover effects */
@@ -95,10 +91,15 @@
 
   /* Call-to-action button enhancements */
   .cta-button {
-    @apply bg-stylegroup-green text-white px-6 py-3 rounded-md font-medium transition-all duration-300 transform hover:scale-105 hover:bg-stylegroup-green/90 hover:shadow-lg;
+    @apply bg-stylegroup-green text-white px-6 py-3 rounded-md font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg;
   }
 
   .cta-button-outline {
-    @apply border-2 border-stylegroup-green text-stylegroup-green px-6 py-3 rounded-md font-medium transition-all duration-300 transform hover:scale-105 hover:bg-stylegroup-green/10 hover:shadow-md;
+    @apply border-2 border-stylegroup-green text-stylegroup-green px-6 py-3 rounded-md font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-md;
+  }
+
+  /* Hero section buttons - special styling without color change */
+  .hero-button {
+    @apply transition-all duration-300 ease-in-out transform hover:scale-105 hover:shadow-lg;
   }
 }
