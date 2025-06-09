@@ -134,14 +134,14 @@ const Hero = () => {
             <Button
               onClick={scrollToQuote}
               size="lg"
-              className="bg-stylegroup-green text-white hover:bg-white hover:text-stylegroup-green font-medium px-4 py-2 rounded transition-colors duration-300"
+              className="hero-button bg-stylegroup-green text-white font-medium px-4 py-2 rounded"
             >
               Request Free Quote
             </Button>
             <Button
               onClick={() => navigate("/products")}
               size="lg"
-              className="bg-white text-stylegroup-green hover:bg-stylegroup-green hover:text-white flex items-center gap-2 transition-colors duration-300"
+              className="hero-button bg-white text-stylegroup-green flex items-center gap-2"
             >
               Discover Our Products <ArrowRight className="h-4 w-4" />
             </Button>
