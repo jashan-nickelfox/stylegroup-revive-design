@@ -2,10 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import AdminLayout from '@/components/admin/AdminLayout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
-import { Package, Users, Mail, Calendar, TrendingUp, Settings } from 'lucide-react';
+import { Package, Users, Mail, Calendar, TrendingUp, Settings, MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
@@ -15,22 +17,30 @@ const AdminDashboard = () => {
     quoteRequests: 0,
     bookingRequests: 0,
     heroContent: 0,
+    testimonials: 0,
+  });
+  const [recentInquiries, setRecentInquiries] = useState({
+    quotes: [],
+    bookings: [],
+    messages: [],
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchStats();
+    fetchRecentInquiries();
   }, []);
 
   const fetchStats = async () => {
     try {
       setLoading(true);
-      const [products, services, quotes, bookings, hero] = await Promise.all([
+      const [products, services, quotes, bookings, hero, testimonials] = await Promise.all([
         supabase.from('products').select('id', { count: 'exact' }),
         supabase.from('services').select('id', { count: 'exact' }),
         supabase.from('quote_requests').select('id', { count: 'exact' }),
         supabase.from('booking_requests').select('id', { count: 'exact' }),
         supabase.from('hero_content').select('id', { count: 'exact' }),
+        supabase.from('testimonials').select('id', { count: 'exact' }),
       ]);
 
       setStats({
@@ -39,11 +49,42 @@ const AdminDashboard = () => {
         quoteRequests: quotes.count || 0,
         bookingRequests: bookings.count || 0,
         heroContent: hero.count || 0,
+        testimonials: testimonials.count || 0,
       });
     } catch (error) {
       console.error('Error fetching stats:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const fetchRecentInquiries = async () => {
+    try {
+      const [quotes, bookings, messages] = await Promise.all([
+        supabase
+          .from('quote_requests')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(5),
+        supabase
+          .from('booking_requests')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(5),
+        supabase
+          .from('contact_messages')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(5),
+      ]);
+
+      setRecentInquiries({
+        quotes: quotes.data || [],
+        bookings: bookings.data || [],
+        messages: messages.data || [],
+      });
+    } catch (error) {
+      console.error('Error fetching recent inquiries:', error);
     }
   };
 
@@ -81,6 +122,14 @@ const AdminDashboard = () => {
       href: '/admin/inquiries',
     },
     {
+      title: 'Testimonials',
+      value: stats.testimonials,
+      icon: MessageSquare,
+      color: 'text-pink-600',
+      bgColor: 'bg-pink-50',
+      href: '/admin/testimonials',
+    },
+    {
       title: 'Hero Content',
       value: stats.heroContent,
       icon: Settings,
@@ -115,6 +164,12 @@ const AdminDashboard = () => {
       href: '/admin/inquiries',
       icon: Mail,
     },
+    {
+      title: 'Manage Testimonials',
+      description: 'Add customer reviews',
+      href: '/admin/testimonials',
+      icon: MessageSquare,
+    },
   ];
 
   if (loading) {
@@ -135,7 +190,7 @@ const AdminDashboard = () => {
           <p className="text-gray-600">Welcome to your admin dashboard</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
           {statCards.map((stat, index) => (
             <Card key={index} className="hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate(stat.href)}>
               <CardContent className="p-6">
@@ -182,54 +237,81 @@ const AdminDashboard = () => {
             </CardContent>
           </Card>
 
-          {/* <Card>
+          <Card>
             <CardHeader>
-              <CardTitle>Recent Activity</CardTitle>
+              <div className="flex justify-between items-center">
+                <CardTitle>Recent Inquiries</CardTitle>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => navigate('/admin/inquiries')}
+                >
+                  View All
+                </Button>
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm">Admin panel fully operational</span>
+              <div className="space-y-4">
+                <div>
+                  <h4 className="font-medium text-sm text-gray-700 mb-2">Latest Quote Requests</h4>
+                  <div className="space-y-2">
+                    {recentInquiries.quotes.slice(0, 3).map((quote: any) => (
+                      <div key={quote.id} className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                        <div>
+                          <span className="font-medium text-sm">{quote.full_name}</span>
+                          <p className="text-xs text-gray-500">{quote.product_interest || 'General inquiry'}</p>
+                        </div>
+                        <span className="text-xs text-gray-400">
+                          {format(new Date(quote.created_at), 'MMM dd')}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <span className="text-sm">Database connection established</span>
+
+                <div>
+                  <h4 className="font-medium text-sm text-gray-700 mb-2">Latest Booking Requests</h4>
+                  <div className="space-y-2">
+                    {recentInquiries.bookings.slice(0, 3).map((booking: any) => (
+                      <div key={booking.id} className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                        <div>
+                          <span className="font-medium text-sm">{booking.first_name} {booking.last_name}</span>
+                          <p className="text-xs text-gray-500">
+                            {format(new Date(booking.preferred_date), 'MMM dd, yyyy')}
+                          </p>
+                        </div>
+                        <span className={`px-2 py-1 rounded-full text-xs ${
+                          booking.status === 'pending' 
+                            ? 'bg-yellow-100 text-yellow-800' 
+                            : 'bg-green-100 text-green-800'
+                        }`}>
+                          {booking.status}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                  <span className="text-sm">Content management ready</span>
-                </div>
-                <div className="flex items-center space-x-3">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                  <span className="text-sm">Customer inquiries tracking active</span>
+
+                <div>
+                  <h4 className="font-medium text-sm text-gray-700 mb-2">Latest Contact Messages</h4>
+                  <div className="space-y-2">
+                    {recentInquiries.messages.slice(0, 2).map((message: any) => (
+                      <div key={message.id} className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                        <div>
+                          <span className="font-medium text-sm">{message.first_name} {message.last_name}</span>
+                          <p className="text-xs text-gray-500 truncate max-w-40">{message.subject}</p>
+                        </div>
+                        <span className="text-xs text-gray-400">
+                          {format(new Date(message.created_at), 'MMM dd')}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </CardContent>
-          </Card> */}
+          </Card>
         </div>
-
-        {/* <Card>
-          <CardHeader>
-            <CardTitle>System Status</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="text-center p-4 bg-green-50 rounded-lg">
-                <div className="text-2xl font-bold text-green-600">Operational</div>
-                <div className="text-sm text-green-700">All systems running</div>
-              </div>
-              <div className="text-center p-4 bg-blue-50 rounded-lg">
-                <div className="text-2xl font-bold text-blue-600">Connected</div>
-                <div className="text-sm text-blue-700">Database online</div>
-              </div>
-              <div className="text-center p-4 bg-purple-50 rounded-lg">
-                <div className="text-2xl font-bold text-purple-600">Ready</div>
-                <div className="text-sm text-purple-700">Content management</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card> */}
       </div>
     </AdminLayout>
   );
