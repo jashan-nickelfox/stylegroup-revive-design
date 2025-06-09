@@ -170,7 +170,7 @@ const TestimonialsManagement = () => {
     });
   };
 
-  const handleImageUpload = (url: string) => {
+  const handleImageUploaded = (url: string) => {
     setFormData(prev => ({ ...prev, image_url: url }));
   };
 
@@ -269,8 +269,9 @@ const TestimonialsManagement = () => {
                 <div>
                   <Label>Customer Image</Label>
                   <ImageUpload
-                    onImageUpload={handleImageUpload}
-                    currentImageUrl={formData.image_url}
+                    onImageUploaded={handleImageUploaded}
+                    currentImage={formData.image_url}
+                    onImageRemoved={() => setFormData(prev => ({ ...prev, image_url: '' }))}
                   />
                 </div>
 
