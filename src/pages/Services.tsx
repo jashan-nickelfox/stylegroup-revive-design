@@ -45,7 +45,7 @@ const Services = () => {
               onClick={handleGetQuote}
               className="bg-stylegroup-green text-white"
             >
-              Request a Free Quote
+              Get Free Quote
             </Button>
             <Button
               onClick={handleBookMeasure}

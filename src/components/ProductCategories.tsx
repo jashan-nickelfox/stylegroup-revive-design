@@ -155,7 +155,7 @@ const ProductCategories = () => {
             variant="outline"
             className="border-stylegroup-green text-stylegroup-green hover:bg-stylegroup-green/10 transform hover:scale-105 transition-all duration-300"
           >
-            Request a Quote
+            Get Free Quote
           </Button>
         </div>
       </div>

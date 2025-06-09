@@ -81,7 +81,7 @@ const Shutters = () => {
                 onClick={handleGetQuote}
                 className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white"
               >
-                Request a Free Quote
+                Get Free Quote
               </Button>
               <Button 
                 onClick={handleBookMeasure}

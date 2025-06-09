@@ -87,7 +87,7 @@ const About = () => {
               size="lg" 
               className="bg-white text-stylegroup-green hover:bg-stylegroup-lightgray"
             >
-              Request a Free Quote
+              Get Free Quote
             </Button>
           </div>
         </section>

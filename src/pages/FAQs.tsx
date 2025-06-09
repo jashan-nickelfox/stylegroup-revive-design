@@ -149,7 +149,7 @@ const FAQs = () => {
                   onClick={handleGetQuote}
                   className="bg-stylegroup-lightgreen text-white hover:bg-stylegroup-lightgreen/90"
                 >
-                  Request a Quote
+                  Get Free Quote
                 </Button>
               </div>
             </div>

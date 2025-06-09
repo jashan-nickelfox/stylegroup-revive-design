@@ -136,7 +136,7 @@ const Hero = () => {
               size="lg"
               className="hero-button bg-stylegroup-green text-white font-medium px-4 py-2 rounded"
             >
-              Request Free Quote
+              Get Free Quote
             </Button>
             <Button
               onClick={() => navigate("/products")}

@@ -122,7 +122,7 @@ const AluminiumScreens = () => {
                 onClick={handleGetQuote}
                 className="bg-stylegroup-green hover:bg-stylegroup-green/90 text-white"
               >
-                Request a Free Quote <ArrowRight className="ml-2 h-4 w-4" />
+                Get Free Quote <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
               <Button 
                 onClick={handleBookMeasure}
