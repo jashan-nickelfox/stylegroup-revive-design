@@ -141,7 +141,7 @@ const Hero = () => {
             <Button
               onClick={() => navigate("/products")}
               size="lg"
-              className="hero-button bg-white text-stylegroup-green flex items-center gap-2"
+              className="hero-button bg-white text-stylegroup-green flex items-center gap-2 hover:bg-white hover:text-stylegroup-green"
             >
               Discover Our Products <ArrowRight className="h-4 w-4" />
             </Button>

@@ -24,8 +24,9 @@ import PanelGlidesBlinds from "./pages/products/PanelGlidesBlinds";
 import HoneycombBlinds from "./pages/products/HoneycombBlinds";
 
 // Import shutter pages
-import AluminiumShuttersGallery from "./pages/products/AluminiumShuttersGallery";
 import AluminiumScreens from "./pages/products/AluminiumScreens";
+import AluminiumSecurityScreens from "./pages/products/AluminiumSecurityScreens";
+import AluminiumPrivacyScreens from "./pages/products/AluminiumPrivacyScreens";
 import PlantationShutters from "./pages/products/PlantationShutters";
 import TimberShutters from "./pages/products/TimberShutters";
 import PvcShutters from "./pages/products/PvcShutters";
@@ -122,17 +123,13 @@ const App = () => (
             <Route path="/blinds/honeycomb" element={<HoneycombBlinds />} />
             
             {/* Shutters routes */}
-            <Route path="/shutters/aluminium-gallery" element={<AluminiumShuttersGallery />} />
             <Route path="/shutters/aluminium-screens" element={<AluminiumScreens />} />
+            <Route path="/aluminium-security-screens" element={<AluminiumSecurityScreens />} />
+            <Route path="/aluminium-privacy-screens" element={<AluminiumPrivacyScreens />} />
             <Route path="/shutters/plantation" element={<PlantationShutters />} />
             <Route path="/shutters/timber" element={<TimberShutters />} />
             <Route path="/shutters/pvc" element={<PvcShutters />} />
             <Route path="/shutters/exterior" element={<ExteriorShutters />} />
-            
-            {/* Curtains routes */}
-            <Route path="/curtains/sheer" element={<SheerCurtains />} />
-            <Route path="/curtains/blockout" element={<NotFound />} />
-            <Route path="/curtains/s-fold" element={<NotFound />} />
             
             {/* Awnings routes */}
             <Route path="/awnings/folding-arm" element={<FoldingArmAwnings />} />

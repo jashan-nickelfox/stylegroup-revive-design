@@ -78,7 +78,7 @@ const AluminiumScreens = () => {
                 <Button 
                   variant="outline"
                   className="border-stylegroup-green text-stylegroup-green hover:bg-stylegroup-green/10"
-                  onClick={() => navigate('/aluminium-screens/security')}
+                  onClick={() => navigate('/aluminium-security-screens')}
                 >
                   Learn More
                 </Button>
@@ -89,7 +89,7 @@ const AluminiumScreens = () => {
                 <Button 
                   variant="outline"
                   className="border-stylegroup-green text-stylegroup-green hover:bg-stylegroup-green/10"
-                  onClick={() => navigate('/aluminium-screens/privacy')}
+                  onClick={() => navigate('/aluminium-privacy-screens')}
                 >
                   Learn More
                 </Button>
